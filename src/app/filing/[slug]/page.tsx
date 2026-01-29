@@ -12,7 +12,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   if (!data) return { title: 'Filing Not Found' };
 
   return {
-    title: `File ${data.form_id} Online | One-Day Processing (${data.state_code}) | TruckInsure`,
+    title: `File ${data.form_id} Online | One-Day Processing (${data.state_code}) | Truck Coverage Experts`,
     description: `Need a ${data.official_name} (${data.form_id})? We file electronically with the DMV/FMCSA in 15 minutes. Avoid the $${data.penalty_per_day}/day penalty.`,
     openGraph: {
       title: `Instant ${data.form_id} Filing - ${data.state_code}`,
@@ -48,7 +48,7 @@ export default async function FilingPage({ params }: { params: Promise<{ slug: s
     'serviceType': `Electronic Filing for ${filing.state_code}`,
     'provider': {
       '@type': 'Organization',
-      'name': 'TruckInsure',
+      'name': 'Truck Coverage Experts',
       'url': 'https://truckcoverageexperts.com'
     },
     'areaServed': {
@@ -77,7 +77,7 @@ export default async function FilingPage({ params }: { params: Promise<{ slug: s
       <header className="border-b border-industrial-800 bg-industrial-900 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
           <Link href="/" className="font-display font-bold text-xl tracking-tighter text-white">
-            TRUCK<span className="text-blue-500">INSURE</span>
+            TRUCK COVERAGE EXPERTS
           </Link>
           <div className="flex items-center gap-2">
             <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>

@@ -12,7 +12,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   if (!data) return { title: 'Coverage Not Found' };
 
   return {
-    title: `${data.display_name} Insurance Quote | Cargo Limits up to $${data.min_cargo_limit.toLocaleString()} | TruckInsure`,
+    title: `${data.display_name} Insurance Quote | Cargo Limits up to $${data.min_cargo_limit.toLocaleString()} | Truck Coverage Experts`,
     description: `Get insured for ${data.display_name}. We remove common exclusions like "${(data.common_exclusions as string[])[0]}" so you can haul with confidence. Quotes in 24 hours.`,
     openGraph: {
       title: `${data.display_name} Insurance - No Hidden Exclusions`,
@@ -50,7 +50,7 @@ export default async function TrailerPage({ params }: { params: Promise<{ slug: 
     'description': `Commercial insurance for ${trailer.display_name} with cargo limits up to $${trailer.min_cargo_limit.toLocaleString()}.`,
     'provider': {
       '@type': 'Organization',
-      'name': 'TruckInsure',
+      'name': 'Truck Coverage Experts',
       'url': 'https://truckcoverageexperts.com'
     },
     'feesAndCommissionsSpecification': `Exclusions removed: ${exclusions.join(', ')}`
@@ -65,9 +65,7 @@ export default async function TrailerPage({ params }: { params: Promise<{ slug: 
       {/* HEADER */}
       <header className="border-b border-yellow-500/20 bg-industrial-900 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-          <Link href="/" className="font-display font-bold text-xl tracking-tighter text-white">
-            TRUCK<span className="text-yellow-400">INSURE</span>
-          </Link>
+          <Link href="/" className="font-display font-bold text-xl tracking-tighter text-white">TRUCK COVERAGE EXPERTS</Link>
           <div className="flex items-center gap-2">
             <span className="w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></span>
             <span className="text-xs font-bold text-yellow-400">HEAVY HAUL DIVISION</span>

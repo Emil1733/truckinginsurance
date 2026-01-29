@@ -13,7 +13,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   if (!data) return { title: 'Violation Not Found' };
 
   return {
-    title: `${data.code} Insurance Help | Forgiven in 48 Hours | TruckInsure`,
+    title: `${data.code} Insurance Help | Forgiven in 48 Hours | Truck Coverage Experts`,
     description: `Stuck with a ${data.code} (${data.official_name})? We specialize in high-risk truck insurance. Get a quote even with Tier ${data.severity_tier} violations.`,
     openGraph: {
       title: `${data.code} - Uninsurable? Not Anymore.`,
@@ -55,7 +55,7 @@ export default async function ViolationPage({ params }: { params: Promise<{ slug
         'serviceType': 'High Risk Truck Insurance',
         'provider': {
           '@type': 'Organization',
-          'name': 'TruckInsure',
+          'name': 'Truck Coverage Experts',
           'url': 'https://truckcoverageexperts.com'
         },
         'areaServed': 'US',
@@ -97,6 +97,7 @@ export default async function ViolationPage({ params }: { params: Promise<{ slug
         <div className="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Lock className="w-5 h-5 text-safety-orange" />
+            <Link href="/" className="text-xl font-bold tracking-tighter text-white">TRUCK COVERAGE EXPERTS</Link>
             <span className="font-display font-bold text-xl tracking-tighter text-white">
               {data.code} // LIVE ACCESS
             </span>

@@ -2,7 +2,7 @@
 import { FileText, Download, ShieldCheck, Lock } from "lucide-react";
 
 export const metadata = {
-  title: "Restricted: FMCSA Reinstatement Protocol | TruckInsure",
+  title: "Restricted: FMCSA Reinstatement Protocol | Truck Coverage Experts",
   robots: {
     index: false, // DO NOT INDEX THIS PAGE
     follow: false,
