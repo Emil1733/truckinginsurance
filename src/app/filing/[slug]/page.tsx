@@ -1,4 +1,4 @@
-import { FileText, ShieldCheck, AlertTriangle, Clock, BadgeDollarSign, CheckCircle2 } from "lucide-react";
+import { FileText, ShieldCheck, AlertTriangle, Clock, BadgeDollarSign, CheckCircle2, Map as MapIcon } from "lucide-react";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 import { notFound } from "next/navigation";
@@ -39,6 +39,13 @@ export default async function FilingPage({ params }: { params: Promise<{ slug: s
   ]);
 
   if (!filing) return notFound();
+
+  // Fetch Outbound Routes (Spiderweb Strategy)
+  const { data: outboundRoutes } = await supabase
+    .from('routes')
+    .select('slug, destination_name')
+    .eq('origin_code', filing.state_code)
+    .limit(12);
 
   // JSON-LD Schema
   const jsonLd = {
@@ -194,6 +201,28 @@ export default async function FilingPage({ params }: { params: Promise<{ slug: s
             ))}
           </div>
         </div>
+
+        {/* OUTBOUND ROUTES (SPIDERWEB LINKING) */}
+        {outboundRoutes && outboundRoutes.length > 0 && (
+          <div className="mt-12 pt-12 border-t border-industrial-800">
+             <h3 className="text-white font-bold mb-6 flex items-center gap-2">
+               <MapIcon className="w-5 h-5 text-blue-500" />
+               POPULAR TRUCKING LANES FROM {filing.state_code}
+             </h3>
+             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+               {outboundRoutes.map((r: any) => (
+                 <Link 
+                   key={r.slug}
+                   href={`/route/${r.slug}`}
+                   className="text-xs bg-industrial-800/50 border border-industrial-700 p-3 rounded hover:bg-blue-900/20 hover:border-blue-500 transition-colors"
+                 >
+                   <span className="text-industrial-400">To </span>
+                   <span className="text-white font-bold">{r.destination_name}</span>
+                 </Link>
+               ))}
+             </div>
+          </div>
+        )}
       </main>
     </div>
   );
