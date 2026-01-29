@@ -34,12 +34,64 @@ async function seed() {
   if (matchError) console.error('❌ Error seeding violations:', matchError.message);
   else console.log(`✅ Seeded ${VIOLATIONS_DATA.length} Violations.`);
 
-  // 2. STATE FILINGS
+  // 2. STATE FILINGS (THE MATRIX)
   console.log('...Seeding Filings (Vector 2)');
+  
+  const US_STATES = [
+    { code: 'AL', name: 'Alabama' }, { code: 'AK', name: 'Alaska' }, { code: 'AZ', name: 'Arizona' }, 
+    { code: 'AR', name: 'Arkansas' }, { code: 'CA', name: 'California' }, { code: 'CO', name: 'Colorado' },
+    { code: 'CT', name: 'Connecticut' }, { code: 'DE', name: 'Delaware' }, { code: 'FL', name: 'Florida' },
+    { code: 'GA', name: 'Georgia' }, { code: 'HI', name: 'Hawaii' }, { code: 'ID', name: 'Idaho' },
+    { code: 'IL', name: 'Illinois' }, { code: 'IN', name: 'Indiana' }, { code: 'IA', name: 'Iowa' },
+    { code: 'KS', name: 'Kansas' }, { code: 'KY', name: 'Kentucky' }, { code: 'LA', name: 'Louisiana' },
+    { code: 'ME', name: 'Maine' }, { code: 'MD', name: 'Maryland' }, { code: 'MA', name: 'Massachusetts' },
+    { code: 'MI', name: 'Michigan' }, { code: 'MN', name: 'Minnesota' }, { code: 'MS', name: 'Mississippi' },
+    { code: 'MO', name: 'Missouri' }, { code: 'MT', name: 'Montana' }, { code: 'NE', name: 'Nebraska' },
+    { code: 'NV', name: 'Nevada' }, { code: 'NH', name: 'New Hampshire' }, { code: 'NJ', name: 'New Jersey' },
+    { code: 'NM', name: 'New Mexico' }, { code: 'NY', name: 'New York' }, { code: 'NC', name: 'North Carolina' },
+    { code: 'ND', name: 'North Dakota' }, { code: 'OH', name: 'Ohio' }, { code: 'OK', name: 'Oklahoma' },
+    { code: 'OR', name: 'Oregon' }, { code: 'PA', name: 'Pennsylvania' }, { code: 'RI', name: 'Rhode Island' },
+    { code: 'SC', name: 'South Carolina' }, { code: 'SD', name: 'South Dakota' }, { code: 'TN', name: 'Tennessee' },
+    { code: 'TX', name: 'Texas' }, { code: 'UT', name: 'Utah' }, { code: 'VT', name: 'Vermont' },
+    { code: 'VA', name: 'Virginia' }, { code: 'WA', name: 'Washington' }, { code: 'WV', name: 'West Virginia' },
+    { code: 'WI', name: 'Wisconsin' }, { code: 'WY', name: 'Wyoming' }
+  ];
+
+  // Generate Programmatic Filings
+  const generatedFilings = US_STATES.flatMap(state => [
+    {
+      form_id: "Form E",
+      state_code: state.code,
+      slug: `form-e-${state.name.toLowerCase().replace(/\s+/g, '-')}-filing`,
+      official_name: `Uniform Motor Carrier Bodily Injury Liability (${state.name})`,
+      purpose: `${state.name} Intrastate Operating Authority`,
+      processing_days_manual: 14,
+      processing_days_electronic: 1,
+      penalty_per_day: 200
+    },
+    {
+      form_id: "SR-22",
+      state_code: state.code,
+      slug: `sr22-${state.name.toLowerCase().replace(/\s+/g, '-')}-insurance`,
+      official_name: `${state.name} Financial Responsibility Certificate`,
+      purpose: "License Reinstatement (DUI/Suspension)",
+      processing_days_manual: 7,
+      processing_days_electronic: 0,
+      penalty_per_day: 0
+    }
+  ]);
+
+  // Merge: Manual overrides take precedence (by filtering generated ones that match manual slugs)
+  const manualSlugs = new Set(FILINGS_DATA.map(f => f.slug));
+  const finalFilings = [
+    ...FILINGS_DATA, 
+    ...generatedFilings.filter(f => !manualSlugs.has(f.slug))
+  ];
+
   const { error: filingError } = await supabase
     .from('state_filings')
     .upsert(
-      FILINGS_DATA.map(f => ({
+      finalFilings.map(f => ({
         form_id: f.form_id,
         state_code: f.state_code,
         slug: f.slug,
@@ -48,7 +100,6 @@ async function seed() {
         processing_days_manual: f.processing_days_manual,
         processing_days_electronic: f.processing_days_electronic,
         penalty_per_day: f.penalty_per_day
-        // filing_fee: f.filing_fee (Not in original schema, skipping or need migration)
       })),
       { onConflict: 'slug' }
     );
@@ -59,7 +110,7 @@ async function seed() {
       console.error('👉 "state_filings" table missing. Run SQL!');
     }
   } else {
-    console.log(`✅ Seeded ${FILINGS_DATA.length} Filings.`);
+    console.log(`✅ Seeded ${finalFilings.length} Filings (merged).`);
   }
 
   // 3. TRAILERS
