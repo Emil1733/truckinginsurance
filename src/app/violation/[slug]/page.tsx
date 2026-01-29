@@ -33,12 +33,11 @@ export async function generateStaticParams() {
 export default async function ViolationPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   
-  // LIVE DATABASE QUERY
-  const { data: routeData } = await supabase
-    .from('violations')
-    .select('*')
-    .eq('slug', slug)
-    .single();
+  // LIVE DATABASE QUERY (Parallel Fetch for Cross-Linking)
+  const [{ data: routeData }, { data: relatedFilings }] = await Promise.all([
+    supabase.from('violations').select('*').eq('slug', slug).single(),
+    supabase.from('state_filings').select('slug, form_id, state_code').limit(3)
+  ]);
 
   if (!routeData) return notFound();
   
@@ -221,6 +220,28 @@ export default async function ViolationPage({ params }: { params: Promise<{ slug
                 </button>
               </ReinstatementModal>
             </div>
+          </div>
+        </section>
+
+        {/* 6. Internal Linking - "Related Compliance" */}
+        <section className="border-t border-industrial-800 pt-12">
+          <h3 className="text-industrial-500 font-bold mb-6 flex items-center gap-2 uppercase tracking-widest text-sm">
+            <ShieldAlert className="w-4 h-4" /> Related Compliance Filings
+          </h3>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            {relatedFilings?.map((filing: any) => (
+              <Link 
+                key={filing.slug}
+                href={`/filing/${filing.slug}`}
+                className="block bg-industrial-800/50 border border-industrial-700 p-4 hover:border-blue-500 transition-colors group"
+              >
+                <div className="flex justify-between items-start">
+                  <span className="text-white font-bold group-hover:text-blue-400">{filing.form_id}</span>
+                  <span className="text-industrial-600 text-xs font-mono">{filing.state_code}</span>
+                </div>
+                <div className="text-xs text-industrial-500 mt-2">View Filing Requirements →</div>
+              </Link>
+            ))}
           </div>
         </section>
       </main>

@@ -31,11 +31,11 @@ export async function generateStaticParams() {
 export default async function TrailerPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   
-  const { data: trailer } = await supabase
-    .from('trailer_risk_profiles')
-    .select('*')
-    .eq('slug', slug)
-    .single();
+  // Parallel Data Fetching
+  const [{ data: trailer }, { data: relatedFilings }] = await Promise.all([
+    supabase.from('trailer_risk_profiles').select('*').eq('slug', slug).single(),
+    supabase.from('state_filings').select('slug, form_id, official_name').limit(3)
+  ]);
 
   if (!trailer) return notFound();
 
@@ -152,7 +152,26 @@ export default async function TrailerPage({ params }: { params: Promise<{ slug: 
               <Anchor className="w-6 h-6" />
             </div>
           </div>
+        </div>
 
+        {/* RELATED FILINGS SECTION */}
+        <div className="mt-24 border-t border-industrial-800 pt-12">
+          <h3 className="text-white font-bold mb-8 flex items-center gap-2">
+            <ShieldCheck className="w-5 h-5 text-yellow-500" />
+            COMPLIANCE REQUIREMENTS FOR THIS EQUIPMENT
+          </h3>
+          <div className="grid md:grid-cols-3 gap-4">
+            {relatedFilings?.map((f: any) => (
+              <Link 
+                key={f.slug} 
+                href={`/filing/${f.slug}`}
+                className="bg-industrial-800 border border-industrial-700 p-4 hover:border-yellow-500 transition-colors group"
+              >
+                <div className="font-bold text-yellow-500 mb-1 group-hover:text-white">{f.form_id}</div>
+                <div className="text-sm text-silver line-clamp-1">{f.official_name}</div>
+              </Link>
+            ))}
+          </div>
         </div>
       </main>
     </div>

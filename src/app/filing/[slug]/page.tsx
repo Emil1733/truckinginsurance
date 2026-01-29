@@ -32,11 +32,11 @@ export async function generateStaticParams() {
 export default async function FilingPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   
-  const { data: filing } = await supabase
-    .from('state_filings')
-    .select('*')
-    .eq('slug', slug)
-    .single();
+  // Parallel Data Fetching
+  const [{ data: filing }, { data: relatedViolations }] = await Promise.all([
+    supabase.from('state_filings').select('*').eq('slug', slug).single(),
+    supabase.from('violations').select('slug, code, official_name').limit(3)
+  ]);
 
   if (!filing) return notFound();
 
@@ -173,6 +173,26 @@ export default async function FilingPage({ params }: { params: Promise<{ slug: s
             </p>
           </div>
 
+        </div>
+
+        {/* RELATED VIOLATIONS SECTION */}
+        <div className="mt-24 border-t border-industrial-800 pt-12">
+          <h3 className="text-white font-bold mb-8 flex items-center gap-2">
+            <AlertTriangle className="w-5 h-5 text-safety-orange" />
+            COMMON TRIGGERS (WHY YOU NEED THIS FILING)
+          </h3>
+          <div className="grid md:grid-cols-3 gap-4">
+            {relatedViolations?.map((v: any) => (
+              <Link 
+                key={v.slug} 
+                href={`/violation/${v.slug}`}
+                className="bg-industrial-800 border border-industrial-700 p-4 hover:border-safety-orange transition-colors group"
+              >
+                <div className="font-bold text-safety-orange mb-1 group-hover:text-white">{v.code}</div>
+                <div className="text-sm text-silver line-clamp-1">{v.official_name}</div>
+              </Link>
+            ))}
+          </div>
         </div>
       </main>
     </div>
