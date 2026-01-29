@@ -1,65 +1,101 @@
-import Image from "next/image";
+import Link from "next/link";
+import { VIOLATIONS_DATA } from "@/lib/data/violations";
+import { ArrowRight, ShieldAlert, Zap, FileWarning } from "lucide-react";
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
+    <div className="min-h-screen bg-industrial-900 text-silver font-mono selection:bg-safety-orange selection:text-black">
+      {/* Hero Section */}
+      <section className="relative px-6 py-24 md:py-32 border-b border-industrial-800 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-industrial-800 to-industrial-900">
+        <div className="max-w-5xl mx-auto text-center">
+          <div className="inline-block mb-6 px-4 py-1.5 rounded-full border border-safety-orange/30 bg-safety-orange/5 text-safety-orange text-xs font-bold tracking-widest uppercase">
+            Specialized High-Risk Insurance
+          </div>
+          <h1 className="font-display text-5xl md:text-8xl font-bold text-white mb-8 tracking-tighter leading-[0.9]">
+            UNINSURABLE? <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-safety-orange to-safety-yellow">
+              NOT ANYMORE.
+            </span>
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+          <p className="text-xl md:text-2xl text-industrial-500 max-w-2xl mx-auto mb-10 leading-relaxed">
+            The major carriers rely on algorithms that auto-reject specific violation codes. 
+            We rely on specialized underwriters who understand <strong className="text-silver">rehabilitation</strong>.
           </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+      </section>
+
+      {/* The Directory "Hub" */}
+      <section className="max-w-6xl mx-auto px-6 py-20">
+        <div className="flex items-center justify-between mb-12">
+          <h2 className="font-display text-3xl text-white flex items-center gap-3">
+            <FileWarning className="text-safety-orange" />
+            VIOLATION DATABASE
+          </h2>
+          <div className="text-xs text-industrial-600 font-mono hidden sm:block">
+            INDEXING {VIOLATIONS_DATA.length} ACTIVE CODES
+          </div>
         </div>
-      </main>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {VIOLATIONS_DATA.map((violation) => (
+            <Link 
+              key={violation.code}
+              href={`/violation/${violation.slug}`}
+              className="group bg-industrial-800 border border-industrial-700 hover:border-safety-orange p-6 transition-all hover:-translate-y-1"
+            >
+              <div className="flex justify-between items-start mb-4">
+                <div className="font-display text-2xl text-white group-hover:text-safety-orange transition-colors">
+                  {violation.code}
+                </div>
+                <div className={`text-xs px-2 py-1 rounded font-bold ${
+                  violation.severity_tier >= 9 ? 'bg-red-900/30 text-red-500' : 
+                  violation.severity_tier >= 7 ? 'bg-orange-900/30 text-orange-500' :
+                  'bg-yellow-900/30 text-yellow-500'
+                }`}>
+                  TIER {violation.severity_tier}
+                </div>
+              </div>
+              
+              <h3 className="text-silver font-bold mb-2 line-clamp-1">{violation.official_name}</h3>
+              <p className="text-xs text-industrial-500 mb-6 uppercase tracking-wider">
+                {violation.layman_name}
+              </p>
+
+              <div className="flex items-center text-safety-orange text-sm font-bold gap-2 opacity-0 group-hover:opacity-100 transition-opacity -translate-x-2 group-hover:translate-x-0">
+                VIEW RECOVERY PLAN <ArrowRight className="w-4 h-4" />
+              </div>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      {/* Value Props */}
+      <section className="border-t border-industrial-800 bg-industrial-800/20 py-20 px-6">
+        <div className="max-w-5xl mx-auto grid md:grid-cols-3 gap-12 text-center">
+          <div className="flex flex-col items-center">
+            <div className="w-16 h-16 bg-industrial-800 rounded-full flex items-center justify-center mb-6 border border-industrial-700 text-safety-orange">
+              <Zap className="w-8 h-8" />
+            </div>
+            <h3 className="text-white font-bold mb-2">Instant Filings</h3>
+            <p className="text-industrial-500 text-sm">We file Forms E, H, and SR-22s electronically. No waiting for an agent to fax common forms.</p>
+          </div>
+          <div className="flex flex-col items-center">
+            <div className="w-16 h-16 bg-industrial-800 rounded-full flex items-center justify-center mb-6 border border-industrial-700 text-safety-orange">
+              <ShieldAlert className="w-8 h-8" />
+            </div>
+            <div className="absolute opacity-85 blur-[60px] -z-10 w-[30rem] h-[30rem] bg-orange-400 rounded-full"></div>
+            <h3 className="text-white font-bold mb-2">Distressed Markets</h3>
+            <p className="text-industrial-500 text-sm">Access to Lloyd's of London and Prime Insurance. We go where Progressive won't.</p>
+          </div>
+          <div className="flex flex-col items-center">
+            <div className="w-16 h-16 bg-industrial-800 rounded-full flex items-center justify-center mb-6 border border-industrial-700 text-safety-orange">
+              <FileWarning className="w-8 h-8" />
+            </div>
+            <h3 className="text-white font-bold mb-2">Violation Experts</h3>
+            <p className="text-industrial-500 text-sm">We know the difference between a "Clerical 395.8e" and a "Fraudulent one". It matters.</p>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
