@@ -2,6 +2,7 @@ import { AlertTriangle, ShieldAlert, BadgeDollarSign, CheckCircle2, TrendingUp, 
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 import { notFound } from "next/navigation";
+import { ReinstatementModal } from "@/components/ReinstatementModal";
 
 
 // SEO Metadata Generation
@@ -211,12 +212,14 @@ export default async function ViolationPage({ params }: { params: Promise<{ slug
               >
                 REQUEST HIGH-RISK QUOTE
               </Link>
-              <Link 
-                href="#"
-                className="border border-industrial-600 hover:border-silver text-silver hover:text-white px-8 py-4 text-center rounded transition-all"
-              >
-                DOWNLOAD REINSTATEMENT GUIDE
-              </Link>
+              
+              <ReinstatementModal>
+                <button 
+                  className="w-full sm:w-auto border border-industrial-600 hover:border-silver text-silver hover:text-white px-8 py-4 text-center rounded transition-all uppercase font-bold"
+                >
+                  DOWNLOAD REINSTATEMENT GUIDE
+                </button>
+              </ReinstatementModal>
             </div>
           </div>
         </section>
