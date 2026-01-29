@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Oswald, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
+import { CSPostHogProvider } from './providers';
+import PostHogPageView from "./PostHogPageView";
+import { Suspense } from 'react';
 
 const oswald = Oswald({
   variable: "--font-oswald",
@@ -28,7 +31,12 @@ export default function RootLayout({
       <body
         className={`${oswald.variable} ${jetbrainsMono.variable} antialiased bg-industrial-900 text-silver font-mono selection:bg-safety-orange selection:text-black`}
       >
-        {children}
+        <CSPostHogProvider>
+          <Suspense fallback={null}>
+            <PostHogPageView />
+          </Suspense>
+          {children}
+        </CSPostHogProvider>
       </body>
     </html>
   );
