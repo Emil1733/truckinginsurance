@@ -1,8 +1,14 @@
 import Link from "next/link";
-import { VIOLATIONS_DATA } from "@/lib/data/violations";
+import { supabase } from "@/lib/supabase";
 import { ArrowRight, ShieldAlert, Zap, FileWarning } from "lucide-react";
 
-export default function Home() {
+export default async function Home() {
+  // Parallel Data Fetching
+  const [{ data: violations }, { data: filings }] = await Promise.all([
+    supabase.from('violations').select('*').order('severity_tier', { ascending: false }),
+    supabase.from('state_filings').select('*').order('state_code', { ascending: true })
+  ]);
+
   return (
     <div className="min-h-screen bg-industrial-900 text-silver font-mono selection:bg-safety-orange selection:text-black">
       {/* Hero Section */}
@@ -32,12 +38,64 @@ export default function Home() {
             VIOLATION DATABASE
           </h2>
           <div className="text-xs text-industrial-600 font-mono hidden sm:block">
-            INDEXING {VIOLATIONS_DATA.length} ACTIVE CODES
+            INDEXING {violations?.length || 0} ACTIVE CODES
           </div>
         </div>
 
+
+        {/* SECTION 2: FILINGS (VECTOR 2) */}
+        <div className="mb-24">
+          <div className="flex items-center gap-4 mb-8">
+            <div className="h-px bg-industrial-800 flex-1"></div>
+            <h2 className="text-2xl font-display text-white tracking-widest">STATE FILINGS</h2>
+            <div className="h-px bg-industrial-800 flex-1"></div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {filings?.map((f) => (
+              <Link 
+                key={f.slug}
+                href={`/filing/${f.slug}`}
+                className="group relative bg-industrial-800 border border-industrial-700 p-6 hover:border-blue-500 transition-all hover:-translate-y-1 block"
+              >
+                <div className="flex justify-between items-start mb-4">
+                  <div className="font-mono text-4xl text-industrial-700 font-bold group-hover:text-industrial-600 transition-colors">
+                    {f.state_code}
+                  </div>
+                  <ArrowRight className="text-industrial-600 group-hover:text-blue-500 transition-colors" />
+                </div>
+                
+                <h3 className="text-xl font-bold text-silver mb-2 group-hover:text-white">
+                  {f.form_id}
+                </h3>
+                <p className="text-sm text-industrial-400 line-clamp-2">
+                  {f.official_name}
+                </p>
+
+                <div className="mt-4 pt-4 border-t border-industrial-700 flex justify-between text-xs font-mono">
+                  <span className="text-blue-500">INSTANT FILE</span>
+                  <span className="text-industrial-500">PENALTY: ${f.penalty_per_day}/DAY</span>
+                </div>
+              </Link>
+            ))}
+            
+            {(!filings || filings.length === 0) && (
+              <div className="col-span-full py-12 text-center text-industrial-600 border border-dashed border-industrial-800 rounded">
+                DATABASE SYNCING... TRY REFRESHING OR CHECK SUPABASE CONNECTION.
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* SECTION 1: VIOLATIONS (VECTOR 1) */}
+        <div className="flex items-center gap-4 mb-8">
+          <div className="h-px bg-industrial-800 flex-1"></div>
+          <h2 className="text-2xl font-display text-white tracking-widest">VIOLATION CODES</h2>
+          <div className="h-px bg-industrial-800 flex-1"></div>
+        </div>
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {VIOLATIONS_DATA.map((violation) => (
+          {violations?.map((violation) => (
             <Link 
               key={violation.code}
               href={`/violation/${violation.slug}`}
