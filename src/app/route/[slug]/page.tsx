@@ -25,6 +25,9 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return {
     title: `Permits for ${route.origin_name} to ${route.destination_name} (${distance} Miles) | Truck Coverage Experts`,
     description: `Hauling from ${route.origin_code} to ${route.destination_code}? This ${distance}-mile trip requires ${route.requirements.join(' and ')}. File instantly.`,
+    alternates: {
+      canonical: `/route/${slug}`,
+    },
   };
 }
 

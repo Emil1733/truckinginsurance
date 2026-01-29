@@ -17,6 +17,9 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     openGraph: {
       title: `Instant ${data.form_id} Filing - ${data.state_code}`,
       description: `Don't let your authority lapse. We are an authorized e-filer for ${data.official_name}.`,
+    },
+    alternates: {
+      canonical: `/filing/${slug}`,
     }
   };
 }

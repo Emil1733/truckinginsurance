@@ -8,14 +8,17 @@ import { Suspense } from 'react';
 const oswald = Oswald({
   variable: "--font-oswald",
   subsets: ["latin"],
+  display: 'swap',
 });
 
 const jetbrainsMono = JetBrains_Mono({
   variable: "--font-jetbrains",
   subsets: ["latin"],
+  display: 'swap',
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://truckcoverageexperts.com'),
   title: "Truck Insurance for the 1% | High Risk Specialists",
   description:
     "Don't let a violation code end your career. We specialize in the uninsurable.",

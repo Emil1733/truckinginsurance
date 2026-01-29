@@ -18,6 +18,9 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     openGraph: {
       title: `${data.code} - Uninsurable? Not Anymore.`,
       description: `Don't let ${data.official_name} end your career. We have 3 underwriters who will write this risk.`,
+    },
+    alternates: {
+      canonical: `/violation/${slug}`,
     }
   };
 }
