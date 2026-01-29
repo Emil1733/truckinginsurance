@@ -1,21 +1,31 @@
 import { AlertTriangle, ShieldAlert, BadgeDollarSign, CheckCircle2, TrendingUp, Lock } from "lucide-react";
 import Link from "next/link";
-import { mockDb } from "@/lib/mock-db";
+import { supabase } from "@/lib/supabase";
 import { notFound } from "next/navigation";
 
 // pSEO Power: Generate a static page for EVERY violation in our database at build time.
 export async function generateStaticParams() {
-  const violations = await mockDb.getAllViolations();
-  return violations.map((v) => ({
+  const { data: violations } = await supabase.from('violations').select('slug');
+  return (violations || []).map((v) => ({
     slug: v.slug,
   }));
 }
 
 export default async function ViolationPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const data = await mockDb.getViolationBySlug(slug);
+  
+  // LIVE DATABASE QUERY
+  const { data: routeData } = await supabase
+    .from('violations')
+    .select('*')
+    .eq('slug', slug)
+    .single();
 
-  if (!data) return notFound();
+  if (!routeData) return notFound();
+  
+  // Normalize data shape (DB uses snake_case, but our initial types might have varied, 
+  // but here we are using raw DB result which matches schema directly)
+  const data = routeData;
 
   return (
     <div className="min-h-screen bg-industrial-900 text-silver font-mono selection:bg-safety-orange selection:text-black">
@@ -110,7 +120,7 @@ export default async function ViolationPage({ params }: { params: Promise<{ slug
               RECOVERY PROTOCOL
             </h3>
             <ul className="space-y-4">
-              {data.rehab_steps.map((step, i) => (
+              {(data.rehab_steps as string[]).map((step, i) => (
                 <li key={i} className="flex gap-3 text-sm text-silver">
                   <span className="font-mono text-industrial-500">0{i+1}</span>
                   {step}
