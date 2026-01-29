@@ -38,6 +38,19 @@ export default async function RoutePage({ params }: { params: Promise<{ slug: st
     .single();
 
   if (!route) return notFound();
+  
+  // Note: slug is like 'texas-to-california-trucking'
+  // But simpler: After getting route, we can fetch filings. 
+  // Let's refactor to sequential or dependent parallel if we use route data.
+  // Actually, wait, we don't have route yet.
+  // Let's stick to simple sequential for safety or just fetch purely based on route.origin_code AFTER fetching route.
+  
+
+
+  const { data: relatedFilings } = await supabase
+    .from('state_filings')
+    .select('slug, form_id, official_name, state_code')
+    .in('state_code', [route.origin_code, route.destination_code]);
 
   // Dynamic Content Injection (The "Variance" Layer)
   const miles = calculateHaversineDistance(route.origin_code, route.destination_code);
@@ -186,15 +199,34 @@ export default async function RoutePage({ params }: { params: Promise<{ slug: st
            </h2>
 
            <div className="space-y-4 mb-8">
-             {route.requirements.map((req: string, i: number) => (
-               <div key={i} className="flex items-center gap-4 bg-industrial-900 p-4 rounded border border-industrial-700">
-                 <div className="min-w-8 h-8 rounded-full bg-red-900/50 text-red-500 flex items-center justify-center font-bold border border-red-900">
-                   !
+             {relatedFilings && relatedFilings.length > 0 ? (
+               relatedFilings.map((f: any) => (
+                 <Link 
+                   key={f.slug} 
+                   href={`/filing/${f.slug}`}
+                   className="flex items-center gap-4 bg-industrial-900 p-4 rounded border border-industrial-700 hover:border-safety-orange transition-colors group"
+                 >
+                   <div className="min-w-8 h-8 rounded-full bg-red-900/50 text-red-500 flex items-center justify-center font-bold border border-red-900 group-hover:bg-safety-orange group-hover:text-black group-hover:border-safety-orange transition-colors">
+                     !
+                   </div>
+                   <div>
+                     <span className="text-white font-bold block group-hover:underline">{f.form_id} ({f.state_code})</span>
+                     <span className="text-xs text-industrial-500">{f.official_name}</span>
+                   </div>
+                   <ArrowRight className="ml-auto text-industrial-600 group-hover:text-safety-orange" />
+                 </Link>
+               ))
+             ) : (
+               route.requirements.map((req: string, i: number) => (
+                 <div key={i} className="flex items-center gap-4 bg-industrial-900 p-4 rounded border border-industrial-700">
+                   <div className="min-w-8 h-8 rounded-full bg-red-900/50 text-red-500 flex items-center justify-center font-bold border border-red-900">
+                     !
+                   </div>
+                   <span className="text-white font-bold">{req}</span>
+                   <ArrowRight className="ml-auto text-industrial-600" />
                  </div>
-                 <span className="text-white font-bold">{req}</span>
-                 <ArrowRight className="ml-auto text-industrial-600" />
-               </div>
-             ))}
+               ))
+             )}
            </div>
 
            <div className="bg-industrial-900/50 p-6 rounded border border-industrial-700 text-sm text-industrial-400 mb-8">
