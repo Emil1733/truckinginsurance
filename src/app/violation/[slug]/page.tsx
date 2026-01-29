@@ -3,6 +3,24 @@ import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 import { notFound } from "next/navigation";
 
+
+// SEO Metadata Generation
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<import("next").Metadata> {
+  const { slug } = await params;
+  const { data } = await supabase.from('violations').select('*').eq('slug', slug).single();
+
+  if (!data) return { title: 'Violation Not Found' };
+
+  return {
+    title: `${data.code} Insurance Help | Forgiven in 48 Hours | TruckInsure`,
+    description: `Stuck with a ${data.code} (${data.official_name})? We specialize in high-risk truck insurance. Get a quote even with Tier ${data.severity_tier} violations.`,
+    openGraph: {
+      title: `${data.code} - Uninsurable? Not Anymore.`,
+      description: `Don't let ${data.official_name} end your career. We have 3 underwriters who will write this risk.`,
+    }
+  };
+}
+
 // pSEO Power: Generate a static page for EVERY violation in our database at build time.
 export async function generateStaticParams() {
   const { data: violations } = await supabase.from('violations').select('slug');

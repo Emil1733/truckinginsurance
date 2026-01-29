@@ -3,6 +3,24 @@ import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 import { notFound } from "next/navigation";
 
+
+// SEO Metadata Generation
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<import("next").Metadata> {
+  const { slug } = await params;
+  const { data } = await supabase.from('state_filings').select('*').eq('slug', slug).single();
+
+  if (!data) return { title: 'Filing Not Found' };
+
+  return {
+    title: `File ${data.form_id} Online | One-Day Processing (${data.state_code}) | TruckInsure`,
+    description: `Need a ${data.official_name} (${data.form_id})? We file electronically with the DMV/FMCSA in 15 minutes. Avoid the $${data.penalty_per_day}/day penalty.`,
+    openGraph: {
+      title: `Instant ${data.form_id} Filing - ${data.state_code}`,
+      description: `Don't let your authority lapse. We are an authorized e-filer for ${data.official_name}.`,
+    }
+  };
+}
+
 export async function generateStaticParams() {
   // Fetch all slugs from the DB to generate pages at build time
   const { data: filings } = await supabase.from('state_filings').select('slug');

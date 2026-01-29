@@ -3,6 +3,24 @@ import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 import { notFound } from "next/navigation";
 
+
+// SEO Metadata Generation
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<import("next").Metadata> {
+  const { slug } = await params;
+  const { data } = await supabase.from('trailer_risk_profiles').select('*').eq('slug', slug).single();
+
+  if (!data) return { title: 'Coverage Not Found' };
+
+  return {
+    title: `${data.display_name} Insurance Quote | Cargo Limits up to $${data.min_cargo_limit.toLocaleString()} | TruckInsure`,
+    description: `Get insured for ${data.display_name}. We remove common exclusions like "${(data.common_exclusions as string[])[0]}" so you can haul with confidence. Quotes in 24 hours.`,
+    openGraph: {
+      title: `${data.display_name} Insurance - No Hidden Exclusions`,
+      description: `Cover your Tractor AND your Cargo. Specialized high-limit coverage for ${data.display_name}.`,
+    }
+  };
+}
+
 export async function generateStaticParams() {
   const { data: trailers } = await supabase.from('trailer_risk_profiles').select('slug');
   return (trailers || []).map((t) => ({
