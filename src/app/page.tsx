@@ -1,202 +1,155 @@
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
-import { ArrowRight, ShieldAlert, Zap, FileWarning } from "lucide-react";
+import { ArrowRight, ShieldAlert, Zap, FileWarning, Truck, Map, AlertTriangle } from "lucide-react";
 
 export default async function Home() {
-  // Parallel Data Fetching
+  // Parallel Data Fetching (Limited to 6 for "Preview" Mode)
   const [{ data: violations }, { data: filings }, { data: trailers }] = await Promise.all([
-    supabase.from('violations').select('*').order('severity_tier', { ascending: false }),
-    supabase.from('state_filings').select('*').order('state_code', { ascending: true }),
-    supabase.from('trailer_risk_profiles').select('*').order('premium_multiplier', { ascending: false })
+    supabase.from('violations').select('*').order('severity_tier', { ascending: false }).limit(6),
+    supabase.from('state_filings').select('*').order('state_code', { ascending: true }).limit(6),
+    supabase.from('trailer_risk_profiles').select('*').order('premium_multiplier', { ascending: false }).limit(6)
   ]);
 
   return (
     <div className="min-h-screen bg-industrial-900 text-silver font-mono selection:bg-safety-orange selection:text-black">
-      {/* Hero Section */}
-      <section className="relative px-6 py-24 md:py-32 border-b border-industrial-800 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-industrial-800 to-industrial-900">
-        <div className="max-w-5xl mx-auto text-center">
-          <div className="inline-block mb-6 px-4 py-1.5 rounded-full border border-safety-orange/30 bg-safety-orange/5 text-safety-orange text-xs font-bold tracking-widest uppercase">
-            Specialized High-Risk Insurance
-          </div>
-          <h1 className="font-display text-5xl md:text-8xl font-bold text-white mb-8 tracking-tighter leading-[0.9]">
-            UNINSURABLE? <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-safety-orange to-safety-yellow">
-              NOT ANYMORE.
-            </span>
-          </h1>
-          <p className="text-xl md:text-2xl text-industrial-500 max-w-2xl mx-auto mb-10 leading-relaxed">
-            The major carriers rely on algorithms that auto-reject specific violation codes. 
-            We rely on specialized underwriters who understand <strong className="text-silver">rehabilitation</strong>.
-          </p>
+      
+      {/* HERO: THE PROBLEM SOLVER */}
+      <section className="relative px-6 py-20 border-b border-industrial-800 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-industrial-800 to-industrial-900">
+        <div className="max-w-6xl mx-auto text-center mb-16">
+           <h1 className="font-display text-5xl md:text-7xl font-bold text-white mb-6 uppercase tracking-tighter">
+             The Shop for the <span className="text-safety-orange">Uninsurable.</span>
+           </h1>
+           <p className="text-xl text-industrial-400 max-w-2xl mx-auto">
+             If other agents said "No," you are in the right place. Select your problem below.
+           </p>
+        </div>
+
+        {/* DASHBOARD GRID (BIG BUTTONS FOR FAT FINGERS) */}
+        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          
+          {/* CARD 1: VIOLATIONS */}
+          <Link href="#violations" className="group bg-industrial-800 p-8 rounded-xl border border-industrial-700 hover:border-red-500 hover:bg-industrial-800/80 transition-all shadow-lg hover:shadow-red-900/20">
+             <div className="flex items-center justify-between mb-4">
+               <div className="w-12 h-12 bg-red-900/30 text-red-500 rounded-lg flex items-center justify-center border border-red-900/50 group-hover:bg-red-500 group-hover:text-black transition-colors">
+                 <AlertTriangle className="w-6 h-6" />
+               </div>
+               <ArrowRight className="text-industrial-600 group-hover:text-red-500 transition-colors" />
+             </div>
+             <h3 className="text-2xl font-bold text-white mb-2">I Have a Ticket</h3>
+             <p className="text-sm text-industrial-400">DUI, Reckless Driving, or Out-of-Service violations.</p>
+          </Link>
+
+          {/* CARD 2: BROKER DENIALS */}
+          <Link href="#brokers" className="group bg-industrial-800 p-8 rounded-xl border border-industrial-700 hover:border-safety-orange hover:bg-industrial-800/80 transition-all shadow-lg hover:shadow-orange-900/20">
+             <div className="flex items-center justify-between mb-4">
+               <div className="w-12 h-12 bg-orange-900/30 text-safety-orange rounded-lg flex items-center justify-center border border-orange-900/50 group-hover:bg-safety-orange group-hover:text-black transition-colors">
+                 <ShieldAlert className="w-6 h-6" />
+               </div>
+               <ArrowRight className="text-industrial-600 group-hover:text-safety-orange transition-colors" />
+             </div>
+             <h3 className="text-2xl font-bold text-white mb-2">Denied by Broker</h3>
+             <p className="text-sm text-industrial-400">Amazon Relay, CH Robinson, or TQL rejected your insurance.</p>
+          </Link>
+
+          {/* CARD 3: PERMITS */}
+          <Link href="#filings" className="group bg-industrial-800 p-8 rounded-xl border border-industrial-700 hover:border-blue-500 hover:bg-industrial-800/80 transition-all shadow-lg hover:shadow-blue-900/20">
+             <div className="flex items-center justify-between mb-4">
+               <div className="w-12 h-12 bg-blue-900/30 text-blue-500 rounded-lg flex items-center justify-center border border-blue-900/50 group-hover:bg-blue-500 group-hover:text-black transition-colors">
+                 <Map className="w-6 h-6" />
+               </div>
+               <ArrowRight className="text-industrial-600 group-hover:text-blue-500 transition-colors" />
+             </div>
+             <h3 className="text-2xl font-bold text-white mb-2">I Need a Filing</h3>
+             <p className="text-sm text-industrial-400">SR-22, Form E, Form H, or BMC-91X for new authorities.</p>
+          </Link>
+
         </div>
       </section>
 
-      {/* The Directory "Hub" */}
-      <section className="max-w-6xl mx-auto px-6 py-20">
-        <div className="flex items-center justify-between mb-12">
-          <h2 className="font-display text-3xl text-white flex items-center gap-3">
-            <FileWarning className="text-safety-orange" />
-            VIOLATION DATABASE
-          </h2>
-          <div className="text-xs text-industrial-600 font-mono hidden sm:block">
-            INDEXING {violations?.length || 0} ACTIVE CODES
+      {/* SECTION: BROKER RECOVERY (HIGH PRIORITY) */}
+      <section id="brokers" className="py-20 px-6 border-b border-industrial-800">
+        <div className="max-w-6xl mx-auto">
+          <div className="flex items-center gap-4 mb-10">
+            <div className="w-2 h-8 bg-safety-orange rounded-full"></div>
+            <h2 className="text-3xl font-display text-white">BROKER DENIALS</h2>
+          </div>
+          
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+             {[
+                { name: 'Amazon Relay', slug: 'amazon-relay', limit: '$1M Auto / $100k Cargo' },
+                { name: 'C.H. Robinson', slug: 'ch-robinson', limit: 'Risk Assessment Override' },
+                { name: 'TQL', slug: 'tql', limit: 'Reefer Breakdown Req' },
+                { name: 'Coyote Logistics', slug: 'coyote-logistics', limit: '30-Day Authority Rule' },
+                { name: 'Landstar', slug: 'landstar', limit: 'Safety Score Vetting' },
+             ].map((broker) => (
+                <Link 
+                  key={broker.slug}
+                  href={`/broker/${broker.slug}`}
+                  className="flex items-center justify-between p-6 bg-industrial-800 rounded border border-industrial-700 hover:border-safety-orange transition-colors group"
+                >
+                  <div>
+                    <div className="font-bold text-white group-hover:text-safety-orange">{broker.name}</div>
+                    <div className="text-xs text-industrial-500">{broker.limit}</div>
+                  </div>
+                  <ArrowRight className="w-5 h-5 text-industrial-600 group-hover:text-safety-orange" />
+                </Link>
+             ))}
           </div>
         </div>
+      </section>
 
-
-
-        {/* SECTION 3: TRAILERS (VECTOR 3) */}
-        <div className="mb-24">
-          <div className="flex items-center gap-4 mb-8">
-            <div className="h-px bg-industrial-800 flex-1"></div>
-            <h2 className="text-2xl font-display text-white tracking-widest">SPECIALIZED EQUIPMENT</h2>
-            <div className="h-px bg-industrial-800 flex-1"></div>
+      {/* SECTION: LATEST VIOLATIONS (PREVIEW) */}
+      <section id="violations" className="py-20 px-6 border-b border-industrial-800 bg-black/20">
+        <div className="max-w-6xl mx-auto">
+          <div className="flex items-center justify-between mb-10">
+            <div className="flex items-center gap-4">
+              <div className="w-2 h-8 bg-red-500 rounded-full"></div>
+              <h2 className="text-3xl font-display text-white">COMMON VIOLATIONS</h2>
+            </div>
+            <Link href="/violations" className="text-sm text-industrial-500 hover:text-white uppercase tracking-widest font-bold">View All &rarr;</Link>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {trailers?.map((t) => (
-              <Link 
-                key={t.slug}
-                href={`/insurance/${t.slug}`}
-                className="group relative bg-industrial-800 border border-industrial-700 p-6 hover:border-yellow-500 transition-all hover:-translate-y-1 block"
-              >
-                <div className="flex justify-between items-start mb-4">
-                  <div className="p-2 bg-yellow-500/10 rounded border border-yellow-500/20 text-yellow-500 group-hover:bg-yellow-500 group-hover:text-black transition-colors">
-                     <Zap className="w-6 h-6" /> {/* Using Zap as generic icon, real specific icons hard dynamically */}
+          <div className="grid md:grid-cols-3 gap-6">
+            {violations?.map((v) => (
+               <Link key={v.code} href={`/violation/${v.slug}`} className="block bg-industrial-800 p-6 rounded border border-industrial-700 hover:border-red-500 transition-colors">
+                  <div className="flex justify-between items-start mb-4">
+                    <span className="text-xl font-bold text-white">{v.code}</span>
+                    <span className="text-xs bg-red-900/30 text-red-500 px-2 py-1 rounded border border-red-900/50">TIER {v.severity_tier}</span>
                   </div>
-                  <div className="text-xs font-mono text-industrial-500">
-                    MULTIPLIER: {t.premium_multiplier}x
-                  </div>
-                </div>
-                
-                <h3 className="text-xl font-bold text-silver mb-2 group-hover:text-white line-clamp-1">
-                  {t.display_name}
-                </h3>
-
-                <div className="mt-4 pt-4 border-t border-industrial-700 text-xs font-mono text-industrial-400">
-                  MIN CARGO: <span className="text-white">${t.min_cargo_limit.toLocaleString()}</span>
-                </div>
-              </Link>
+                  <p className="text-industrial-400 text-sm line-clamp-2">{v.official_name}</p>
+               </Link>
             ))}
-             {(!trailers || trailers.length === 0) && (
-              <div className="col-span-full py-12 text-center text-industrial-600 border border-dashed border-industrial-800 rounded">
-                WAITING FOR VECTOR 3 SYNC...
-              </div>
-            )}
           </div>
         </div>
+      </section>
 
-        {/* SECTION 2: FILINGS (VECTOR 2) */}
-        <div className="mb-24">
-          <div className="flex items-center gap-4 mb-8">
-            <div className="h-px bg-industrial-800 flex-1"></div>
-            <h2 className="text-2xl font-display text-white tracking-widest">STATE FILINGS</h2>
-            <div className="h-px bg-industrial-800 flex-1"></div>
+      {/* SECTION: STATE FILINGS (PREVIEW) */}
+      <section id="filings" className="py-20 px-6">
+        <div className="max-w-6xl mx-auto">
+          <div className="flex items-center justify-between mb-10">
+             <div className="flex items-center gap-4">
+              <div className="w-2 h-8 bg-blue-500 rounded-full"></div>
+              <h2 className="text-3xl font-display text-white">STATE PERMITS</h2>
+            </div>
+            <Link href="/filings" className="text-sm text-industrial-500 hover:text-white uppercase tracking-widest font-bold">View All &rarr;</Link>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+           <div className="grid md:grid-cols-3 gap-6">
             {filings?.map((f) => (
-              <Link 
-                key={f.slug}
-                href={`/filing/${f.slug}`}
-                className="group relative bg-industrial-800 border border-industrial-700 p-6 hover:border-blue-500 transition-all hover:-translate-y-1 block"
-              >
-                <div className="flex justify-between items-start mb-4">
-                  <div className="font-mono text-4xl text-industrial-700 font-bold group-hover:text-industrial-600 transition-colors">
-                    {f.state_code}
+               <Link key={f.slug} href={`/filing/${f.slug}`} className="block bg-industrial-800 p-6 rounded border border-industrial-700 hover:border-blue-500 transition-colors">
+                  <div className="flex justify-between items-start mb-4">
+                    <span className="text-2xl font-bold text-industrial-600">{f.state_code}</span>
+                    <ArrowRight className="w-5 h-5 text-industrial-600" />
                   </div>
-                  <ArrowRight className="text-industrial-600 group-hover:text-blue-500 transition-colors" />
-                </div>
-                
-                <h3 className="text-xl font-bold text-silver mb-2 group-hover:text-white">
-                  {f.form_id}
-                </h3>
-                <p className="text-sm text-industrial-400 line-clamp-2">
-                  {f.official_name}
-                </p>
-
-                <div className="mt-4 pt-4 border-t border-industrial-700 flex justify-between text-xs font-mono">
-                  <span className="text-blue-500">INSTANT FILE</span>
-                  <span className="text-industrial-500">PENALTY: ${f.penalty_per_day}/DAY</span>
-                </div>
-              </Link>
+                  <div className="text-white font-bold">{f.form_id}</div>
+                  <p className="text-xs text-industrial-500 mt-2">{f.official_name}</p>
+               </Link>
             ))}
-            
-            {(!filings || filings.length === 0) && (
-              <div className="col-span-full py-12 text-center text-industrial-600 border border-dashed border-industrial-800 rounded">
-                DATABASE SYNCING... TRY REFRESHING OR CHECK SUPABASE CONNECTION.
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* SECTION 1: VIOLATIONS (VECTOR 1) */}
-        <div className="flex items-center gap-4 mb-8">
-          <div className="h-px bg-industrial-800 flex-1"></div>
-          <h2 className="text-2xl font-display text-white tracking-widest">VIOLATION CODES</h2>
-          <div className="h-px bg-industrial-800 flex-1"></div>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {violations?.map((violation) => (
-            <Link 
-              key={violation.code}
-              href={`/violation/${violation.slug}`}
-              className="group bg-industrial-800 border border-industrial-700 hover:border-safety-orange p-6 transition-all hover:-translate-y-1"
-            >
-              <div className="flex justify-between items-start mb-4">
-                <div className="font-display text-2xl text-white group-hover:text-safety-orange transition-colors">
-                  {violation.code}
-                </div>
-                <div className={`text-xs px-2 py-1 rounded font-bold ${
-                  violation.severity_tier >= 9 ? 'bg-red-900/30 text-red-500' : 
-                  violation.severity_tier >= 7 ? 'bg-orange-900/30 text-orange-500' :
-                  'bg-yellow-900/30 text-yellow-500'
-                }`}>
-                  TIER {violation.severity_tier}
-                </div>
-              </div>
-              
-              <h3 className="text-silver font-bold mb-2 line-clamp-1">{violation.official_name}</h3>
-              <p className="text-xs text-industrial-500 mb-6 uppercase tracking-wider">
-                {violation.layman_name}
-              </p>
-
-              <div className="flex items-center text-safety-orange text-sm font-bold gap-2 opacity-0 group-hover:opacity-100 transition-opacity -translate-x-2 group-hover:translate-x-0">
-                VIEW RECOVERY PLAN <ArrowRight className="w-4 h-4" />
-              </div>
-            </Link>
-          ))}
-        </div>
-      </section>
-
-      {/* Value Props */}
-      <section className="border-t border-industrial-800 bg-industrial-800/20 py-20 px-6">
-        <div className="max-w-5xl mx-auto grid md:grid-cols-3 gap-12 text-center">
-          <div className="flex flex-col items-center">
-            <div className="w-16 h-16 bg-industrial-800 rounded-full flex items-center justify-center mb-6 border border-industrial-700 text-safety-orange">
-              <Zap className="w-8 h-8" />
-            </div>
-            <h3 className="text-white font-bold mb-2">Instant Filings</h3>
-            <p className="text-industrial-500 text-sm">We file Forms E, H, and SR-22s electronically. No waiting for an agent to fax common forms.</p>
-          </div>
-          <div className="flex flex-col items-center">
-            <div className="w-16 h-16 bg-industrial-800 rounded-full flex items-center justify-center mb-6 border border-industrial-700 text-safety-orange">
-              <ShieldAlert className="w-8 h-8" />
-            </div>
-            <div className="absolute opacity-85 blur-[60px] -z-10 w-[30rem] h-[30rem] bg-orange-400 rounded-full"></div>
-            <h3 className="text-white font-bold mb-2">Distressed Markets</h3>
-            <p className="text-industrial-500 text-sm">Access to Lloyd's of London and Prime Insurance. We go where Progressive won't.</p>
-          </div>
-          <div className="flex flex-col items-center">
-            <div className="w-16 h-16 bg-industrial-800 rounded-full flex items-center justify-center mb-6 border border-industrial-700 text-safety-orange">
-              <FileWarning className="w-8 h-8" />
-            </div>
-            <h3 className="text-white font-bold mb-2">Violation Experts</h3>
-            <p className="text-industrial-500 text-sm">We know the difference between a "Clerical 395.8e" and a "Fraudulent one". It matters.</p>
           </div>
         </div>
       </section>
+
     </div>
   );
 }
+
