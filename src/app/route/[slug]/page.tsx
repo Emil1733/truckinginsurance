@@ -1,9 +1,10 @@
 import { supabase } from '@/lib/supabase';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { Map, ShieldAlert, ArrowRight, Truck, FileText, Clock, Milestone } from 'lucide-react';
+import { Map, ShieldAlert, ArrowRight, Truck, FileText, Clock, Milestone, TriangleAlert } from 'lucide-react';
 import { ReinstatementModal } from '@/components/ReinstatementModal';
 import { calculateHaversineDistance, calculateLogistics } from '@/lib/utils/route_math';
+import { getRouteHazards } from '@/lib/data/state_risks';
 
 // Force static generation for specific high-volume routes to save build time? 
 // No, let's use generateStaticParams for ALL of them if we want pSEO perfection.
@@ -40,6 +41,7 @@ export default async function RoutePage({ params }: { params: Promise<{ slug: st
   // Dynamic Content Injection (The "Variance" Layer)
   const miles = calculateHaversineDistance(route.origin_code, route.destination_code);
   const logistics = calculateLogistics(miles);
+  const hazards = getRouteHazards(route.origin_code, route.destination_code);
 
   return (
     <div className="min-h-screen bg-industrial-900 font-mono text-silver">
@@ -91,6 +93,23 @@ export default async function RoutePage({ params }: { params: Promise<{ slug: st
              <div className="text-xs text-industrial-500">(10-hour resets per FMCSA 395.3)</div>
           </div>
         </div>
+
+        {/* REGIONAL RISK ALERTS (UNIQUE HAZARDS) */}
+         {hazards.length > 0 && (
+          <div className="mb-12 bg-yellow-900/20 border-l-4 border-yellow-500 p-6 rounded-r">
+            <h3 className="text-yellow-500 font-bold mb-4 flex items-center gap-2">
+              <TriangleAlert className="w-5 h-5" /> ROUTE ADVISORIES
+            </h3>
+            <ul className="space-y-2">
+              {hazards.map((h, i) => (
+                <li key={i} className="text-industrial-300 text-sm flex gap-3">
+                  <span className="block min-w-1.5 h-1.5 mt-1.5 rounded-full bg-yellow-500/50" />
+                  {h}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
 
         {/* COMPLIANCE CARD */}
         <div className="bg-industrial-800 border-2 border-safety-orange rounded-xl p-8 mb-16 relative overflow-hidden">
