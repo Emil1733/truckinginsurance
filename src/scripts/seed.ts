@@ -124,7 +124,6 @@ async function seed() {
         min_cargo_limit: t.min_cargo_limit,
         common_exclusions: t.common_exclusions,
         premium_multiplier: t.premium_multiplier
-        // description: t.description (Need to check if schema has this, if not, skip)
       })),
       { onConflict: 'slug' }
     );
@@ -133,6 +132,47 @@ async function seed() {
     console.error('❌ Error seeding trailers:', trailerError.message);
   } else {
     console.log(`✅ Seeded ${TRAILERS_DATA.length} Trailers.`);
+  }
+
+  // 4. ROUTES (VECTOR 4: THE MATRIX RELOADED)
+  console.log('...Seeding Routes (Vector 4)');
+  
+  const routes = [];
+  for (const origin of US_STATES) {
+    for (const dest of US_STATES) {
+      if (origin.code === dest.code) continue; // Skip same-state
+
+      const isCaliforniaDest = dest.code === 'CA';
+      const requirements = ['BMC-91X (Federal Authority)']; // Always needed for interstate
+      
+      if (isCaliforniaDest) requirements.push('MCP-65 (CA Permit)');
+      if (dest.code === 'NY') requirements.push('HUT (NY Tax)');
+      if (dest.code === 'KY') requirements.push('KYU (KY Weight Tax)');
+
+      routes.push({
+        slug: `${origin.name.toLowerCase().replace(/\s+/g, '-')}-to-${dest.name.toLowerCase().replace(/\s+/g, '-')}-trucking`,
+        origin_code: origin.code,
+        destination_code: dest.code,
+        origin_name: origin.name,
+        destination_name: dest.name,
+        requirements: requirements,
+        distance_tier: 'LONG_HAUL' 
+      });
+    }
+  }
+
+  // Batch Upsert (Supabase limit is usually higher, but let's do 1000s if needed, or just one go for 2.5k)
+  const { error: routeError } = await supabase
+    .from('routes')
+    .upsert(routes, { onConflict: 'slug' });
+
+  if (routeError) {
+    console.error('❌ Error seeding routes:', routeError.message);
+    if (routeError.code === '42P01') {
+      console.error('👉 "routes" table missing. Run SQL!');
+    }
+  } else {
+    console.log(`✅ Seeded ${routes.length} Routes.`);
   }
 }
 
