@@ -237,5 +237,220 @@ export const VIOLATIONS_DATA: Violation[] = [
     rejection_rate: "45%",
     survival_prob: "HIGH",
     rehab_steps: ["Create Accident Register (Past 3 Years)", "File Retroactive Reports"]
+  },
+
+  // --- TIER 3-5: MOVING VIOLATIONS (High Frequency) ---
+  {
+    code: "392.2LC",
+    slug: "392-2lc-improper-lane-change",
+    official_name: "Improper Lane Change",
+    layman_name: "Unsafe Lane Change",
+    fine_avg: 450,
+    severity_tier: 5,
+    rejection_rate: "35%",
+    survival_prob: "HIGH",
+    rehab_steps: ["Defensive Driving Course", "Camera Monitoring System", "3-Month Probation"]
+  },
+  {
+    code: "392.2FC",
+    slug: "392-2fc-following-too-closely",
+    official_name: "Following Too Closely",
+    layman_name: "Tailgating",
+    fine_avg: 500,
+    severity_tier: 6,
+    rejection_rate: "45%",
+    survival_prob: "MEDIUM",
+    rehab_steps: ["Space Management Training", "Safety Meeting Review", "Ride-along Evaluation"]
+  },
+  {
+    code: "392.2IT",
+    slug: "392-2it-improper-turns",
+    official_name: "Improper Turns",
+    layman_name: "Prohibited Turn / Wide Turn",
+    fine_avg: 350,
+    severity_tier: 4,
+    rejection_rate: "25%",
+    survival_prob: "HIGH",
+    rehab_steps: ["Route Planning Training", "Intersection Safety Review"]
+  },
+  {
+    code: "392.2FY",
+    slug: "392-2fy-failure-to-yield",
+    official_name: "Failure to Yield Right of Way",
+    layman_name: "Failure to Yield",
+    fine_avg: 400,
+    severity_tier: 5,
+    rejection_rate: "30%",
+    survival_prob: "HIGH",
+    rehab_steps: ["Defensive Driving", "Accident Prevention Course"]
+  },
+  {
+    code: "392.80",
+    slug: "392-80-texting-while-driving",
+    official_name: "Driving a CMV While Texting",
+    layman_name: "Texting While Driving",
+    fine_avg: 2750,
+    severity_tier: 10,
+    rejection_rate: "95%",
+    survival_prob: "LOW",
+    rehab_steps: ["Zero Tolerance Policy", "Phone Lockbox Policy", "Driver Termination Risk"]
+  },
+  {
+    code: "392.82",
+    slug: "392-82-mobile-phone-usage",
+    official_name: "Using a Hand-Held Mobile Telephone",
+    layman_name: "Handheld Phone Use",
+    fine_avg: 2750,
+    severity_tier: 10,
+    rejection_rate: "95%",
+    survival_prob: "LOW",
+    rehab_steps: ["Bluetooth Headset Mandate", "Driver retraining", "Strict Enforcement"]
+  },
+  {
+    code: "392.22(a)",
+    slug: "392-22a-stopped-vehicle-hazard",
+    official_name: "Failing to Use Hazard Warning Flashers",
+    layman_name: "No Hazards on Shoulder",
+    fine_avg: 200,
+    severity_tier: 3,
+    rejection_rate: "10%",
+    survival_prob: "VERY HIGH",
+    rehab_steps: ["Breakdown Procedure Review", "Safety Kit auditing"]
+  },
+  
+  // --- TIER 2-4: EQUIPMENT & MAINTENANCE (The Nuisance List) ---
+  {
+    code: "393.95(a)",
+    slug: "393-95a-fire-extinguisher",
+    official_name: "No / Discharged / Unsecured Fire Extinguisher",
+    layman_name: "Missing Fire Extinguisher",
+    fine_avg: 150,
+    severity_tier: 2,
+    rejection_rate: "5%",
+    survival_prob: "VERY HIGH",
+    rehab_steps: ["Pre-trip Inspection Checklist", "Equipment Purchase"]
+  },
+  {
+    code: "393.95(f)",
+    slug: "393-95f-warning-devices",
+    official_name: "Insufficient Warning Devices (Triangles)",
+    layman_name: "Missing Triangles",
+    fine_avg: 150,
+    severity_tier: 2,
+    rejection_rate: "5%",
+    survival_prob: "VERY HIGH",
+    rehab_steps: ["Cab Inventory Check", "Safety Kit Restock"]
+  },
+  {
+    code: "393.25(f)",
+    slug: "393-25f-stop-lamp-violations",
+    official_name: "Stop Lamp Violations",
+    layman_name: "Brake Lights Out",
+    fine_avg: 150,
+    severity_tier: 3,
+    rejection_rate: "10%",
+    survival_prob: "VERY HIGH",
+    rehab_steps: ["Pre-Trip Discipline", "Bulb Replacement Protocol"]
+  },
+  {
+    code: "396.17(c)",
+    slug: "396-17c-annual-inspection",
+    official_name: "Operating CMV Without Periodic Inspection",
+    layman_name: "Expired Annual Inspection",
+    fine_avg: 800,
+    severity_tier: 6,
+    rejection_rate: "40%",
+    survival_prob: "high",
+    rehab_steps: ["Immediate Inspection", "Scheduling Software Implementation"]
+  },
+  {
+    code: "393.11",
+    slug: "393-11-lighting-devices-color",
+    official_name: "Lamps and Reflective Devices - Color/Position",
+    layman_name: "Wrong Color Lights",
+    fine_avg: 100,
+    severity_tier: 2,
+    rejection_rate: "5%",
+    survival_prob: "VERY HIGH",
+    rehab_steps: ["Remove custom lighting", "OEM part restoration"]
+  },
+  {
+    code: "393.47",
+    slug: "393-47-brake-actuators",
+    official_name: "Brake Actuators, Slack Adjusters, Linings/Pads",
+    layman_name: "Brakes Out of Adjustment",
+    fine_avg: 850,
+    severity_tier: 7,
+    rejection_rate: "60%",
+    survival_prob: "MEDIUM",
+    rehab_steps: ["Mechanic Training", "Digital Brake Stroke Indicators"]
+  },
+  {
+    code: "393.60(c)",
+    slug: "393-60c-windshield-condition",
+    official_name: "Windshield Condition",
+    layman_name: "Cracked Windshield",
+    fine_avg: 150,
+    severity_tier: 1,
+    rejection_rate: "0%",
+    survival_prob: "VERY HIGH",
+    rehab_steps: ["Glass Replacement", "Road Debris Policy"]
+  },
+   {
+    code: "393.100",
+    slug: "393-100-cargo-securement",
+    official_name: "Protection Against Shifting and Falling Cargo",
+    layman_name: "Improper Load Securement",
+    fine_avg: 1200,
+    severity_tier: 8,
+    rejection_rate: "70%",
+    survival_prob: "MEDIUM",
+    rehab_steps: ["Securement Training (Strap/Chain)", "Load Check Policy (Every 150 miles)"]
+  },
+  {
+    code: "392.9(a)(1)",
+    slug: "392-9a1-unsecure-load",
+    official_name: "Load Not Properly Secured",
+    layman_name: "Loose Cargo",
+    fine_avg: 1200,
+    severity_tier: 8,
+    rejection_rate: "70%",
+    survival_prob: "MEDIUM",
+    rehab_steps: ["Driver Securement Certification", "Pre-departure photographs"]
+  },
+  
+  // --- TIER 6-8: DRIVER FITNESS ---
+  {
+    code: "391.11(b)(2)",
+    slug: "391-11b2-english-proficiency",
+    official_name: "Driver Cannot Read/Speak English Sufficiently",
+    layman_name: "English Proficiency Violation",
+    fine_avg: 500,
+    severity_tier: 6,
+    rejection_rate: "50%",
+    survival_prob: "MEDIUM",
+    rehab_steps: ["ESL Classes", "Bilingual Dispatcher Support"]
+  },
+  {
+    code: "391.41(a)",
+    slug: "391-41a-medical-certificate",
+    official_name: "Driver No Medical Certificate in Possession",
+    layman_name: "No Med Card",
+    fine_avg: 400,
+    severity_tier: 5,
+    rejection_rate: "25%",
+    survival_prob: "HIGH",
+    rehab_steps: ["Digital Wallet Copy", "Upload to ELD Tablet"]
+  },
+  {
+    code: "392.3",
+    slug: "392-3-ill-fatigued-driver",
+    official_name: "Operating CMV While Ill or Fatigued",
+    layman_name: "Driving Sick / Tired",
+    fine_avg: 1500,
+    severity_tier: 9,
+    rejection_rate: "80%",
+    survival_prob: "LOW",
+    rehab_steps: ["Sick Leave Policy", "Fatigue Management Program"]
   }
 ];
