@@ -1,5 +1,8 @@
+-- 0. Nuke old schema if exists (Fixes "official_name" missing error)
+drop table if exists public.state_filings;
+
 -- 1. Create Table
-create table if not exists public.state_filings (
+create table public.state_filings (
   id uuid primary key default uuid_generate_v4(),
   slug text unique not null,
   form_id text not null,

@@ -20,6 +20,7 @@ create table public.state_filings (
   state_code text not null, -- "CA"
   form_id text not null, -- "MCP-65"
   slug text not null unique,
+  official_name text not null,
   purpose text not null,
   processing_days_manual integer,
   processing_days_electronic integer,
