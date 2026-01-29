@@ -1,8 +1,9 @@
 import { supabase } from '@/lib/supabase';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { Map, ShieldAlert, ArrowRight, Truck, FileText } from 'lucide-react';
+import { Map, ShieldAlert, ArrowRight, Truck, FileText, Clock, Milestone } from 'lucide-react';
 import { ReinstatementModal } from '@/components/ReinstatementModal';
+import { calculateHaversineDistance, calculateLogistics } from '@/lib/utils/route_math';
 
 // Force static generation for specific high-volume routes to save build time? 
 // No, let's use generateStaticParams for ALL of them if we want pSEO perfection.
@@ -16,10 +17,12 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { data: route } = await supabase.from('routes').select('*').eq('slug', slug).single();
 
   if (!route) return { title: 'Route Not Found' };
+  
+  const distance = calculateHaversineDistance(route.origin_code, route.destination_code);
 
   return {
-    title: `Permits for ${route.origin_name} to ${route.destination_name} | Truck Coverage Experts`,
-    description: `Hauling from ${route.origin_code} to ${route.destination_code}? You need ${route.requirements.join(' and ')}. We file instantly.`,
+    title: `Permits for ${route.origin_name} to ${route.destination_name} (${distance} Miles) | Truck Coverage Experts`,
+    description: `Hauling from ${route.origin_code} to ${route.destination_code}? This ${distance}-mile trip requires ${route.requirements.join(' and ')}. File instantly.`,
   };
 }
 
@@ -33,6 +36,10 @@ export default async function RoutePage({ params }: { params: Promise<{ slug: st
     .single();
 
   if (!route) return notFound();
+
+  // Dynamic Content Injection (The "Variance" Layer)
+  const miles = calculateHaversineDistance(route.origin_code, route.destination_code);
+  const logistics = calculateLogistics(miles);
 
   return (
     <div className="min-h-screen bg-industrial-900 font-mono text-silver">
@@ -57,9 +64,32 @@ export default async function RoutePage({ params }: { params: Promise<{ slug: st
             <span className="text-white">{route.destination_code}</span>
           </h1>
           <p className="text-xl text-industrial-400 max-w-2xl mx-auto">
-            Crossing state lines triggers Federal FMCSA jurisdiction. 
-            You are leaving <span className="text-white">{route.origin_name}</span> and entering <span className="text-white">{route.destination_name}</span>.
+            This <span className="text-white font-bold">{miles.toLocaleString()} mile</span> haul crosses state lines, triggering Federal FMCSA jurisdiction. 
           </p>
+        </div>
+
+        {/* LOGISTICS CARD (UNIQUE CONTENT) */}
+        <div className="grid md:grid-cols-3 gap-4 mb-12">
+          <div className="bg-industrial-800 p-6 rounded border border-industrial-700">
+            <div className="text-industrial-500 text-xs font-bold mb-2 flex items-center gap-2">
+              <Milestone className="w-4 h-4" /> TOTAL MILEAGE
+            </div>
+            <div className="text-2xl text-white font-bold">{miles.toLocaleString()} miles</div>
+          </div>
+          <div className="bg-industrial-800 p-6 rounded border border-industrial-700">
+             <div className="text-industrial-500 text-xs font-bold mb-2 flex items-center gap-2">
+              <Clock className="w-4 h-4" /> EST. DRIVE TIME
+            </div>
+            <div className="text-2xl text-white font-bold">{logistics.driveHours} Hours</div>
+            <div className="text-xs text-industrial-500">(@60mph avg)</div>
+          </div>
+          <div className="bg-industrial-800 p-6 rounded border border-industrial-700">
+             <div className="text-industrial-500 text-xs font-bold mb-2 flex items-center gap-2">
+              <FileText className="w-4 h-4" /> REQ. RESET BREAKS
+            </div>
+            <div className="text-2xl text-white font-bold">{logistics.breaksRequired}</div>
+             <div className="text-xs text-industrial-500">(10-hour resets per FMCSA 395.3)</div>
+          </div>
         </div>
 
         {/* COMPLIANCE CARD */}
