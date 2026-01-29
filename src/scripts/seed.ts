@@ -1,7 +1,7 @@
 
 import { createClient } from '@supabase/supabase-js';
 import * as dotenv from 'dotenv';
-import { VIOLATIONS_DATA } from './src/lib/data/violations';
+import { VIOLATIONS_DATA } from '../lib/data/violations';
 
 dotenv.config({ path: '.env.local' });
 
