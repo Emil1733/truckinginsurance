@@ -33,3 +33,15 @@ export const trailerRiskProfiles = pgTable('trailer_risk_profiles', {
   common_exclusions: jsonb('common_exclusions').$type<string[]>(),
   premium_multiplier: numeric('premium_multiplier'), // 1.5
 });
+
+// Leads / Quotes
+export const leads = pgTable('leads', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  driver_name: text('driver_name').notNull(),
+  phone: text('phone').notNull(),
+  email: text('email').notNull(),
+  violation_code: text('violation_code'),
+  cdl_years: integer('cdl_years'),
+  status: text('status').default('new'),
+  created_at: text('created_at').default('now()'), // Simple text timestamp for now to match default
+});

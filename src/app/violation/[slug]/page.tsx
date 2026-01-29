@@ -143,7 +143,7 @@ export default async function ViolationPage({ params }: { params: Promise<{ slug
             
             <div className="flex flex-col sm:flex-row gap-4">
               <Link 
-                href="#"
+                href="/quote"
                 className="bg-safety-orange hover:bg-orange-600 text-black font-bold px-8 py-4 text-center rounded transition-all hover:scale-[1.02] active:scale-[0.98]"
               >
                 REQUEST HIGH-RISK QUOTE
