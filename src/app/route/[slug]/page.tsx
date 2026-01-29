@@ -1,10 +1,11 @@
 import { supabase } from '@/lib/supabase';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { Map, ShieldAlert, ArrowRight, Truck, FileText, Clock, Milestone, TriangleAlert } from 'lucide-react';
+import { Map, ShieldAlert, ArrowRight, Truck, FileText, Clock, Milestone, TriangleAlert, Siren } from 'lucide-react';
 import { ReinstatementModal } from '@/components/ReinstatementModal';
 import { calculateHaversineDistance, calculateLogistics } from '@/lib/utils/route_math';
 import { getRouteHazards } from '@/lib/data/state_risks';
+import { getReciprocityAlerts } from '@/lib/data/state_permits';
 
 // Force static generation for specific high-volume routes to save build time? 
 // No, let's use generateStaticParams for ALL of them if we want pSEO perfection.
@@ -42,6 +43,7 @@ export default async function RoutePage({ params }: { params: Promise<{ slug: st
   const miles = calculateHaversineDistance(route.origin_code, route.destination_code);
   const logistics = calculateLogistics(miles);
   const hazards = getRouteHazards(route.origin_code, route.destination_code);
+  const permitAlert = getReciprocityAlerts(route.destination_code);
 
   return (
     <div className="min-h-screen bg-industrial-900 font-mono text-silver">
@@ -93,6 +95,18 @@ export default async function RoutePage({ params }: { params: Promise<{ slug: st
              <div className="text-xs text-industrial-500">(10-hour resets per FMCSA 395.3)</div>
           </div>
         </div>
+
+        {/* PERMIT / RECIPROCITY ALERTS (CRITICAL VARIANCE) */}
+        {permitAlert && (
+          <div className="mb-12 bg-red-900/20 border-l-4 border-red-500 p-6 rounded-r">
+            <h3 className="text-red-500 font-bold mb-4 flex items-center gap-2">
+              <Siren className="w-5 h-5 animate-pulse" /> PERMIT REQUIRED
+            </h3>
+            <p className="text-white text-lg font-bold">
+              {permitAlert}
+            </p>
+          </div>
+        )}
 
         {/* REGIONAL RISK ALERTS (UNIQUE HAZARDS) */}
          {hazards.length > 0 && (
