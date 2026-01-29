@@ -42,8 +42,26 @@ export default async function TrailerPage({ params }: { params: Promise<{ slug: 
   // Cast exclusions safely
   const exclusions = (trailer.common_exclusions || []) as string[];
 
+  // JSON-LD Schema
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'FinancialProduct',
+    'name': `${trailer.display_name} Insurance`,
+    'description': `Commercial insurance for ${trailer.display_name} with cargo limits up to $${trailer.min_cargo_limit.toLocaleString()}.`,
+    'provider': {
+      '@type': 'Organization',
+      'name': 'TruckInsure',
+      'url': 'https://truckcoverageexperts.com'
+    },
+    'feesAndCommissionsSpecification': `Exclusions removed: ${exclusions.join(', ')}`
+  };
+
   return (
     <div className="min-h-screen bg-industrial-900 text-silver font-mono selection:bg-yellow-400 selection:text-black">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       {/* HEADER */}
       <header className="border-b border-yellow-500/20 bg-industrial-900 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">

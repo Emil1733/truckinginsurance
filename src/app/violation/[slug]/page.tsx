@@ -45,8 +45,53 @@ export default async function ViolationPage({ params }: { params: Promise<{ slug
   // but here we are using raw DB result which matches schema directly)
   const data = routeData;
 
+  // JSON-LD Schema
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'Service',
+        'name': `${data.code} Insurance Recovery`,
+        'serviceType': 'High Risk Truck Insurance',
+        'provider': {
+          '@type': 'Organization',
+          'name': 'TruckInsure',
+          'url': 'https://truckcoverageexperts.com'
+        },
+        'areaServed': 'US',
+        'audience': {
+          '@type': 'Audience',
+          'audienceType': 'Commercial Truck Drivers'
+        },
+        'offers': {
+          '@type': 'Offer',
+          'price': '0',
+          'priceCurrency': 'USD',
+          'description': 'Free Quote'
+        }
+      },
+      {
+        '@type': 'FAQPage',
+        'mainEntity': [
+          {
+            '@type': 'Question',
+            'name': `How do I fix a ${data.official_name} (${data.code}) violation?`,
+            'acceptedAnswer': {
+              '@type': 'Answer',
+              'text': `Follow these steps: ${(data.rehab_steps as string[]).join('. ')}.`
+            }
+          }
+        ]
+      }
+    ]
+  };
+
   return (
     <div className="min-h-screen bg-industrial-900 text-silver font-mono selection:bg-safety-orange selection:text-black">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       {/* 1. The "Panic Header" */}
       <header className="border-b border-industrial-700 bg-industrial-800/50 backdrop-blur-md sticky top-0 z-50">
         <div className="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">

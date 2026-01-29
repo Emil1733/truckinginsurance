@@ -40,8 +40,39 @@ export default async function FilingPage({ params }: { params: Promise<{ slug: s
 
   if (!filing) return notFound();
 
+  // JSON-LD Schema
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'GovernmentService',
+    'name': `${filing.form_id} Online Filing`,
+    'serviceType': `Electronic Filing for ${filing.state_code}`,
+    'provider': {
+      '@type': 'Organization',
+      'name': 'TruckInsure',
+      'url': 'https://truckcoverageexperts.com'
+    },
+    'areaServed': {
+      '@type': 'AdministrativeArea',
+      'name': filing.state_code
+    },
+    'offers': {
+      '@type': 'Offer',
+      'price': (filing.filing_fee + 25).toString(),
+      'priceCurrency': 'USD',
+      'description': 'Filing Fee + Processing'
+    },
+    'serviceOutput': {
+       '@type': 'Thing',
+       'name': 'Filing Certificate'
+    }
+  };
+
   return (
     <div className="min-h-screen bg-industrial-900 text-silver font-mono selection:bg-blue-500 selection:text-white">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       {/* HEADER */}
       <header className="border-b border-industrial-800 bg-industrial-900 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
