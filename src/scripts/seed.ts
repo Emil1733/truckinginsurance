@@ -2,6 +2,7 @@ import { createClient } from '@supabase/supabase-js';
 import * as dotenv from 'dotenv';
 import { VIOLATIONS_DATA } from '../lib/data/violations';
 import { FILINGS_DATA } from '../lib/data/filings';
+import { TRAILERS_DATA } from '../lib/data/trailers';
 
 dotenv.config({ path: '.env.local' });
 
@@ -59,6 +60,28 @@ async function seed() {
     }
   } else {
     console.log(`✅ Seeded ${FILINGS_DATA.length} Filings.`);
+  }
+
+  // 3. TRAILERS
+  console.log('...Seeding Trailers (Vector 3)');
+  const { error: trailerError } = await supabase
+    .from('trailer_risk_profiles')
+    .upsert(
+      TRAILERS_DATA.map(t => ({
+        slug: t.slug,
+        display_name: t.display_name,
+        min_cargo_limit: t.min_cargo_limit,
+        common_exclusions: t.common_exclusions,
+        premium_multiplier: t.premium_multiplier
+        // description: t.description (Need to check if schema has this, if not, skip)
+      })),
+      { onConflict: 'slug' }
+    );
+
+  if (trailerError) {
+    console.error('❌ Error seeding trailers:', trailerError.message);
+  } else {
+    console.log(`✅ Seeded ${TRAILERS_DATA.length} Trailers.`);
   }
 }
 

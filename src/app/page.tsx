@@ -4,9 +4,10 @@ import { ArrowRight, ShieldAlert, Zap, FileWarning } from "lucide-react";
 
 export default async function Home() {
   // Parallel Data Fetching
-  const [{ data: violations }, { data: filings }] = await Promise.all([
+  const [{ data: violations }, { data: filings }, { data: trailers }] = await Promise.all([
     supabase.from('violations').select('*').order('severity_tier', { ascending: false }),
-    supabase.from('state_filings').select('*').order('state_code', { ascending: true })
+    supabase.from('state_filings').select('*').order('state_code', { ascending: true }),
+    supabase.from('trailer_risk_profiles').select('*').order('premium_multiplier', { ascending: false })
   ]);
 
   return (
@@ -42,6 +43,48 @@ export default async function Home() {
           </div>
         </div>
 
+
+
+        {/* SECTION 3: TRAILERS (VECTOR 3) */}
+        <div className="mb-24">
+          <div className="flex items-center gap-4 mb-8">
+            <div className="h-px bg-industrial-800 flex-1"></div>
+            <h2 className="text-2xl font-display text-white tracking-widest">SPECIALIZED EQUIPMENT</h2>
+            <div className="h-px bg-industrial-800 flex-1"></div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {trailers?.map((t) => (
+              <Link 
+                key={t.slug}
+                href={`/insurance/${t.slug}`}
+                className="group relative bg-industrial-800 border border-industrial-700 p-6 hover:border-yellow-500 transition-all hover:-translate-y-1 block"
+              >
+                <div className="flex justify-between items-start mb-4">
+                  <div className="p-2 bg-yellow-500/10 rounded border border-yellow-500/20 text-yellow-500 group-hover:bg-yellow-500 group-hover:text-black transition-colors">
+                     <Zap className="w-6 h-6" /> {/* Using Zap as generic icon, real specific icons hard dynamically */}
+                  </div>
+                  <div className="text-xs font-mono text-industrial-500">
+                    MULTIPLIER: {t.premium_multiplier}x
+                  </div>
+                </div>
+                
+                <h3 className="text-xl font-bold text-silver mb-2 group-hover:text-white line-clamp-1">
+                  {t.display_name}
+                </h3>
+
+                <div className="mt-4 pt-4 border-t border-industrial-700 text-xs font-mono text-industrial-400">
+                  MIN CARGO: <span className="text-white">${t.min_cargo_limit.toLocaleString()}</span>
+                </div>
+              </Link>
+            ))}
+             {(!trailers || trailers.length === 0) && (
+              <div className="col-span-full py-12 text-center text-industrial-600 border border-dashed border-industrial-800 rounded">
+                WAITING FOR VECTOR 3 SYNC...
+              </div>
+            )}
+          </div>
+        </div>
 
         {/* SECTION 2: FILINGS (VECTOR 2) */}
         <div className="mb-24">
