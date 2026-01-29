@@ -43,10 +43,60 @@ export default async function RoutePage({ params }: { params: Promise<{ slug: st
   const miles = calculateHaversineDistance(route.origin_code, route.destination_code);
   const logistics = calculateLogistics(miles);
   const hazards = getRouteHazards(route.origin_code, route.destination_code);
+
   const permitAlert = getReciprocityAlerts(route.destination_code);
+
+  // E-E-A-T Schema Integration
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'BreadcrumbList',
+        'itemListElement': [
+          {
+            '@type': 'ListItem',
+            'position': 1,
+            'name': 'Home',
+            'item': 'https://truckcoverageexperts.com'
+          },
+          {
+            '@type': 'ListItem',
+            'position': 2,
+            'name': 'Routes',
+            'item': 'https://truckcoverageexperts.com/routes'
+          },
+          {
+            '@type': 'ListItem',
+            'position': 3,
+            'name': `${route.origin_code} to ${route.destination_code} Permits`,
+            'item': `https://truckcoverageexperts.com/route/${slug}`
+          }
+        ]
+      },
+      {
+        '@type': 'Service',
+        'name': `Trucking Permits for ${route.origin_name} to ${route.destination_name}`,
+        'provider': {
+          '@type': 'InsuranceAgency',
+          'name': 'Truck Coverage Experts',
+          'url': 'https://truckcoverageexperts.com'
+        },
+        'serviceType': 'Compliance Filing',
+        'areaServed': {
+          '@type': 'Country',
+          'name': 'US'
+        },
+        'description': `Mandatory FMCSA filings and permits for trucking from ${route.origin_name} to ${route.destination_name}. Distance: ${miles} miles.`
+      }
+    ]
+  };
 
   return (
     <div className="min-h-screen bg-industrial-900 font-mono text-silver">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <nav className="border-b border-industrial-800 bg-industrial-900/50 backdrop-blur sticky top-0 z-50">
          <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
            <Link href="/" className="text-xl font-bold tracking-tighter text-white">TRUCK COVERAGE EXPERTS</Link>

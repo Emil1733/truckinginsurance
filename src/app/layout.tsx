@@ -37,6 +37,34 @@ export default function RootLayout({
           </Suspense>
           {children}
         </CSPostHogProvider>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'InsuranceAgency',
+              'name': 'Truck Coverage Experts',
+              'url': 'https://truckcoverageexperts.com',
+              'logo': 'https://truckcoverageexperts.com/logo.png',
+              'description': 'Specialized high-risk trucking insurance and federal filing services.',
+              'address': {
+                '@type': 'PostalAddress',
+                'streetAddress': '123 Compliance Way',
+                'addressLocality': 'Dallas',
+                'addressRegion': 'TX',
+                'postalCode': '75201',
+                'addressCountry': 'US'
+              },
+              'contactPoint': {
+                '@type': 'ContactPoint',
+                'telephone': '+1-800-555-0199',
+                'contactType': 'customer service',
+                'areaServed': 'US',
+                'availableLanguage': 'English'
+              }
+            })
+          }}
+        />
       </body>
     </html>
   );
