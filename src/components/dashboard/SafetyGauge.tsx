@@ -26,7 +26,6 @@ export function SafetyGauge({ score, label, isAlert }: SafetyGaugeProps) {
   const color = getColor(safeScore);
 
   return (
-  return (
     <div className="relative flex flex-col items-center justify-center p-2 sm:p-4">
       {/* GAUGE BACKGROUND - Scaled down on mobile */}
       <div className="relative w-[200px] h-[100px] sm:w-64 sm:h-32 overflow-hidden mb-2 sm:mb-4">
