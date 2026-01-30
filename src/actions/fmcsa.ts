@@ -24,11 +24,41 @@ const MOCK_DATA: FMCSAOverview = {
     },
     basics: {
       basic: [
-        { basic: "Unsafe Driving", basicPercentile: "88", basicStatus: "Alert" },
-        { basic: "Hours-of-Service Compliance", basicPercentile: "45", basicStatus: null },
-        { basic: "Driver Fitness", basicPercentile: "10", basicStatus: null },
-        { basic: "Controlled Substances and Alcohol", basicPercentile: "0", basicStatus: null },
-        { basic: "Vehicle Maintenance", basicPercentile: "92", basicStatus: "Alert" }
+        { 
+            basic: {
+                basicsType: { basicsShortDesc: "Unsafe Driving" },
+                basicsPercentile: "88",
+                basicsStatus: "Alert"
+            }
+        },
+        { 
+            basic: {
+                basicsType: { basicsShortDesc: "Hours-of-Service Compliance" },
+                basicsPercentile: "45",
+                basicsStatus: null
+            }
+        },
+        { 
+            basic: {
+                basicsType: { basicsShortDesc: "Driver Fitness" },
+                basicsPercentile: "10",
+                basicsStatus: null
+            }
+        },
+        { 
+            basic: {
+                basicsType: { basicsShortDesc: "Controlled Substances and Alcohol" },
+                basicsPercentile: "0",
+                basicsStatus: null
+            }
+        },
+        { 
+            basic: {
+                basicsType: { basicsShortDesc: "Vehicle Maintenance" },
+                basicsPercentile: "92",
+                basicsStatus: "Alert"
+            }
+        }
       ]
     }
   }
