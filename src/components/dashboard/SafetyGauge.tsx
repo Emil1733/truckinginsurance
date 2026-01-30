@@ -9,6 +9,7 @@ interface SafetyGaugeProps {
   isAlert?: boolean;
 }
 
+export function SafetyGauge({ score, label, isAlert }: SafetyGaugeProps) {
   /* Safe handling for NaN or bad data */
   const safeScore = (typeof score === 'number' && !isNaN(score)) ? score : 0;
 
