@@ -89,6 +89,10 @@ export async function fetchCarrierSafety(dotNumber: string): Promise<{ success: 
                         if (Array.isArray(content)) {
                              data.content.basics = { basic: content };
                              log(`Merged Basics Array (Length: ${content.length})`);
+                             if (content.length > 0) {
+                                log(`First Item Keys: ${Object.keys(content[0]).join(', ')}`);
+                                log(`First Item Sample: ${JSON.stringify(content[0])}`);
+                             }
                         }
                         // CASE B: Content has nested basics object (Original Assumption)
                         else if (content.basics) {
