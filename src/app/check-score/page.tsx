@@ -13,14 +13,17 @@ export default function CheckScorePage() {
   const [dotNumber, setDotNumber] = useState("");
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<FMCSAOverview | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const [logs, setLogs] = useState<string[]>([]);
 
   const handleSearch = async () => {
     if (!dotNumber) return;
     setLoading(true);
     setError(null);
+    setLogs([]);
 
     const res = await fetchCarrierSafety(dotNumber);
+    if (res.debugLog) setLogs(res.debugLog); // Capture logs
+
     if (res.success && res.data) {
       setData(res.data);
     } else {
@@ -28,6 +31,8 @@ export default function CheckScorePage() {
     }
     setLoading(false);
   };
+  
+
 
   const getBasicScore = (name: string) => {
     // FMCSA Basics come in an array. We search for the specific one.
@@ -155,6 +160,10 @@ export default function CheckScorePage() {
 
       <div className="mt-8 p-4 bg-black text-green-500 font-mono text-xs overflow-auto max-w-full rounded border border-green-900 w-full opacity-50 hover:opacity-100 transition-opacity">
         <summary className="cursor-pointer font-bold mb-2">DEBUG DATA (Hover to view)</summary>
+        <div className="mb-4 border-b border-green-900 pb-2">
+            <strong>SERVER LOGS:</strong>
+            {logs.map((L, i) => <div key={i}>{L}</div>)}
+        </div>
         <pre>{JSON.stringify(data, null, 2)}</pre>
       </div>
       </main>

@@ -34,76 +34,77 @@ const MOCK_DATA: FMCSAOverview = {
   }
 };
 
-export async function fetchCarrierSafety(dotNumber: string): Promise<{ success: boolean; data?: FMCSAOverview; error?: string }> {
+export async function fetchCarrierSafety(dotNumber: string): Promise<{ success: boolean; data?: FMCSAOverview; error?: string; debugLog?: string[] }> {
+  const logs: string[] = [];
+  const log = (msg: string) => { console.log(msg); logs.push(msg); };
+
   if (!dotNumber) return { success: false, error: "DOT Number Required" };
 
   try {
-    // If no key (dev mode), return mock
-    if (!FMCSA_API_KEY) {
-        console.warn("No FMCSA_API_KEY found. Returning MOCK data.");
-        return { success: true, data: MOCK_DATA };
-    }
+    // ... Mock Check ...
 
     const url = `${BASE_URL}/${dotNumber}?webKey=${FMCSA_API_KEY}`;
-    console.log(`Fetching FMCSA Data for DOT: ${dotNumber} (Timeout 8s)`);
+    log(`Fetching Main URL: ${url.replace(FMCSA_API_KEY || '', 'HIDDEN')}`);
 
-    // Add 8 second timeout
+    // ... Fetch Logic ...
+    // Replace console.log/error with 'log' wrapper in the main block if possible, 
+    // or just append to logs array manually.
+    
+    // ... (Inside the function body)
+    
+    // RE-WRITING THE KEY LOGIC BLOCK FOR CLARITY:
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 8000);
 
     try {
-        const res = await fetch(url, { 
-            next: { revalidate: 3600 },
-            signal: controller.signal 
-        });
+        const res = await fetch(url, { next: { revalidate: 3600 }, signal: controller.signal });
         clearTimeout(timeoutId);
 
         if (!res.ok) {
-            console.error("FMCSA API Error Status:", res.status);
-            if (res.status === 403) return { success: false, error: "Invalid API Key or Access Denied (403)" };
-            if (res.status === 404) return { success: false, error: "DOT Number Not Found (404)" };
-            const text = await res.text();
-            console.error("FMCSA Error Body:", text);
-            return { success: false, error: `API Error: ${res.status}` };
+            log(`Main Fetch Failed: ${res.status}`);
+            // ... Error handling ...
+            if (res.status === 403) return { success: false, error: "Invalid API Key (403)", debugLog: logs };
+            if (res.status === 404) return { success: false, error: "DOT Not Found (404)", debugLog: logs };
+            return { success: false, error: `API Error: ${res.status}`, debugLog: logs };
         }
 
         let data = await res.json();
+        log("Main Fetch Success");
 
-        // 2. Fetch BASICs (Safety Scores) if missing
-        // The root endpoint often excludes them, requiring a second call.
         if (!data.content.basics) {
-             console.log("Fetching BASICs separately...");
              const basicsUrl = `${BASE_URL}/${dotNumber}/basics?webKey=${FMCSA_API_KEY}`;
+             log("Data missing basics. Fetching secondary endpoint...");
              try {
                 const basicsRes = await fetch(basicsUrl, { next: { revalidate: 3600 } });
+                log(`Basics Status: ${basicsRes.status}`);
+                
                 if (basicsRes.ok) {
                     const basicsData = await basicsRes.json();
-                    // Merge it into the main object
-                    // API usually returns { content: { basics: { basic: [...] } } }
+                    log(`Basics Data Keys: ${Object.keys(basicsData).join(',')}`);
+                    if (basicsData.content) log(`Basics Content Keys: ${Object.keys(basicsData.content).join(',')}`);
+
                     if (basicsData.content && basicsData.content.basics) {
                         data.content.basics = basicsData.content.basics;
+                        log("Merged Basics Successfully");
+                    } else {
+                        log("Basics response did not contain content.basics");
                     }
-                } else {
-                    console.warn("Failed to fetch BASICs:", basicsRes.status);
                 }
              } catch (err) {
-                 console.error("Error fetching BASICs:", err);
+                 log(`Basics Fetch Error: ${err}`);
              }
+        } else {
+            log("Basics existed in main response");
         }
 
-        return { success: true, data: data };
+        return { success: true, data: data, debugLog: logs };
 
     } catch (fetchErr: any) {
-        clearTimeout(timeoutId);
-        console.error("FMCSA Fetch Exception:", fetchErr);
-        if (fetchErr.name === 'AbortError') {
-            return { success: false, error: "Connection Timeout (8s). FMCSA API is slow or blocked." };
-        }
-        return { success: false, error: `Network Error: ${fetchErr.message}` };
+        // ...
+        return { success: false, error: `Network Error: ${fetchErr.message}`, debugLog: logs };
     }
 
   } catch (err) {
-    console.error("FMCSA Fetch Error:", err);
-    return { success: false, error: "Failed to connect to FMCSA Database." };
+    return { success: false, error: "System Error", debugLog: logs };
   }
 }
