@@ -67,7 +67,30 @@ export async function fetchCarrierSafety(dotNumber: string): Promise<{ success: 
             return { success: false, error: `API Error: ${res.status}` };
         }
 
-        const data = await res.json();
+        let data = await res.json();
+
+        // 2. Fetch BASICs (Safety Scores) if missing
+        // The root endpoint often excludes them, requiring a second call.
+        if (!data.content.basics) {
+             console.log("Fetching BASICs separately...");
+             const basicsUrl = `${BASE_URL}/${dotNumber}/basics?webKey=${FMCSA_API_KEY}`;
+             try {
+                const basicsRes = await fetch(basicsUrl, { next: { revalidate: 3600 } });
+                if (basicsRes.ok) {
+                    const basicsData = await basicsRes.json();
+                    // Merge it into the main object
+                    // API usually returns { content: { basics: { basic: [...] } } }
+                    if (basicsData.content && basicsData.content.basics) {
+                        data.content.basics = basicsData.content.basics;
+                    }
+                } else {
+                    console.warn("Failed to fetch BASICs:", basicsRes.status);
+                }
+             } catch (err) {
+                 console.error("Error fetching BASICs:", err);
+             }
+        }
+
         return { success: true, data: data };
 
     } catch (fetchErr: any) {
