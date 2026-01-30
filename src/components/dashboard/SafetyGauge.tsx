@@ -9,10 +9,12 @@ interface SafetyGaugeProps {
   isAlert?: boolean;
 }
 
-export function SafetyGauge({ score, label, isAlert }: SafetyGaugeProps) {
+  /* Safe handling for NaN or bad data */
+  const safeScore = (typeof score === 'number' && !isNaN(score)) ? score : 0;
+
   // 0 = -90deg (Left), 100 = 90deg (Right)
   // Max rotation range is 180 degrees
-  const rotation = -90 + (Math.min(score, 100) / 100) * 180;
+  const rotation = -90 + (Math.min(safeScore, 100) / 100) * 180;
 
   const getColor = (s: number) => {
     if (s < 50) return "#22c55e"; // Green
@@ -20,7 +22,7 @@ export function SafetyGauge({ score, label, isAlert }: SafetyGaugeProps) {
     return "#ef4444"; // Red
   };
 
-  const color = getColor(score);
+  const color = getColor(safeScore);
 
   return (
     <div className="relative flex flex-col items-center justify-center p-4">
@@ -42,10 +44,9 @@ export function SafetyGauge({ score, label, isAlert }: SafetyGaugeProps) {
         <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-4 h-4 bg-white rounded-full"></div>
       </div>
 
-      {/* DIGITAL READOUT */}
       <div className="text-center">
         <div className="text-5xl font-mono font-bold text-white mb-1" style={{ textShadow: `0 0 20px ${color}40` }}>
-            {score}%
+            {Math.round(safeScore)}%
         </div>
         <div className={`text-sm font-bold tracking-widest uppercase flex items-center justify-center gap-2 ${isAlert ? 'text-red-500 animate-pulse' : 'text-industrial-400'}`}>
             {isAlert && <AlertTriangle className="w-4 h-4" />}
