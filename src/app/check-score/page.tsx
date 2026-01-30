@@ -94,13 +94,16 @@ export default function CheckScorePage() {
         )}
 
         {/* STATE 3: DASHBOARD (GAUGES) */}
-        {!loading && data && (
+        {/* STATE 3: DASHBOARD (GAUGES) */}
+        {!loading && data && data.content && data.content.carrier ? (
           <div className="w-full max-w-lg space-y-6">
              
              {/* CARRIER INFO Header */}
              <div className="text-center border-b border-industrial-800 pb-4">
-               <h2 className="text-xl font-bold text-white">{data.content.carrier.legalName}</h2>
-               <div className="text-sm text-industrial-400">DOT: {data.content.carrier.dotNumber} | {data.content.carrier.phyCity}, {data.content.carrier.phyState}</div>
+               <h2 className="text-xl font-bold text-white">{data.content.carrier.legalName || "Unknown Carrier"}</h2>
+               <div className="text-sm text-industrial-400">
+                  DOT: {data.content.carrier.dotNumber} | {data.content.carrier.phyCity || "Unknown City"}, {data.content.carrier.phyState}
+               </div>
                {data.content.carrier.safetyRating && (
                  <div className={`mt-2 inline-block px-3 py-1 rounded text-xs font-bold uppercase ${
                     data.content.carrier.safetyRating === 'Satisfactory' ? 'bg-green-900/50 text-green-500' : 'bg-red-900/50 text-red-500'
@@ -157,7 +160,9 @@ export default function CheckScorePage() {
              )}
 
           </div>
-        )}
+        ) : !loading && data ? (
+           <div className="text-red-500">Error: Invalid Data Format Received</div>
+        ) : null}
 
       <div className="mt-8 p-4 bg-black text-green-500 font-mono text-xs overflow-auto max-w-full rounded border border-green-900 w-full opacity-50 hover:opacity-100 transition-opacity">
         <summary className="cursor-pointer font-bold mb-2">DEBUG DATA (Hover to view)</summary>
