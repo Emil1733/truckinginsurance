@@ -70,8 +70,13 @@ export async function fetchCarrierSafety(dotNumber: string): Promise<{ success: 
 
   if (!dotNumber) return { success: false, error: "DOT Number Required" };
 
+  // DEMO MODE: Force return mock data if user enters "DEMO" or specific test ID
+  if (dotNumber === "DEMO" || dotNumber === "000000") {
+      log("Using DEMO MODE Data");
+      return { success: true, data: MOCK_DATA, debugLog: logs };
+  }
+
   try {
-    // ... Mock Check ...
 
     const url = `${BASE_URL}/${dotNumber}?webKey=${FMCSA_API_KEY}`;
     log(`Fetching Main URL: ${url.replace(FMCSA_API_KEY || '', 'HIDDEN')}`);
