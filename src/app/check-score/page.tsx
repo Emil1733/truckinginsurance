@@ -13,6 +13,7 @@ export default function CheckScorePage() {
   const [dotNumber, setDotNumber] = useState("");
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<FMCSAOverview | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const [logs, setLogs] = useState<string[]>([]);
 
   const handleSearch = async () => {
