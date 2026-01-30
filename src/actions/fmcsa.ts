@@ -80,14 +80,24 @@ export async function fetchCarrierSafety(dotNumber: string): Promise<{ success: 
                 
                 if (basicsRes.ok) {
                     const basicsData = await basicsRes.json();
-                    log(`Basics Data Keys: ${Object.keys(basicsData).join(',')}`);
-                    if (basicsData.content) log(`Basics Content Keys: ${Object.keys(basicsData.content).join(',')}`);
-
-                    if (basicsData.content && basicsData.content.basics) {
-                        data.content.basics = basicsData.content.basics;
-                        log("Merged Basics Successfully");
-                    } else {
-                        log("Basics response did not contain content.basics");
+                    
+                    if (basicsData.content) {
+                        const content = basicsData.content;
+                        log(`Basics Content Type: ${Array.isArray(content) ? 'Array' : typeof content}`);
+                        
+                        // CASE A: Content is the Array of Basics (Common in some endpoints)
+                        if (Array.isArray(content)) {
+                             data.content.basics = { basic: content };
+                             log(`Merged Basics Array (Length: ${content.length})`);
+                        }
+                        // CASE B: Content has nested basics object (Original Assumption)
+                        else if (content.basics) {
+                             data.content.basics = content.basics;
+                             log("Merged Basics Object");
+                        } 
+                        else {
+                             log("Basics content structure unrecognized");
+                        }
                     }
                 }
              } catch (err) {
