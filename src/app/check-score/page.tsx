@@ -134,9 +134,9 @@ export default function CheckScorePage() {
              </div>
 
              {/* MAIN GAUGES */}
-             <div className="grid grid-cols-1 gap-8">
+             <div className="grid grid-cols-1 gap-4 sm:gap-8">
                 {/* Unsafe Driving is usually the killer */}
-                <div className="bg-black/30 p-4 rounded-xl border border-industrial-800">
+                <div className="bg-black/30 p-4 rounded-xl border border-industrial-800 flex justify-center">
                    <SafetyGauge 
                      score={getBasicScore("Unsafe Driving")} 
                      label="UNSAFE DRIVING" 
@@ -144,15 +144,15 @@ export default function CheckScorePage() {
                    />
                 </div>
                 
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="bg-black/30 p-2 rounded-xl border border-industrial-800">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="bg-black/30 p-2 rounded-xl border border-industrial-800 flex justify-center">
                     <SafetyGauge 
                       score={getBasicScore("Vehicle Maint")} 
                       label="MAINTENANCE" 
                       isAlert={isAlert("Vehicle Maint")} 
                     />
                   </div>
-                  <div className="bg-black/30 p-2 rounded-xl border border-industrial-800">
+                  <div className="bg-black/30 p-2 rounded-xl border border-industrial-800 flex justify-center">
                     <SafetyGauge 
                       score={getBasicScore("Hours")} 
                       label="H.O.S." 
