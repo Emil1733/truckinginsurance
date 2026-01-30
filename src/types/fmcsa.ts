@@ -1,7 +1,11 @@
 export interface FMCSABasicScore {
-  basic: string; // e.g. "Unsafe Driving"
-  basicPercentile: string; // e.g. "85" (It comes as string)
-  basicStatus: string | null; // e.g. "Alert" or null
+  basic: {
+    basicsPercentile: string; // e.g. "85" or "Not Public"
+    basicsStatus: string | null; // e.g. "Alert"
+    basicsType: {
+        basicsShortDesc: string; // e.g. "Unsafe Driving"
+    };
+  };
 }
 
 export interface FMCSAOverview {
@@ -19,7 +23,7 @@ export interface FMCSAOverview {
       safetyRating: string; // "Satisfactory", "Conditional", "Unsatisfactory", "None"
       ratingDate: string;
     };
-    basics?: { // Optional, might be missing on root URL
+    basics?: { 
         basic: FMCSABasicScore[];
     };
   };
