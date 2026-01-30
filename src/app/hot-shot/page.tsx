@@ -6,6 +6,9 @@ import { ReinstatementModal } from '@/components/ReinstatementModal';
 export const metadata = {
   title: 'Non-CDL Hot Shot Insurance & Startup Guide | Truck Coverage Experts',
   description: 'Starting a Hot Shot business with a pickup and flatbed? Use our Non-CDL Calculator and get insured without a Commercial Drivers License. 26,000 lbs rule explained.',
+  alternates: {
+    canonical: '/hot-shot',
+  },
 };
 
 export default function HotShotPage() {
