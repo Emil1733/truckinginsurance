@@ -14,7 +14,6 @@ export default function CheckScorePage() {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<FMCSAOverview | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [error, setError] = useState<string | null>(null);
 
   const handleSearch = async () => {
     if (!dotNumber) return;
