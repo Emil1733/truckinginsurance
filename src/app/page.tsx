@@ -63,6 +63,18 @@ export default async function Home() {
              <p className="text-sm text-industrial-400">SR-22, Form E, Form H, or BMC-91X for new authorities.</p>
           </Link>
 
+          {/* CARD 4: HOT SHOT (NEW) */}
+           <Link href="/hot-shot" className="group bg-industrial-800 p-8 rounded-xl border border-industrial-700 hover:border-yellow-500 hover:bg-industrial-800/80 transition-all shadow-lg hover:shadow-yellow-900/20 md:last:col-span-3 lg:last:col-span-1">
+             <div className="flex items-center justify-between mb-4">
+               <div className="w-12 h-12 bg-yellow-900/30 text-yellow-500 rounded-lg flex items-center justify-center border border-yellow-900/50 group-hover:bg-yellow-500 group-hover:text-black transition-colors">
+                 <Truck className="w-6 h-6" />
+               </div>
+               <ArrowRight className="text-industrial-600 group-hover:text-yellow-500 transition-colors" />
+             </div>
+             <h3 className="text-2xl font-bold text-white mb-2">New Hot Shot?</h3>
+             <p className="text-sm text-industrial-400">Non-CDL Startup Guide. Calculate weight limits and get insured.</p>
+          </Link>
+
         </div>
       </section>
 
