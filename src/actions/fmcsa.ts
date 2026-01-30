@@ -44,19 +44,40 @@ export async function fetchCarrierSafety(dotNumber: string): Promise<{ success: 
         return { success: true, data: MOCK_DATA };
     }
 
-    const url = `${BASE_URL}/${dotNumber}/overview?webKey=${FMCSA_API_KEY}`;
-    console.log(`Fetching FMCSA Data for DOT: ${dotNumber}`);
+    const url = `${BASE_URL}/${dotNumber}?webKey=${FMCSA_API_KEY}`;
+    console.log(`Fetching FMCSA Data for DOT: ${dotNumber} (Timeout 8s)`);
 
-    const res = await fetch(url, { next: { revalidate: 3600 } }); // Cache for 1 hour
+    // Add 8 second timeout
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 8000);
 
-    if (!res.ok) {
-        if (res.status === 403) return { success: false, error: "Invalid API Key or Access Denied" };
-        if (res.status === 404) return { success: false, error: "DOT Number Not Found" };
-        throw new Error(`API Error: ${res.status}`);
+    try {
+        const res = await fetch(url, { 
+            next: { revalidate: 3600 },
+            signal: controller.signal 
+        });
+        clearTimeout(timeoutId);
+
+        if (!res.ok) {
+            console.error("FMCSA API Error Status:", res.status);
+            if (res.status === 403) return { success: false, error: "Invalid API Key or Access Denied (403)" };
+            if (res.status === 404) return { success: false, error: "DOT Number Not Found (404)" };
+            const text = await res.text();
+            console.error("FMCSA Error Body:", text);
+            return { success: false, error: `API Error: ${res.status}` };
+        }
+
+        const data = await res.json();
+        return { success: true, data: data };
+
+    } catch (fetchErr: any) {
+        clearTimeout(timeoutId);
+        console.error("FMCSA Fetch Exception:", fetchErr);
+        if (fetchErr.name === 'AbortError') {
+            return { success: false, error: "Connection Timeout (8s). FMCSA API is slow or blocked." };
+        }
+        return { success: false, error: `Network Error: ${fetchErr.message}` };
     }
-
-    const data = await res.json();
-    return { success: true, data: data };
 
   } catch (err) {
     console.error("FMCSA Fetch Error:", err);

@@ -19,7 +19,7 @@ export interface FMCSAOverview {
       safetyRating: string; // "Satisfactory", "Conditional", "Unsatisfactory", "None"
       ratingDate: string;
     };
-    basics: {
+    basics?: { // Optional, might be missing on root URL
         basic: FMCSABasicScore[];
     };
   };

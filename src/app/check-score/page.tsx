@@ -32,17 +32,17 @@ export default function CheckScorePage() {
   const getBasicScore = (name: string) => {
     // FMCSA Basics come in an array. We search for the specific one.
     // NOTE: The API structure varies, assuming array of objects based on spec.
-    const basics = data?.content.basics.basic || [];
+    const basics = data?.content.basics?.basic || [];
     // Just finding match based on substring for flexibility
     const found = basics.find(b => b.basic.toLowerCase().includes(name.toLowerCase()));
-    return found ? parseInt(found.basicPercentile) : 0;
+    return found && found.basicPercentile ? parseInt(found.basicPercentile) : 0;
   };
   
   const isAlert = (name: string) => {
-     const basics = data?.content.basics.basic || [];
+     const basics = data?.content.basics?.basic || [];
      const found = basics.find(b => b.basic.toLowerCase().includes(name.toLowerCase()));
      // "Alert" status usually indicates they are above threshold
-     return found?.basicStatus === "Alert" || (found && parseInt(found.basicPercentile) > 75);
+     return !!(found?.basicStatus === "Alert" || (found && found.basicPercentile && parseInt(found.basicPercentile) > 75));
   };
 
   return (
