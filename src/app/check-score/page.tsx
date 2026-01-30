@@ -153,6 +153,10 @@ export default function CheckScorePage() {
           </div>
         )}
 
+      <div className="mt-8 p-4 bg-black text-green-500 font-mono text-xs overflow-auto max-w-full rounded border border-green-900 w-full opacity-50 hover:opacity-100 transition-opacity">
+        <summary className="cursor-pointer font-bold mb-2">DEBUG DATA (Hover to view)</summary>
+        <pre>{JSON.stringify(data, null, 2)}</pre>
+      </div>
       </main>
     </div>
   );
