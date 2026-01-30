@@ -64,16 +64,16 @@ const MOCK_DATA: FMCSAOverview = {
   }
 };
 
-export async function fetchCarrierSafety(dotNumber: string): Promise<{ success: boolean; data?: FMCSAOverview; error?: string; debugLog?: string[] }> {
-  const logs: string[] = [];
-  const log = (msg: string) => { console.log(msg); logs.push(msg); };
+export async function fetchCarrierSafety(dotNumber: string): Promise<{ success: boolean; data?: FMCSAOverview; error?: string }> {
+  // Simple console log wrapper for server-side debugging if needed
+  const log = (msg: string) => console.log(`[FMCSA] ${msg}`);
 
   if (!dotNumber) return { success: false, error: "DOT Number Required" };
 
   // DEMO MODE: Force return mock data if user enters "DEMO" or specific test ID
   if (dotNumber === "DEMO" || dotNumber === "000000") {
       log("Using DEMO MODE Data");
-      return { success: true, data: MOCK_DATA, debugLog: logs };
+      return { success: true, data: MOCK_DATA };
   }
 
   try {
@@ -81,13 +81,6 @@ export async function fetchCarrierSafety(dotNumber: string): Promise<{ success: 
     const url = `${BASE_URL}/${dotNumber}?webKey=${FMCSA_API_KEY}`;
     log(`Fetching Main URL: ${url.replace(FMCSA_API_KEY || '', 'HIDDEN')}`);
 
-    // ... Fetch Logic ...
-    // Replace console.log/error with 'log' wrapper in the main block if possible, 
-    // or just append to logs array manually.
-    
-    // ... (Inside the function body)
-    
-    // RE-WRITING THE KEY LOGIC BLOCK FOR CLARITY:
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 8000);
 
@@ -97,10 +90,9 @@ export async function fetchCarrierSafety(dotNumber: string): Promise<{ success: 
 
         if (!res.ok) {
             log(`Main Fetch Failed: ${res.status}`);
-            // ... Error handling ...
-            if (res.status === 403) return { success: false, error: "Invalid API Key (403)", debugLog: logs };
-            if (res.status === 404) return { success: false, error: "DOT Not Found (404)", debugLog: logs };
-            return { success: false, error: `API Error: ${res.status}`, debugLog: logs };
+            if (res.status === 403) return { success: false, error: "Invalid API Key (403)" };
+            if (res.status === 404) return { success: false, error: "DOT Not Found (404)" };
+            return { success: false, error: `API Error: ${res.status}` };
         }
 
         let data = await res.json();
@@ -118,42 +110,31 @@ export async function fetchCarrierSafety(dotNumber: string): Promise<{ success: 
                     
                     if (basicsData.content) {
                         const content = basicsData.content;
-                        log(`Basics Content Type: ${Array.isArray(content) ? 'Array' : typeof content}`);
                         
                         // CASE A: Content is the Array of Basics (Common in some endpoints)
                         if (Array.isArray(content)) {
                              data.content.basics = { basic: content };
                              log(`Merged Basics Array (Length: ${content.length})`);
-                             if (content.length > 0) {
-                                log(`First Item Keys: ${Object.keys(content[0]).join(', ')}`);
-                                log(`First Item Sample: ${JSON.stringify(content[0])}`);
-                             }
                         }
                         // CASE B: Content has nested basics object (Original Assumption)
                         else if (content.basics) {
                              data.content.basics = content.basics;
                              log("Merged Basics Object");
                         } 
-                        else {
-                             log("Basics content structure unrecognized");
-                        }
                     }
                 }
              } catch (err) {
                  log(`Basics Fetch Error: ${err}`);
              }
-        } else {
-            log("Basics existed in main response");
         }
 
-        return { success: true, data: data, debugLog: logs };
+        return { success: true, data: data };
 
     } catch (fetchErr: any) {
-        // ...
-        return { success: false, error: `Network Error: ${fetchErr.message}`, debugLog: logs };
+        return { success: false, error: `Network Error: ${fetchErr.message}` };
     }
 
   } catch (err) {
-    return { success: false, error: "System Error", debugLog: logs };
+    return { success: false, error: "System Error" };
   }
 }
