@@ -98,6 +98,47 @@ export default async function Home() {
         </div>
       </section>
 
+      {/* SECTION: CONDITIONAL SAFETY RATINGS (VECTOR 6) */}
+      <section id="safety-ratings" className="py-20 px-6 border-b border-industrial-800 bg-black/40 relative overflow-hidden">
+        {/* Background Accent */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-yellow-900/10 blur-[100px] rounded-full -z-10"></div>
+
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-12">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded bg-yellow-900/30 text-yellow-500 text-xs font-bold mb-4 border border-yellow-800 uppercase tracking-widest">
+              <AlertTriangle className="w-4 h-4" /> THE DEATH SPIRAL
+            </div>
+            <h2 className="text-4xl md:text-5xl font-display font-bold text-white mb-6">
+              CONDITIONAL SAFETY RATING?
+            </h2>
+            <p className="text-xl text-industrial-400 max-w-2xl mx-auto">
+              A downgrade to "Conditional" usually causes a 30-day cancellation notice. 
+              We can lift the notice by proving you have a <strong>Corrective Action Plan (CAP)</strong>.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
+             {[
+               { num: 1, name: 'General', slug: 'factor-1-general' },
+               { num: 2, name: 'Driver', slug: 'factor-2-driver' },
+               { num: 3, name: 'Operational', slug: 'factor-3-operational' },
+               { num: 4, name: 'Vehicle', slug: 'factor-4-vehicle-maintenance' },
+               { num: 5, name: 'Hazmat', slug: 'factor-5-hazmat' },
+               { num: 6, name: 'Crash', slug: 'factor-6-crash-rate' },
+             ].map((factor) => (
+                <Link 
+                  key={factor.slug}
+                  href={`/safety-rating/${factor.slug}`}
+                  className="group bg-industrial-800 p-4 rounded border border-industrial-700 hover:border-yellow-500 transition-all text-center hover:-translate-y-1"
+                >
+                   <div className="text-xs text-industrial-500 font-bold mb-2 uppercase tracking-widest">FACTOR {factor.num}</div>
+                   <div className="text-white font-bold group-hover:text-yellow-500 transition-colors">{factor.name}</div>
+                </Link>
+             ))}
+          </div>
+        </div>
+      </section>
+
       {/* SECTION: LATEST VIOLATIONS (PREVIEW) */}
       <section id="violations" className="py-20 px-6 border-b border-industrial-800 bg-black/20">
         <div className="max-w-6xl mx-auto">
