@@ -252,14 +252,44 @@ export default async function RoutePage({ params }: { params: Promise<{ slug: st
                     OR we just style the children directly here. 
                     Given the 'prose' plugin usage, let's keep it simple but cleaner. */}
                 <div className="bg-industrial-900 border border-industrial-800 rounded-xl p-8 shadow-xl">
-                   <div className="prose prose-invert prose-lg max-w-none 
-                        prose-headings:font-display prose-headings:font-bold prose-headings:text-white prose-headings:border-b prose-headings:border-industrial-700 prose-headings:pb-4 prose-headings:mb-6
-                        prose-p:text-industrial-300 prose-p:leading-relaxed
-                        prose-li:text-industrial-300 prose-li:marker:text-safety-orange
-                        prose-strong:text-white prose-strong:font-bold 
-                        prose-a:text-safety-orange prose-a:no-underline hover:prose-a:underline">
-                        <ReactMarkdown>{route.content_markdown}</ReactMarkdown>
-                    </div>
+                   <ReactMarkdown
+                     components={{
+                       h2: ({node, ...props}) => (
+                         <h2 className="text-2xl font-bold text-white border-b border-industrial-700 pb-4 mb-6 mt-8 flex items-center gap-2 first:mt-0" {...props} />
+                       ),
+                       ol: ({node, ...props}) => (
+                         <div className="relative border-l-2 border-industrial-700 ml-3 space-y-8 my-8 pb-2">
+                            {/* This div acts as the timeline track */}
+                            <ol className="list-none m-0 p-0" {...props} />
+                         </div>
+                       ),
+                       ul: ({node, ...props}) => (
+                         <ul className="grid gap-4 md:grid-cols-1 my-6" {...props} /> // Future: Use grid-cols-2 if shorter items
+                       ),
+                       li: ({node, ...props}) => {
+                         // We can't easily detect parent type here without context context, but we can style generially.
+                         // FOR TIMELINE (Ordered Lists), we need a specific look.
+                         // Since ReactMarkdown renders LI inside OL/UL, we rely on CSS descendant selectors or generic "Card" styling.
+                         // Let's make EVERY list item look good.
+                         return (
+                           <li className="relative pl-6 mb-2">
+                             {/* Marker for Timeline handled by CSS or parent */}
+                             <div className="bg-industrial-800 border border-industrial-700 p-4 rounded-lg shadow-sm hover:border-safety-orange transition-colors">
+                               <span className="text-industrial-300 leading-relaxed block" {...props} />
+                             </div>
+                           </li>
+                         )
+                       },
+                       p: ({node, ...props}) => (
+                         <p className="text-industrial-300 leading-relaxed mb-6 text-lg" {...props} />
+                       ),
+                       strong: ({node, ...props}) => (
+                         <strong className="text-white font-bold" {...props} />
+                       )
+                     }}
+                   >
+                     {route.content_markdown}
+                   </ReactMarkdown>
                 </div>
             </div>
         )}
