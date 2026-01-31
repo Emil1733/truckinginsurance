@@ -4,6 +4,7 @@ import { supabase } from "@/lib/supabase";
 import { notFound } from "next/navigation";
 import { ReinstatementModal } from "@/components/ReinstatementModal";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
+import ReactMarkdown from 'react-markdown';
 
 
 // SEO Metadata Generation
@@ -224,6 +225,17 @@ export default async function ViolationPage({ params }: { params: Promise<{ slug
             </ul>
           </div>
         </section>
+
+        {/* 4.5 The "Rich Content" - Editorial Depth (Google Ranking Signal) */}
+        {data.content_markdown && (
+          <section className="mb-20">
+            <div className="bg-industrial-800/30 border border-industrial-700 p-8 rounded-lg">
+              <div className="prose prose-invert prose-lg max-w-none prose-headings:font-display prose-headings:text-white prose-p:text-industrial-400 prose-strong:text-silver prose-li:text-industrial-400">
+                <ReactMarkdown>{data.content_markdown}</ReactMarkdown>
+              </div>
+            </div>
+          </section>
+        )}
 
         {/* 5. The CTA - "Get Clean" */}
         <section className="border-t border-industrial-700 pt-20">

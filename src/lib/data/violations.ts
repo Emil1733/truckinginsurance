@@ -8,6 +8,7 @@ export interface Violation {
   rejection_rate: string;
   survival_prob: string;
   rehab_steps: string[];
+  content_markdown?: string; // Optional rich content for "Head" pages
 }
 
 export const VIOLATIONS_DATA: Violation[] = [
@@ -21,7 +22,23 @@ export const VIOLATIONS_DATA: Violation[] = [
     severity_tier: 10,
     rejection_rate: "92%",
     survival_prob: "MEDIUM",
-    rehab_steps: ["Logbook Remedial Course", "DataQ Challenge (if clerical)", "Surplus Lines Application"]
+    rehab_steps: ["Logbook Remedial Course", "DataQ Challenge (if clerical)", "Surplus Lines Application"],
+    content_markdown: `
+## The "Death Sentence" of Trucking
+A 395.8(e) violation is not a speeding ticket. In the eyes of an insurance underwriter, it is **proof of fraud**. Standard carriers like Progressive, Northland, and Great West essentially have a "kill switch" in their algorithms for this specific code. If they see it on your SMS scores, the quote is often auto-declined before a human even looks at it.
+
+### Why It Happens
+Most 395.8(e) violations today are not malicious. They are often:
+1.  **ELD Disconnects:** Driving while unassigned driving time accumulates.
+2.  **Personal Conveyance Misuse:** Using PC to advance a load (even 1 mile).
+3.  **Clerical Errors:** Forgetting to change duty status.
+
+### How We Fix It
+We do not use standard markets for this. We go to the **Surplus Lines** market (Lloyd's of London, Warren, etc.) who manually underwrite files.
+1.  **The Narrative:** We write a cover letter explaining *exactly* why the error happened and why it won't happen again.
+2.  **The Quill:** We show proof of a new ELD system or a "Safety Director" service hire.
+3.  **The Bind:** We secure a 6-month policy to keep your MC active while the violation ages off your 24-month rolling window.
+`
   },
   {
     code: "382.215",

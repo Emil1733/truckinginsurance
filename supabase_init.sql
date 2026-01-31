@@ -11,6 +11,7 @@ create table public.violations (
   fine_avg integer not null,
   severity_tier integer not null, -- 1 to 10
   rehab_steps jsonb not null default '[]'::jsonb,
+  content_markdown text, -- Optional rich content for "Head" pages
   created_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
 
