@@ -6,6 +6,7 @@ import { ArrowRight, AlertTriangle, ShieldCheck, User, Truck } from 'lucide-reac
 
 export default function QuotePage() {
   const [step, setStep] = useState(1);
+  const [violation, setViolation] = useState('');
   
   return (
     <div className="min-h-screen bg-industrial-900 flex flex-col md:flex-row">
@@ -37,15 +38,15 @@ export default function QuotePage() {
             <div className="animate-in fade-in slide-in-from-right-4 duration-300">
               <h2 className="text-3xl font-display text-white mb-6">What violation caused the decline?</h2>
               <div className="space-y-4 mb-8">
-                <RadioCard name="violation_code" value="395.8e" label="395.8(e) - False Logs" />
-                <RadioCard name="violation_code" value="392.2S" label="392.2S - Speeding 15+ Over" />
-                <RadioCard name="violation_code" value="382.215" label="382.215 - Drug/Alcohol" />
-                <RadioCard name="violation_code" value="Other" label="Other / Multiple Violations" />
-                <RadioCard name="violation_code" value="None" label="None - New Authority / Startup" />
+                <RadioCard name="violation_code" value="395.8e" label="395.8(e) - False Logs" onChange={setViolation} />
+                <RadioCard name="violation_code" value="392.2S" label="392.2S - Speeding 15+ Over" onChange={setViolation} />
+                <RadioCard name="violation_code" value="382.215" label="382.215 - Drug/Alcohol" onChange={setViolation} />
+                <RadioCard name="violation_code" value="Other" label="Other / Multiple Violations" onChange={setViolation} />
+                <RadioCard name="violation_code" value="None" label="None - New Authority / Startup" onChange={setViolation} />
               </div>
               <button 
                 type="button" 
-                onClick={() => setStep(2)}
+                onClick={() => setStep(violation === 'None' ? 3 : 2)}
                 className="w-full bg-safety-orange hover:bg-orange-600 text-black font-bold py-4 rounded flex items-center justify-center gap-2"
               >
                 NEXT STEP <ArrowRight className="w-4 h-4" />
@@ -106,12 +107,13 @@ export default function QuotePage() {
                 <InputField name="driver_name" label="Full Name" type="text" placeholder="John Doe" />
                 <InputField name="phone" label="Phone Number" type="tel" placeholder="(555) 123-4567" />
                 <InputField name="email" label="Email Address" type="email" placeholder="john@trucking.com" />
+                {violation === 'None' && <input type="hidden" name="cdl_years" value="0" />}
               </div>
 
               <div className="flex gap-4">
                 <button 
                   type="button" 
-                  onClick={() => setStep(2)}
+                  onClick={() => setStep(violation === 'None' ? 1 : 2)}
                   className="w-1/3 border border-industrial-600 text-industrial-500 font-bold py-4 rounded hover:text-white hover:border-white"
                 >
                   BACK
@@ -153,10 +155,17 @@ function StepIndicator({ current, number, title, icon }: { current: number, numb
   );
 }
 
-function RadioCard({ name, value, label }: { name: string, value: string, label: string }) {
+function RadioCard({ name, value, label, onChange }: { name: string, value: string, label: string, onChange?: (val: string) => void }) {
   return (
     <label className="flex items-center p-4 border border-industrial-600 rounded cursor-pointer hover:border-safety-orange hover:bg-industrial-800 transition-all group">
-      <input type="radio" name={name} value={value} className="accent-safety-orange w-5 h-5" required />
+      <input 
+        type="radio" 
+        name={name} 
+        value={value} 
+        className="accent-safety-orange w-5 h-5" 
+        onChange={(e) => onChange && onChange(e.target.value)}
+        required 
+      />
       <span className="ml-3 text-silver font-bold group-hover:text-white">{label}</span>
     </label>
   );
