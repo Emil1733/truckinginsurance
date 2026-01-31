@@ -3,8 +3,11 @@ import { supabase } from '@/lib/supabase';
 import { Map, ArrowRight, FileText } from 'lucide-react';
 
 export const metadata = {
-  title: 'Trucking Permit & Filing Directory | Truck Coverage Experts',
+  title: 'Trucking Permit & Filing Directory',
   description: 'Search our directory of state trucking permits, Forms E & H, and SR-22 filings. Instant electronic filing available for all 50 states.',
+  alternates: {
+    canonical: '/filings',
+  },
 };
 
 export const revalidate = 3600;

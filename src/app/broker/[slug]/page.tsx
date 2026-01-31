@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ShieldAlert, CheckCircle2, AlertTriangle, FileText, Truck, Lock, ArrowRight, XCircle } from 'lucide-react';
 import { ReinstatementModal } from '@/components/ReinstatementModal';
+import { Breadcrumbs } from '@/components/Breadcrumbs';
 
 // 1. Static Generation (Build all 5 broker pages at build time)
 export async function generateStaticParams() {
@@ -18,7 +19,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   if (!broker) return { title: 'Broker Requirement Not Found' };
 
   return {
-    title: `Denied by ${broker.name}? Insurance Recovery Guide | Truck Coverage Experts`,
+    title: `Denied by ${broker.name}? Insurance Recovery Guide`,
     description: `Application rejected by ${broker.name}? We specialize in fixing insurance rejections. Get the required ${broker.min_auto_liability.toLocaleString()} Liability and Endorsements instantly.`,
     alternates: {
       canonical: `/broker/${slug}`,
@@ -36,8 +37,38 @@ export default async function BrokerPage({ params }: { params: Promise<{ slug: s
   // Currency Formatter
   const fmt = (n: number) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(n);
 
+  // JSON-LD Schema
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    'itemListElement': [
+      {
+        '@type': 'ListItem',
+        'position': 1,
+        'name': 'Home',
+        'item': 'https://truckcoverageexperts.com'
+      },
+      {
+        '@type': 'ListItem',
+        'position': 2,
+        'name': 'Brokers',
+        'item': 'https://truckcoverageexperts.com/broker'
+      },
+      {
+        '@type': 'ListItem',
+        'position': 3,
+        'name': broker.name,
+        'item': `https://truckcoverageexperts.com/broker/${slug}`
+      }
+    ]
+  };
+
   return (
     <div className="min-h-screen bg-industrial-900 font-mono text-silver">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       {/* HEADER */}
       <nav className="border-b border-industrial-800 bg-industrial-900/90 backdrop-blur sticky top-0 z-50">
          <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
@@ -49,6 +80,10 @@ export default async function BrokerPage({ params }: { params: Promise<{ slug: s
       </nav>
 
       <main className="max-w-4xl mx-auto px-6 py-12">
+        <Breadcrumbs items={[
+          { label: 'Brokers', href: '/broker' },
+          { label: broker.name, href: `/broker/${slug}` }
+        ]} />
         
         {/* HERO SECTION */}
         <div className="mb-16 text-center border-b border-industrial-800 pb-12">
@@ -130,7 +165,7 @@ export default async function BrokerPage({ params }: { params: Promise<{ slug: s
            </div>
 
            <ReinstatementModal>
-              <button className="w-full py-4 bg-safety-orange hover:bg-orange-500 text-black font-bold text-xl rounded shadow-lg hover:shadow-orange-500/20 transition-all flex items-center justify-center gap-3 relative z-10">
+              <button className="w-full py-4 bg-safety-orange hover:bg-orange-500 text-black font-bold text-xl rounded shadow-lg hover:shadow-orange-500/20 transition-all active:scale-[0.98] flex items-center justify-center gap-3 relative z-10">
                 <Truck className="w-6 h-6" />
                 GET COMPLIANT NOW
               </button>

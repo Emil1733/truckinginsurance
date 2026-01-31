@@ -2,6 +2,7 @@ import { ShieldCheck, Anchor, Truck, AlertTriangle, Cog, BadgeDollarSign, CheckC
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 import { notFound } from "next/navigation";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 
 
 // SEO Metadata Generation
@@ -12,11 +13,14 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   if (!data) return { title: 'Coverage Not Found' };
 
   return {
-    title: `${data.display_name} Insurance Quote | Cargo Limits up to $${data.min_cargo_limit.toLocaleString()} | Truck Coverage Experts`,
+    title: `${data.display_name} Insurance Quote | Cargo Limits up to $${data.min_cargo_limit.toLocaleString()}`,
     description: `Get insured for ${data.display_name}. We remove common exclusions like "${(data.common_exclusions as string[])[0]}" so you can haul with confidence. Quotes in 24 hours.`,
     openGraph: {
       title: `${data.display_name} Insurance - No Hidden Exclusions`,
       description: `Cover your Tractor AND your Cargo. Specialized high-limit coverage for ${data.display_name}.`,
+    },
+    alternates: {
+      canonical: `/insurance/${slug}`,
     }
   };
 }
@@ -43,17 +47,45 @@ export default async function TrailerPage({ params }: { params: Promise<{ slug: 
   const exclusions = (trailer.common_exclusions || []) as string[];
 
   // JSON-LD Schema
+  // JSON-LD Schema
   const jsonLd = {
     '@context': 'https://schema.org',
-    '@type': 'FinancialProduct',
-    'name': `${trailer.display_name} Insurance`,
-    'description': `Commercial insurance for ${trailer.display_name} with cargo limits up to $${trailer.min_cargo_limit.toLocaleString()}.`,
-    'provider': {
-      '@type': 'Organization',
-      'name': 'Truck Coverage Experts',
-      'url': 'https://truckcoverageexperts.com'
-    },
-    'feesAndCommissionsSpecification': `Exclusions removed: ${exclusions.join(', ')}`
+    '@graph': [
+      {
+        '@type': 'BreadcrumbList',
+        'itemListElement': [
+          {
+            '@type': 'ListItem',
+            'position': 1,
+            'name': 'Home',
+            'item': 'https://truckcoverageexperts.com'
+          },
+          {
+            '@type': 'ListItem',
+            'position': 2,
+            'name': 'Insurance',
+            'item': 'https://truckcoverageexperts.com/insurance'
+          },
+          {
+            '@type': 'ListItem',
+            'position': 3,
+            'name': trailer.display_name,
+            'item': `https://truckcoverageexperts.com/insurance/${slug}`
+          }
+        ]
+      },
+      {
+        '@type': 'FinancialProduct',
+        'name': `${trailer.display_name} Insurance`,
+        'description': `Commercial insurance for ${trailer.display_name} with cargo limits up to $${trailer.min_cargo_limit.toLocaleString()}.`,
+        'provider': {
+          '@type': 'Organization',
+          'name': 'Truck Coverage Experts',
+          'url': 'https://truckcoverageexperts.com'
+        },
+        'feesAndCommissionsSpecification': `Exclusions removed: ${exclusions.join(', ')}`
+      }
+    ]
   };
 
   return (
@@ -74,6 +106,10 @@ export default async function TrailerPage({ params }: { params: Promise<{ slug: 
       </header>
 
       <main className="max-w-7xl mx-auto px-6 py-12 lg:py-20">
+        <Breadcrumbs items={[
+          { label: 'Insurance', href: '/insurance' },
+          { label: trailer.display_name, href: `/insurance/${slug}` }
+        ]} />
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-24 items-start">
           
           {/* LEFT: THE ASSET DATA */}
@@ -83,7 +119,7 @@ export default async function TrailerPage({ params }: { params: Promise<{ slug: 
             </div>
             
             <h1 className="font-display text-5xl lg:text-7xl font-bold text-white mb-6 leading-[0.9]">
-              {trailer.display_name}
+              {trailer.display_name} Insurance
             </h1>
             
             <p className="text-xl text-industrial-400 mb-8 border-l-4 border-yellow-400 pl-6 italic">
@@ -105,10 +141,10 @@ export default async function TrailerPage({ params }: { params: Promise<{ slug: 
               </div>
             </div>
 
-            <h3 className="text-white font-bold mb-4 flex items-center gap-2 text-red-500">
+            <h2 className="text-white font-bold mb-4 flex items-center gap-2 text-red-500">
               <ShieldCheck className="w-5 h-5" />
               WATCH OUT FOR EXCLUSIONS
-            </h3>
+            </h2>
             <p className="text-sm text-industrial-500 mb-4">
               Standard policies often contain hidden clauses that void coverage for {trailer.display_name} operations. We remove them.
             </p>
@@ -138,12 +174,14 @@ export default async function TrailerPage({ params }: { params: Promise<{ slug: 
               ))}
             </div>
 
-            <Link 
-              href="/quote"
-              className="block w-full bg-yellow-400 hover:bg-yellow-300 text-black font-bold py-4 text-center rounded transition-all shadow-lg hover:shadow-yellow-400/25 uppercase"
-            >
-              Start {trailer.display_name} Quote
-            </Link>
+            <div className="flex flex-col gap-3">
+              <Link 
+                href="/quote"
+                className="block w-full bg-yellow-400 hover:bg-yellow-300 text-black font-bold py-4 text-center rounded transition-all shadow-lg hover:shadow-yellow-400/25 active:scale-[0.98] uppercase"
+              >
+                Start {trailer.display_name} Quote
+              </Link>
+            </div>
             
             <div className="mt-6 flex justify-center gap-6 text-industrial-600">
               <Cog className="w-6 h-6 animate-spin-slow" />

@@ -2,6 +2,14 @@ import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 import { ArrowRight, ShieldAlert, Zap, FileWarning, Truck, Map, AlertTriangle } from "lucide-react";
 
+export const metadata = {
+  title: "Commercial Truck Insurance & Filings",
+  description: "The #1 agency for distressed carriers. Get quotes for Hazmat, Auto Haulers, and Hot Shots. We fix 'Conditional' ratings and file SR-22s same-day.",
+  alternates: {
+    canonical: '/',
+  },
+};
+
 export default async function Home() {
   // Parallel Data Fetching (Limited to 6 for "Preview" Mode)
   const [{ data: violations }, { data: filings }, { data: trailers }] = await Promise.all([
@@ -17,6 +25,7 @@ export default async function Home() {
       <section className="relative px-6 py-20 border-b border-industrial-800 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-industrial-800 to-industrial-900">
         <div className="max-w-6xl mx-auto text-center mb-16">
            <h1 className="font-display text-5xl md:text-7xl font-bold text-white mb-6 uppercase tracking-tighter">
+             High Risk Truck Insurance: <br />
              The Shop for the <span className="text-safety-orange">Uninsurable.</span>
            </h1>
            <p className="text-xl text-industrial-400 max-w-2xl mx-auto">
@@ -159,7 +168,7 @@ export default async function Home() {
               <div className="w-2 h-8 bg-red-500 rounded-full"></div>
               <h2 className="text-3xl font-display text-white">COMMON VIOLATIONS</h2>
             </div>
-            <Link href="/violations" className="text-sm text-industrial-500 hover:text-white uppercase tracking-widest font-bold">View All &rarr;</Link>
+            <Link href="/violations" className="text-sm text-industrial-500 hover:text-white uppercase tracking-widest font-bold">View All Codes &rarr;</Link>
           </div>
 
           <div className="grid md:grid-cols-3 gap-6">
@@ -184,7 +193,7 @@ export default async function Home() {
               <div className="w-2 h-8 bg-blue-500 rounded-full"></div>
               <h2 className="text-3xl font-display text-white">STATE PERMITS</h2>
             </div>
-            <Link href="/filings" className="text-sm text-industrial-500 hover:text-white uppercase tracking-widest font-bold">View All &rarr;</Link>
+            <Link href="/filings" className="text-sm text-industrial-500 hover:text-white uppercase tracking-widest font-bold">View All Filings &rarr;</Link>
           </div>
 
            <div className="grid md:grid-cols-3 gap-6">
@@ -199,6 +208,51 @@ export default async function Home() {
                </Link>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* SECTION: INSURANCE BY EQUIPMENT (FIXED MISSING SECTION) */}
+      <section id="insurance" className="py-20 px-6 border-b border-industrial-800 bg-industrial-900">
+        <div className="max-w-6xl mx-auto">
+          <div className="flex items-center justify-between mb-10">
+            <div className="flex items-center gap-4">
+              <div className="w-2 h-8 bg-yellow-500 rounded-full"></div>
+              <h2 className="text-3xl font-display text-white">INSURANCE BY EQUIPMENT</h2>
+            </div>
+            <Link href="/insurance" className="text-sm text-industrial-500 hover:text-white uppercase tracking-widest font-bold">View All Trailers &rarr;</Link>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-6">
+            {trailers?.map((t) => (
+               <Link key={t.slug} href={`/insurance/${t.slug}`} className="group bg-industrial-800 p-6 rounded border border-industrial-700 hover:border-yellow-500 transition-colors">
+                  <div className="flex justify-between items-start mb-4">
+                    <Truck className="w-8 h-8 text-industrial-600 group-hover:text-yellow-500 transition-colors" />
+                    <span className="text-xs bg-yellow-900/30 text-yellow-500 px-2 py-1 rounded border border-yellow-900/50">RISK {t.premium_multiplier}X</span>
+                  </div>
+                  <h3 className="text-xl font-bold text-white mb-2">{t.display_name}</h3>
+                  <div className="text-sm text-industrial-500">
+                    <span className="block mb-1">Min Cargo: ${t.min_cargo_limit.toLocaleString()}</span>
+                  </div>
+               </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION: ROUTE PLANNER (NEW LINK EQUITY SOURCE) */}
+      <section id="routes" className="py-20 px-6 border-b border-industrial-800 bg-blue-900/10">
+        <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
+          <div>
+            <h2 className="text-3xl font-display text-white mb-4">HAULING ACROSS STATE LINES?</h2>
+            <p className="text-industrial-400 max-w-xl">
+              Check permit reciprocity, IFTA requirements, and mandatory filings for your specific lane.
+              Avoid $1,100 fines for missing 'Trip Permits'.
+            </p>
+          </div>
+          <Link href="/route" className="bg-industrial-800 hover:bg-industrial-700 border border-industrial-600 text-white font-bold py-4 px-8 rounded flex items-center gap-3 transition-all">
+            <Map className="w-5 h-5 text-blue-500" />
+            CHECK YOUR ROUTE
+          </Link>
         </div>
       </section>
 

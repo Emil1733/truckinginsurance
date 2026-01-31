@@ -238,7 +238,7 @@ export default async function RoutePage({ params }: { params: Promise<{ slug: st
            </div>
 
            <ReinstatementModal>
-             <button className="w-full py-4 bg-safety-orange hover:bg-orange-500 text-black font-bold text-lg rounded transition-colors flex items-center justify-center gap-2">
+             <button className="w-full py-4 bg-safety-orange hover:bg-orange-500 text-black font-bold text-lg rounded shadow-lg hover:shadow-orange-500/20 transition-all active:scale-[0.98] flex items-center justify-center gap-2">
                FILE PERMITS NOW <ArrowRight className="w-5 h-5" />
              </button>
            </ReinstatementModal>

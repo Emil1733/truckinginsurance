@@ -47,7 +47,7 @@ export function CDLCalculator() {
             type="number" 
             placeholder="e.g. 14000 (RAM 3500)" 
             value={truckGVWR}
-            onChange={(e) => setTruckGVWR(Number(e.target.value))}
+            onChange={(e) => setTruckGVWR(e.target.value === "" ? "" : Number(e.target.value))}
             className="w-full bg-black/50 border border-industrial-600 text-white px-4 py-3 rounded focus:outline-none focus:border-safety-orange transition-colors font-mono"
           />
         </div>
@@ -57,7 +57,7 @@ export function CDLCalculator() {
             type="number" 
             placeholder="e.g. 12000 (Mini Float)" 
             value={trailerGVWR}
-            onChange={(e) => setTrailerGVWR(Number(e.target.value))}
+            onChange={(e) => setTrailerGVWR(e.target.value === "" ? "" : Number(e.target.value))}
             className="w-full bg-black/50 border border-industrial-600 text-white px-4 py-3 rounded focus:outline-none focus:border-safety-orange transition-colors font-mono"
           />
         </div>

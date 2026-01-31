@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ShieldAlert, AlertTriangle, FileText, CheckCircle2, TrendingUp, ArrowRight, Activity, XCircle } from 'lucide-react';
 import { ReinstatementModal } from '@/components/ReinstatementModal';
+import { Breadcrumbs } from '@/components/Breadcrumbs';
 
 export const revalidate = 86400; // Cache for 24 hours
 
@@ -35,8 +36,38 @@ export default async function SafetyFactorPage({ params }: { params: Promise<{ s
 
   if (!factor) return notFound();
 
+  // JSON-LD Schema
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    'itemListElement': [
+      {
+        '@type': 'ListItem',
+        'position': 1,
+        'name': 'Home',
+        'item': 'https://truckcoverageexperts.com'
+      },
+      {
+        '@type': 'ListItem',
+        'position': 2,
+        'name': 'Safety Ratings',
+        'item': 'https://truckcoverageexperts.com/safety-rating'
+      },
+      {
+        '@type': 'ListItem',
+        'position': 3,
+        'name': `Factor ${factor.factor_number}`,
+        'item': `https://truckcoverageexperts.com/safety-rating/${slug}`
+      }
+    ]
+  };
+
   return (
     <div className="min-h-screen bg-industrial-900 font-mono text-silver">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       {/* HEADER */}
       <nav className="border-b border-industrial-800 bg-industrial-900/90 backdrop-blur sticky top-0 z-50">
          <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
@@ -48,6 +79,10 @@ export default async function SafetyFactorPage({ params }: { params: Promise<{ s
       </nav>
 
       <main className="max-w-4xl mx-auto px-6 py-12">
+        <Breadcrumbs items={[
+          { label: 'Safety Ratings', href: '/safety-rating' },
+          { label: `Factor ${factor.factor_number}`, href: `/safety-rating/${slug}` }
+        ]} />
         
         {/* HERO SECTION */}
         <div className="mb-16 text-center border-b border-industrial-800 pb-12">
@@ -124,7 +159,7 @@ export default async function SafetyFactorPage({ params }: { params: Promise<{ s
            </div>
 
            <ReinstatementModal>
-              <button className="w-full py-4 bg-safety-orange hover:bg-orange-500 text-black font-bold text-xl rounded shadow-lg hover:shadow-orange-500/20 transition-all flex items-center justify-center gap-3 relative z-10">
+              <button className="w-full py-4 bg-safety-orange hover:bg-orange-500 text-black font-bold text-xl rounded shadow-lg hover:shadow-orange-500/20 transition-all active:scale-[0.98] flex items-center justify-center gap-3 relative z-10">
                 <FileText className="w-6 h-6" />
                 GET INSURANCE QUOTE + CAP TEMPLATE
               </button>

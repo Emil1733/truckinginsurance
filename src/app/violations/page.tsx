@@ -3,8 +3,11 @@ import { supabase } from '@/lib/supabase';
 import { AlertTriangle, ArrowRight, ShieldAlert } from 'lucide-react';
 
 export const metadata = {
-  title: 'FMCSA Violation Code Database | Truck Coverage Experts',
+  title: 'FMCSA Violation Code Database',
   description: 'Search the complete list of FMCSA violation codes. See which codes trigger automatic insurance denials and how to fix them.',
+  alternates: {
+    canonical: '/violations',
+  },
 };
 
 export const revalidate = 3600; // Revalidate every hour

@@ -3,6 +3,7 @@ import { Oswald, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { CSPostHogProvider } from './providers';
 import PostHogPageView from "./PostHogPageView";
+import { Footer } from "@/components/Footer";
 import { Suspense } from 'react';
 
 const oswald = Oswald({
@@ -19,9 +20,12 @@ const jetbrainsMono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://truckcoverageexperts.com'),
-  title: "Truck Insurance for the 1% | High Risk Specialists",
+  title: {
+    template: '%s | Truck Coverage Experts',
+    default: 'Truck Insurance for the 1% | High Risk Specialists',
+  },
   description:
-    "Don't let a violation code end your career. We specialize in the uninsurable.",
+    "High-risk commercial truck insurance specialists. We insure carriers with FMCSA violations, conditional safety ratings, and broker 'Do Not Load' bans.",
 };
 
 export default function RootLayout({
@@ -39,6 +43,7 @@ export default function RootLayout({
             <PostHogPageView />
           </Suspense>
           {children}
+          <Footer />
         </CSPostHogProvider>
         <script
           type="application/ld+json"

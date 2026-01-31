@@ -3,6 +3,7 @@ import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 import { notFound } from "next/navigation";
 import { ReinstatementModal } from "@/components/ReinstatementModal";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 
 
 // SEO Metadata Generation
@@ -13,7 +14,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   if (!data) return { title: 'Violation Not Found' };
 
   return {
-    title: `${data.code} Insurance Help | Forgiven in 48 Hours | Truck Coverage Experts`,
+    title: `${data.code} Insurance Help | Forgiven in 48 Hours`,
     description: `Stuck with a ${data.code} (${data.official_name})? We specialize in high-risk truck insurance. Get a quote even with Tier ${data.severity_tier} violations.`,
     openGraph: {
       title: `${data.code} - Uninsurable? Not Anymore.`,
@@ -74,6 +75,29 @@ export default async function ViolationPage({ params }: { params: Promise<{ slug
         }
       },
       {
+        '@type': 'BreadcrumbList',
+        'itemListElement': [
+          {
+            '@type': 'ListItem',
+            'position': 1,
+            'name': 'Home',
+            'item': 'https://truckcoverageexperts.com'
+          },
+          {
+            '@type': 'ListItem',
+            'position': 2,
+            'name': 'Violations',
+            'item': 'https://truckcoverageexperts.com/violations'
+          },
+          {
+            '@type': 'ListItem',
+            'position': 3,
+            'name': data.code,
+            'item': `https://truckcoverageexperts.com/violation/${slug}`
+          }
+        ]
+      },
+      {
         '@type': 'FAQPage',
         'mainEntity': [
           {
@@ -112,6 +136,10 @@ export default async function ViolationPage({ params }: { params: Promise<{ slug
       </header>
 
       <main className="max-w-5xl mx-auto px-6 py-12 md:py-20">
+        <Breadcrumbs items={[
+          { label: 'Violations', href: '/violations' },
+          { label: data.code, href: `/violation/${slug}` }
+        ]} />
         {/* 2. The "Reality Check" - Specific Intro */}
         <section className="mb-16">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded bg-safety-orange/10 text-safety-orange text-xs font-bold mb-6 border border-safety-orange/20 animate-pulse">

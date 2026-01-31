@@ -2,6 +2,7 @@ import { FileText, ShieldCheck, AlertTriangle, Clock, BadgeDollarSign, CheckCirc
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 import { notFound } from "next/navigation";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 
 
 // SEO Metadata Generation
@@ -12,7 +13,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   if (!data) return { title: 'Filing Not Found' };
 
   return {
-    title: `File ${data.form_id} Online | One-Day Processing (${data.state_code}) | Truck Coverage Experts`,
+    title: `File ${data.form_id} Online | One-Day Processing (${data.state_code})`,
     description: `Need a ${data.official_name} (${data.form_id})? We file electronically with the DMV/FMCSA in 15 minutes. Avoid the $${data.penalty_per_day}/day penalty.`,
     openGraph: {
       title: `Instant ${data.form_id} Filing - ${data.state_code}`,
@@ -53,28 +54,55 @@ export default async function FilingPage({ params }: { params: Promise<{ slug: s
   // JSON-LD Schema
   const jsonLd = {
     '@context': 'https://schema.org',
-    '@type': 'GovernmentService',
-    'name': `${filing.form_id} Online Filing`,
-    'serviceType': `Electronic Filing for ${filing.state_code}`,
-    'provider': {
-      '@type': 'Organization',
-      'name': 'Truck Coverage Experts',
-      'url': 'https://truckcoverageexperts.com'
-    },
-    'areaServed': {
-      '@type': 'AdministrativeArea',
-      'name': filing.state_code
-    },
-    'offers': {
-      '@type': 'Offer',
-      'price': (filing.filing_fee + 25).toString(),
-      'priceCurrency': 'USD',
-      'description': 'Filing Fee + Processing'
-    },
-    'serviceOutput': {
-       '@type': 'Thing',
-       'name': 'Filing Certificate'
-    }
+    '@graph': [
+      {
+        '@type': 'BreadcrumbList',
+        'itemListElement': [
+          {
+            '@type': 'ListItem',
+            'position': 1,
+            'name': 'Home',
+            'item': 'https://truckcoverageexperts.com'
+          },
+          {
+            '@type': 'ListItem',
+            'position': 2,
+            'name': 'Filings',
+            'item': 'https://truckcoverageexperts.com/filings'
+          },
+          {
+            '@type': 'ListItem',
+            'position': 3,
+            'name': `${filing.state_code} ${filing.form_id}`,
+            'item': `https://truckcoverageexperts.com/filing/${slug}`
+          }
+        ]
+      },
+      {
+        '@type': 'GovernmentService',
+        'name': `${filing.form_id} Online Filing`,
+        'serviceType': `Electronic Filing for ${filing.state_code}`,
+        'provider': {
+          '@type': 'Organization',
+          'name': 'Truck Coverage Experts',
+          'url': 'https://truckcoverageexperts.com'
+        },
+        'areaServed': {
+          '@type': 'AdministrativeArea',
+          'name': filing.state_code
+        },
+        'offers': {
+          '@type': 'Offer',
+          'price': (filing.filing_fee + 25).toString(),
+          'priceCurrency': 'USD',
+          'description': 'Filing Fee + Processing'
+        },
+        'serviceOutput': {
+           '@type': 'Thing',
+           'name': 'Filing Certificate'
+        }
+      }
+    ]
   };
 
   return (
@@ -97,6 +125,10 @@ export default async function FilingPage({ params }: { params: Promise<{ slug: s
       </header>
 
       <main className="max-w-7xl mx-auto px-6 py-12 lg:py-20">
+        <Breadcrumbs items={[
+          { label: 'Filings', href: '/filings' },
+          { label: `${filing.state_code} ${filing.form_id}`, href: `/filing/${slug}` }
+        ]} />
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-24 items-start">
           
           {/* LEFT: THE COMPLIANCE DATA */}
@@ -128,10 +160,10 @@ export default async function FilingPage({ params }: { params: Promise<{ slug: s
               </div>
             </div>
 
-            <h3 className="text-white font-bold mb-4 flex items-center gap-2">
+            <h2 className="text-white font-bold mb-4 flex items-center gap-2">
               <ShieldCheck className="w-5 h-5 text-blue-500" />
               COMPLIANCE REQUIREMENTS
-            </h3>
+            </h2>
             <ul className="space-y-4 mb-12">
               {[
                   "Active Authority Verification",
@@ -171,12 +203,14 @@ export default async function FilingPage({ params }: { params: Promise<{ slug: s
               </div>
             </div>
 
-            <Link 
-              href="/quote"
-              className="block w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-4 text-center rounded transition-all shadow-lg hover:shadow-blue-500/25"
-            >
-              START {filing.form_id} FILING
-            </Link>
+            <div className="flex flex-col gap-3">
+              <Link 
+                href="/quote"
+                className="block w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-4 text-center rounded transition-all shadow-lg hover:shadow-blue-500/25 active:scale-[0.98]"
+              >
+                START {filing.form_id} FILING
+              </Link>
+            </div>
             
             <p className="text-center text-xs text-industrial-500 mt-4">
               Authorized e-filer for {filing.state_code}.
@@ -187,10 +221,10 @@ export default async function FilingPage({ params }: { params: Promise<{ slug: s
 
         {/* RELATED VIOLATIONS SECTION */}
         <div className="mt-24 border-t border-industrial-800 pt-12">
-          <h3 className="text-white font-bold mb-8 flex items-center gap-2">
+          <h2 className="text-white font-bold mb-8 flex items-center gap-2">
             <AlertTriangle className="w-5 h-5 text-safety-orange" />
             COMMON TRIGGERS (WHY YOU NEED THIS FILING)
-          </h3>
+          </h2>
           <div className="grid md:grid-cols-3 gap-4">
             {relatedViolations?.map((v: any) => (
               <Link 
@@ -208,10 +242,10 @@ export default async function FilingPage({ params }: { params: Promise<{ slug: s
         {/* OUTBOUND ROUTES (SPIDERWEB LINKING) */}
         {outboundRoutes && outboundRoutes.length > 0 && (
           <div className="mt-12 pt-12 border-t border-industrial-800">
-             <h3 className="text-white font-bold mb-6 flex items-center gap-2">
+             <h2 className="text-white font-bold mb-6 flex items-center gap-2">
                <MapIcon className="w-5 h-5 text-blue-500" />
                POPULAR TRUCKING LANES FROM {filing.state_code}
-             </h3>
+             </h2>
              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
                {outboundRoutes.map((r: any) => (
                  <Link 

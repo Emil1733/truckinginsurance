@@ -51,8 +51,8 @@ export default function HotShotPage() {
              </div>
            </div>
 
-           <div className="relative">
-             <div className="absolute -inset-4 bg-safety-orange/20 blur-xl rounded-full opacity-50"></div>
+            <div className="relative">
+             <div className="absolute -inset-4 bg-safety-orange/20 blur-xl rounded-full opacity-50 pointer-events-none"></div>
              <CDLCalculator />
            </div>
         </div>
