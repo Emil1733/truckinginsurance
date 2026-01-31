@@ -247,9 +247,19 @@ export default async function RoutePage({ params }: { params: Promise<{ slug: st
 
         {/* AI GENERATED GUIDE (THE MEAT) */}
         {route.content_markdown && (
-            <div className="mb-16 bg-industrial-900 border border-industrial-800 rounded-xl p-8">
-                <div className="prose prose-invert prose-lg max-w-none prose-headings:font-display prose-headings:font-bold prose-headings:text-white prose-p:text-industrial-300 prose-li:text-industrial-300 prose-strong:text-white prose-strong:font-bold prose-a:text-safety-orange">
-                    <ReactMarkdown>{route.content_markdown}</ReactMarkdown>
+            <div className="mb-16 grid gap-8">
+                {/* We wrap it in a special class 'route-guide-content' to apply specific CSS via Tailwind typography plugin if needed, 
+                    OR we just style the children directly here. 
+                    Given the 'prose' plugin usage, let's keep it simple but cleaner. */}
+                <div className="bg-industrial-900 border border-industrial-800 rounded-xl p-8 shadow-xl">
+                   <div className="prose prose-invert prose-lg max-w-none 
+                        prose-headings:font-display prose-headings:font-bold prose-headings:text-white prose-headings:border-b prose-headings:border-industrial-700 prose-headings:pb-4 prose-headings:mb-6
+                        prose-p:text-industrial-300 prose-p:leading-relaxed
+                        prose-li:text-industrial-300 prose-li:marker:text-safety-orange
+                        prose-strong:text-white prose-strong:font-bold 
+                        prose-a:text-safety-orange prose-a:no-underline hover:prose-a:underline">
+                        <ReactMarkdown>{route.content_markdown}</ReactMarkdown>
+                    </div>
                 </div>
             </div>
         )}
