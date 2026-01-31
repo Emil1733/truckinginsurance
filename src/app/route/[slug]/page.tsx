@@ -6,6 +6,7 @@ import { ReinstatementModal } from '@/components/ReinstatementModal';
 import { calculateHaversineDistance, calculateLogistics } from '@/lib/utils/route_math';
 import { getRouteHazards } from '@/lib/data/state_risks';
 import { getReciprocityAlerts } from '@/lib/data/state_permits';
+import ReactMarkdown from 'react-markdown';
 
 // Force static generation for specific high-volume routes to save build time? 
 // No, let's use generateStaticParams for ALL of them if we want pSEO perfection.
@@ -243,6 +244,15 @@ export default async function RoutePage({ params }: { params: Promise<{ slug: st
              </button>
            </ReinstatementModal>
         </div>
+
+        {/* AI GENERATED GUIDE (THE MEAT) */}
+        {route.content_markdown && (
+            <div className="mb-16 bg-industrial-900 border border-industrial-800 rounded-xl p-8">
+                <div className="prose prose-invert prose-lg max-w-none prose-headings:font-display prose-headings:font-bold prose-headings:text-white prose-p:text-industrial-300 prose-li:text-industrial-300 prose-strong:text-white prose-strong:font-bold prose-a:text-safety-orange">
+                    <ReactMarkdown>{route.content_markdown}</ReactMarkdown>
+                </div>
+            </div>
+        )}
 
         {/* RELATED VECTOR: TRAILERS */}
         <div className="grid md:grid-cols-2 gap-8">
