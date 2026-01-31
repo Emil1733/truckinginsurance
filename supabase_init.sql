@@ -26,6 +26,7 @@ create table public.state_filings (
   processing_days_manual integer,
   processing_days_electronic integer,
   penalty_per_day integer,
+  content_markdown text, -- Rich SEO content
   created_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
 
@@ -37,6 +38,7 @@ create table public.trailer_risk_profiles (
   min_cargo_limit integer not null,
   common_exclusions jsonb default '[]'::jsonb,
   premium_multiplier numeric(3, 1), -- e.g. 1.5
+  content_markdown text, -- Rich SEO content
   created_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
 
