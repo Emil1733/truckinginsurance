@@ -41,6 +41,7 @@ export default function QuotePage() {
                 <RadioCard name="violation_code" value="392.2S" label="392.2S - Speeding 15+ Over" />
                 <RadioCard name="violation_code" value="382.215" label="382.215 - Drug/Alcohol" />
                 <RadioCard name="violation_code" value="Other" label="Other / Multiple Violations" />
+                <RadioCard name="violation_code" value="None" label="None - New Authority / Startup" />
               </div>
               <button 
                 type="button" 
