@@ -15,8 +15,9 @@ export const revalidate = 3600;
 export default async function RoutesIndex() {
   const { data: routes } = await supabase
     .from('routes')
-    .select('*')
-    .limit(100); // Pagination later if needed
+    .select('origin_code, destination_code, slug')
+    .order('origin_code')
+    .limit(5000);
 
   return (
     <div className="min-h-screen bg-industrial-900 font-mono text-silver">
@@ -42,8 +43,9 @@ export default async function RoutesIndex() {
           </p>
         </header>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {routes?.map((r) => (
+        {/* FEATURED: Top 100 Cards */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
+          {routes?.slice(0, 100).map((r) => (
              <Link 
                key={r.slug} 
                href={`/route/${r.slug}`} 
@@ -66,6 +68,35 @@ export default async function RoutesIndex() {
                 </div>
              </Link>
           ))}
+        </div>
+
+        {/* FULL DIRECTORY: All Routes Grouped by Origin */}
+        <div className="border-t border-industrial-800 pt-12">
+            <h2 className="text-2xl font-display font-bold text-white mb-8">BROWSE BY ORIGIN STATE</h2>
+            
+            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8">
+              {Object.entries(
+                routes?.reduce((acc: any, route: any) => {
+                  const state = route.origin_code || 'OTHER';
+                  if (!acc[state]) acc[state] = [];
+                  acc[state].push(route);
+                  return acc;
+                }, {}) || {}
+              ).sort().map(([state, stateRoutes]: [string, any]) => (
+                <div key={state}>
+                  <h3 className="text-safety-orange font-bold mb-4 text-lg border-b border-industrial-800 pb-2">{state}</h3>
+                  <ul className="space-y-2">
+                    {stateRoutes.map((r: any) => (
+                      <li key={r.slug}>
+                        <Link href={`/route/${r.slug}`} className="text-xs text-industrial-400 hover:text-white block hover:underline">
+                          To {r.destination_code}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
         </div>
       </main>
     </div>

@@ -56,6 +56,16 @@ export default async function RoutePage({ params }: { params: Promise<{ slug: st
     .select('slug, form_id, official_name, state_code')
     .in('state_code', [route.origin_code, route.destination_code]);
 
+  // LINK DISTRIBUTION (Step 5.2): Mesh Linking
+  // Fetch 12 other routes starting from the same Origin to create a "State Cluster" mesh.
+  // This ensures spiders can crawl sideways, not just up/down.
+  const { data: nearbyRoutes } = await supabase
+    .from('routes')
+    .select('slug, destination_code, destination_name')
+    .eq('origin_code', route.origin_code)
+    .neq('slug', slug) // Don't link to self
+    .limit(12);
+
   // Dynamic Content Injection (The "Variance" Layer)
   const miles = calculateHaversineDistance(route.origin_code, route.destination_code);
   const logistics = calculateLogistics(miles);
@@ -307,7 +317,29 @@ export default async function RoutePage({ params }: { params: Promise<{ slug: st
               Get BMC-91X Filing &rarr;
             </Link>
           </div>
+          </div>
         </div>
+
+        {/* RELATED ROUTES (MESH LINKING) */}
+        {nearbyRoutes && nearbyRoutes.length > 0 && (
+          <div className="mt-16 pt-16 border-t border-industrial-800">
+            <h3 className="text-white font-bold mb-8 flex items-center gap-2">
+               <Map className="w-5 h-5 text-industrial-500" /> MORE HAULS FROM {route.origin_name}
+            </h3>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              {nearbyRoutes.map((r: any) => (
+                <Link 
+                  key={r.slug} 
+                  href={`/route/${r.slug}`}
+                  className="bg-industrial-800/50 hover:bg-industrial-800 p-4 rounded border border-industrial-800 hover:border-industrial-600 transition-colors text-sm text-industrial-300 hover:text-white flex items-center justify-between group"
+                >
+                  <span>To {r.destination_name}</span>
+                  <ArrowRight className="w-3 h-3 text-industrial-600 group-hover:text-safety-orange" />
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
 
       </main>
     </div>

@@ -47,49 +47,97 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.8,
   }));
 
-  // 5. Programmatic: Brokers (Fetched from DB)
+  // 5. Programmatic: Brokers (Fetched from DB with Pagination)
   let brokerRoutes: MetadataRoute.Sitemap = [];
   try {
-      const { data: brokers } = await supabase.from('brokers').select('slug');
-      if (brokers) {
-          brokerRoutes = brokers.map((b) => ({
-            url: `${baseUrl}/broker/${b.slug}`,
-            lastModified: new Date(),
-            changeFrequency: 'daily' as const,
-            priority: 0.9,
-          }));
+      let hasMore = true;
+      let page = 0;
+      const pageSize = 1000;
+      
+      while(hasMore) {
+          const { data: brokers } = await supabase
+            .from('brokers')
+            .select('slug')
+            .range(page * pageSize, (page + 1) * pageSize - 1);
+            
+          if (brokers && brokers.length > 0) {
+              const chunk = brokers.map((b) => ({
+                url: `${baseUrl}/broker/${b.slug}`,
+                lastModified: new Date(),
+                changeFrequency: 'daily' as const,
+                priority: 0.9,
+              }));
+              brokerRoutes.push(...chunk);
+              
+              if (brokers.length < pageSize) hasMore = false;
+              page++;
+          } else {
+              hasMore = false;
+          }
       }
   } catch (err) {
       console.error('Sitemap DB broker fetch failed:', err);
   }
 
-  // 6. Programmatic: Safety Ratings (Fetched from DB)
+  // 6. Programmatic: Safety Ratings (Fetched from DB with Pagination)
   let safetyRoutes: MetadataRoute.Sitemap = [];
   try {
-      const { data: factors } = await supabase.from('safety_factors').select('slug');
-      if (factors) {
-          safetyRoutes = factors.map((f) => ({
-            url: `${baseUrl}/safety-rating/${f.slug}`,
-            lastModified: new Date(),
-            changeFrequency: 'weekly' as const,
-            priority: 0.8,
-          }));
+      let hasMore = true;
+      let page = 0;
+      const pageSize = 1000;
+
+      while(hasMore) {
+          const { data: factors } = await supabase
+            .from('safety_factors')
+            .select('slug')
+            .range(page * pageSize, (page + 1) * pageSize - 1);
+
+          if (factors && factors.length > 0) {
+              const chunk = factors.map((f) => ({
+                url: `${baseUrl}/safety-rating/${f.slug}`,
+                lastModified: new Date(),
+                changeFrequency: 'weekly' as const,
+                priority: 0.8,
+              }));
+              safetyRoutes.push(...chunk);
+
+              if (factors.length < pageSize) hasMore = false;
+              page++;
+          } else {
+              hasMore = false;
+          }
       }
   } catch (err) {
       console.error('Sitemap DB safety fetch failed:', err);
   }
 
-  // 7. Programmatic: High Volume Routes (Fetched from DB)
+  // 7. Programmatic: High Volume Routes (Fetched from DB with Pagination)
   let routeRoutes: MetadataRoute.Sitemap = [];
   try {
-      const { data: routes } = await supabase.from('routes').select('slug');
-      if (routes) {
-          routeRoutes = routes.map((r) => ({
-            url: `${baseUrl}/route/${r.slug}`,
-            lastModified: new Date(),
-            changeFrequency: 'monthly' as const,
-            priority: 0.8,
-          }));
+      let hasMore = true;
+      let page = 0;
+      const pageSize = 1000;
+
+      while(hasMore) {
+        const { data: routes } = await supabase
+            .from('routes')
+            .select('slug')
+            .range(page * pageSize, (page + 1) * pageSize - 1);
+
+        if (routes && routes.length > 0) {
+            const chunk = routes.map((r) => ({
+                url: `${baseUrl}/route/${r.slug}`,
+                lastModified: new Date(),
+                changeFrequency: 'monthly' as const,
+                priority: 0.8,
+            }));
+            routeRoutes.push(...chunk);
+
+            if (routes.length < pageSize) hasMore = false;
+            page++;
+        } else {
+            hasMore = false;
+        }
       }
   } catch (err) {
       console.error('Sitemap DB route fetch failed:', err);
