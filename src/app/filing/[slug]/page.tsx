@@ -25,6 +25,8 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   };
 }
 
+export const revalidate = 604800;
+
 export async function generateStaticParams() {
   // Fetch all slugs from the DB to generate pages at build time
   const { data: filings } = await supabase.from('state_filings').select('slug');

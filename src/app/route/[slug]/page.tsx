@@ -10,6 +10,8 @@ import ReactMarkdown from 'react-markdown';
 
 // Force static generation for specific high-volume routes to save build time? 
 // No, let's use generateStaticParams for ALL of them if we want pSEO perfection.
+export const revalidate = 604800;
+
 export async function generateStaticParams() {
   const { data: routes } = await supabase.from('routes').select('slug');
   return routes?.map(({ slug }) => ({ slug })) || [];

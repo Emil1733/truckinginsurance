@@ -10,7 +10,7 @@ export const metadata = {
   },
 };
 
-export const revalidate = 3600;
+export const revalidate = 604800;
 
 export default async function BrokerIndex() {
   const { data: brokers } = await supabase

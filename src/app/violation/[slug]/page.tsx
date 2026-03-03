@@ -27,6 +27,8 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   };
 }
 
+export const revalidate = 604800;
+
 // pSEO Power: Generate a static page for EVERY violation in our database at build time.
 export async function generateStaticParams() {
   const { data: violations } = await supabase.from('violations').select('slug');
