@@ -6,24 +6,40 @@ interface BreadcrumbItem {
   href: string;
 }
 
-export function Breadcrumbs({ items }: { items: BreadcrumbItem[] }) {
+interface BreadcrumbsProps {
+  items: BreadcrumbItem[];
+}
+
+export const Breadcrumbs = ({ items }: BreadcrumbsProps) => {
   return (
-    <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs text-industrial-500 mb-6 font-mono uppercase tracking-wider">
-      <Link href="/" className="hover:text-white transition-colors">
-        <Home className="w-4 h-4" />
-      </Link>
-      {items.map((item, index) => (
-        <div key={item.href} className="flex items-center gap-2">
-          <ChevronRight className="w-3 h-3 text-industrial-700" />
+    <nav aria-label="Breadcrumb" className="flex mb-8">
+      <ol className="flex items-center space-x-2 text-xs font-bold uppercase tracking-widest text-slate-500">
+        <li className="flex items-center">
           <Link 
-            href={item.href} 
-            className={`hover:text-white transition-colors ${index === items.length - 1 ? 'text-silver font-bold pointer-events-none' : ''}`}
-            aria-current={index === items.length - 1 ? 'page' : undefined}
+            href="/" 
+            className="hover:text-blue-500 transition-colors flex items-center"
           >
-            {item.label}
+            <Home className="w-3 h-3 mr-2" />
+            Home
           </Link>
-        </div>
-      ))}
+        </li>
+        
+        {items.map((item, index) => (
+          <li key={index} className="flex items-center">
+            <ChevronRight className="w-3 h-3 mx-2 text-slate-700" />
+            {index === items.length - 1 ? (
+              <span className="text-slate-300 font-black">{item.label}</span>
+            ) : (
+              <Link 
+                href={item.href} 
+                className="hover:text-blue-500 transition-colors"
+              >
+                {item.label}
+              </Link>
+            )}
+          </li>
+        ))}
+      </ol>
     </nav>
   );
-}
+};

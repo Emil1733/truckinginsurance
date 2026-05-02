@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://www.truckcoverageexperts.com
+
+# Sitemaps
+Sitemap: https://www.truckcoverageexperts.com/sitemap.xml

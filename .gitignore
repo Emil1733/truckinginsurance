@@ -36,6 +36,20 @@ yarn-error.log*
 # vercel
 .vercel
 
+# technical data & database
+*.sql
+*.csv
+*.log
+
+# data files (exclude essentials)
+*.json
+!package.json
+!package-lock.json
+!tsconfig.json
+!next.config.json
+!next-sitemap.json
+!composer.json
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
