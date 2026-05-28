@@ -4,10 +4,7 @@ const SCOPES = ['https://www.googleapis.com/auth/webmasters.readonly'];
 
 export async function getGSCClient() {
   const auth = new google.auth.GoogleAuth({
-    credentials: {
-      client_email: process.env.GSC_CLIENT_EMAIL,
-      private_key: process.env.GSC_PRIVATE_KEY?.replace(/\\n/g, '\n'),
-    },
+    keyFile: 'c:/Users/tevat/truckinsurancesite/gsc_credentials.json',
     scopes: SCOPES,
   });
 
@@ -16,7 +13,7 @@ export async function getGSCClient() {
 
 export async function getSearchPerformance(startDate: string, endDate: string) {
   const gsc = await getGSCClient();
-  const siteUrl = process.env.SITE_URL || 'https://www.truckcoverageexperts.com';
+  const siteUrl = process.env.SITE_URL || 'sc-domain:truckcoverageexperts.com';
 
   const response = await gsc.searchanalytics.query({
     siteUrl,

@@ -97,15 +97,15 @@ export default async function Home() {
           
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
              {[
-                { name: 'Amazon Relay', slug: 'amazon-relay', limit: '$1M Auto / $100k Cargo' },
-                { name: 'C.H. Robinson', slug: 'ch-robinson', limit: 'Risk Assessment Override' },
-                { name: 'TQL', slug: 'tql', limit: 'Reefer Breakdown Req' },
-                { name: 'Coyote Logistics', slug: 'coyote-logistics', limit: '30-Day Authority Rule' },
-                { name: 'Landstar', slug: 'landstar', limit: 'Safety Score Vetting' },
+                { name: 'Amazon Relay', href: '/amazon-relay-insurance', limit: '$1M Auto / $100k Cargo' },
+                { name: 'C.H. Robinson', href: '/broker/ch-robinson-approval', limit: 'Risk Assessment Override' },
+                { name: 'TQL', href: '/broker/tql-approval', limit: 'Reefer Breakdown Req' },
+                { name: 'J.B. Hunt', href: '/broker/jb-hunt-approval', limit: 'Intermodal Endorsement' },
+                { name: 'Landstar', href: '/broker/landstar-approval', limit: 'Safety Score Vetting' },
              ].map((broker) => (
                 <Link 
-                  key={broker.slug}
-                  href={`/broker/${broker.slug}`}
+                  key={broker.href}
+                  href={broker.href}
                   className="flex items-center justify-between p-6 bg-industrial-800 rounded border border-industrial-700 hover:border-safety-orange transition-colors group"
                 >
                   <div>
