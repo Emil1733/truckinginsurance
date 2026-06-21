@@ -76,6 +76,8 @@ export async function POST(request: Request) {
     // Serialize the PDFDocument to bytes (a Uint8Array)
     const pdfBytes = await pdfDoc.save();
 
+    let fileUrl = 'Not Uploaded (Check Supabase Keys)';
+
     // ---------------------------------------------------------
     // Log the lead to Supabase (Background Task)
     // ---------------------------------------------------------
@@ -87,7 +89,6 @@ export async function POST(request: Request) {
       
       // 1. Upload original Master COI to Supabase Storage
       const storageFileName = `master-cois/${dotNumber}-${Date.now()}.pdf`;
-      let fileUrl = 'Upload Failed or Skipped';
       
       try {
         const { data: uploadData, error: uploadError } = await supabase
