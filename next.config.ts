@@ -4,6 +4,21 @@ const nextConfig: NextConfig = {
   experimental: {
     optimizePackageImports: ['lucide-react', 'framer-motion'],
   },
+  async redirects() {
+    return [
+      {
+        source: '/:path*',
+        has: [
+          {
+            type: 'host',
+            value: 'truckcoverageexperts.com',
+          },
+        ],
+        destination: 'https://www.truckcoverageexperts.com/:path*',
+        permanent: true,
+      },
+    ];
+  },
   async headers() {
     return [
       {

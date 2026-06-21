@@ -14,6 +14,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     '/about',
     '/check-score',
     '/dot-insurance-lookup',
+    '/free-coi-generator',
     '/hot-shot',
     '/contact',
     '/filings',
@@ -132,37 +133,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       console.error('Sitemap DB safety fetch failed:', err);
   }
 
-  // 7. Programmatic: High Volume Routes (Fetched from DB with Pagination)
-  let routeRoutes: MetadataRoute.Sitemap = [];
-  try {
-      let hasMore = true;
-      let page = 0;
-      const pageSize = 1000;
-
-      while(hasMore) {
-        const { data: routes } = await supabase
-            .from('routes')
-            .select('slug')
-            .range(page * pageSize, (page + 1) * pageSize - 1);
-
-        if (routes && routes.length > 0) {
-            const chunk = routes.map((r) => ({
-                url: `${baseUrl}/route/${r.slug}`,
-                lastModified: new Date(),
-                changeFrequency: 'monthly' as const,
-                priority: 0.8,
-            }));
-            routeRoutes.push(...chunk);
-
-            if (routes.length < pageSize) hasMore = false;
-            page++;
-        } else {
-            hasMore = false;
-        }
-      }
-  } catch (err) {
-      console.error('Sitemap DB route fetch failed:', err);
-  }
 
   // 8. Programmatic: Revocation Status (Fetched with Admin Key to bypass RLS)
   let statusRoutes: MetadataRoute.Sitemap = [];
@@ -212,7 +182,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...serviceRoutes,
     ...brokerRoutes,
     ...safetyRoutes,
-    ...routeRoutes,
     ...statusRoutes,
   ];
 }

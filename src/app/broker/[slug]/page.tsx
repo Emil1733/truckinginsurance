@@ -114,8 +114,36 @@ export default async function BrokerApprovalPage({ params }: { params: Promise<{
 
   if (!broker) return notFound();
 
+  // Generate FAQ Schema for Rich Snippets
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": `What are the insurance requirements for ${broker.name}?`,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": `To get approved with ${broker.name}, you generally need ${broker.requirements.autoLiability || '$1,000,000'} in Auto Liability and ${broker.requirements.cargoInsurance || '$100,000'} in Cargo Insurance. They also require specific certificate holder addresses.`
+        }
+      },
+      {
+        "@type": "Question",
+        "name": `Why did ${broker.name} deny my carrier packet?`,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": `Common reasons for rejection by ${broker.name} include: ${broker.rejectionTriggers.join(', ')}.`
+        }
+      }
+    ]
+  };
+
   return (
     <main className="min-h-screen bg-[#0a0f1c] text-slate-200">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
       {/* Header Section */}
       <div className="relative overflow-hidden border-b border-slate-800 bg-slate-950/50 pt-12 pb-24">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-blue-500/10 via-transparent to-transparent -z-10" />
