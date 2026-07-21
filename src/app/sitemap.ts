@@ -4,6 +4,7 @@ import { FILINGS_DATA } from '@/lib/data/filings';
 import { TRAILERS_DATA } from '@/lib/data/trailers';
 import { BROKERS_DATA } from '@/lib/data/brokers';
 import topBrokers from '@/lib/data/top_brokers.json';
+import { UBER_BLACK_STATES } from '@/lib/data/uber-black-states';
 import { supabase } from '@/lib/supabase';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -182,6 +183,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.9,
   }));
 
+  // 10. Programmatic: Uber Black Insurance by State
+  const uberBlackRoutes = UBER_BLACK_STATES.map((state) => ({
+    url: `${baseUrl}/uber-black-insurance/${state.slug}`,
+    lastModified: new Date(),
+    changeFrequency: 'weekly' as const,
+    priority: 0.9,
+  }));
+
   return [
     ...staticRoutes,
     ...violationRoutes,
@@ -193,5 +202,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...safetyRoutes,
     ...statusRoutes,
     ...brokerCheckRoutes,
+    ...uberBlackRoutes,
   ];
 }
