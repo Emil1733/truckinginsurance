@@ -25,10 +25,27 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function BrokerCheckPage({ params }: Props) {
   const { mc } = await params;
 
-  // Find the generated broker data
-  const broker = topBrokers.find(b => b.mc === mc);
-  const isApproved = true; 
-  const dummyBrokerName = broker ? broker.name : `Logistics Broker (MC# ${mc})`;
+  let dummyBrokerName = `Logistics Broker (MC# ${mc})`;
+  let bondStatus = "Active ($75k Trust)";
+
+  if (broker) {
+    dummyBrokerName = broker.name;
+  } else {
+    // LIVE API FALLBACK: If not in our 5000 cache, fetch it from the government on the fly!
+    try {
+      // FMCSA API uses 'MC' prefix or just the number, we try just the number first or with MC
+      const res = await fetch(`https://data.transportation.gov/resource/6eyk-hxee.json?$where=docket_number='MC${mc}' OR docket_number='${mc}' OR docket_number='FF${mc}'`, { cache: 'no-store' });
+      if (res.ok) {
+        const data = await res.json();
+        if (data && data.length > 0) {
+          dummyBrokerName = data[0].legal_name || dummyBrokerName;
+          bondStatus = data[0].broker_stat === 'A' ? "Active ($75k Trust)" : "Inactive / Revoked (WARNING)";
+        }
+      }
+    } catch (e) {
+      console.error("Live FMCSA fetch failed", e);
+    }
+  }
 
   return (
     <main className="min-h-screen bg-[#0a0f1c] text-slate-200 py-24">
