@@ -3,6 +3,7 @@ import { VIOLATIONS_DATA } from '@/lib/data/violations';
 import { FILINGS_DATA } from '@/lib/data/filings';
 import { TRAILERS_DATA } from '@/lib/data/trailers';
 import { BROKERS_DATA } from '@/lib/data/brokers';
+import topBrokers from '@/lib/data/top_brokers.json';
 import { supabase } from '@/lib/supabase';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -173,6 +174,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       console.error('Sitemap DB status fetch failed:', err);
   }
 
+  // 9. Programmatic: Broker Credit Check Honey Pot (5,000+ brokers)
+  const brokerCheckRoutes = topBrokers.map((b) => ({
+    url: `${baseUrl}/broker-check/${b.mc}`,
+    lastModified: new Date(),
+    changeFrequency: 'weekly' as const,
+    priority: 0.9,
+  }));
+
   return [
     ...staticRoutes,
     ...violationRoutes,
@@ -183,5 +192,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...brokerRoutes,
     ...safetyRoutes,
     ...statusRoutes,
+    ...brokerCheckRoutes,
   ];
 }

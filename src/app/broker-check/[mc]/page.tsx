@@ -1,6 +1,7 @@
 import { ShieldCheck, AlertTriangle, FileText, CheckCircle2, XCircle } from "lucide-react";
 import Link from "next/link";
 import { Metadata } from "next";
+import topBrokers from "@/lib/data/top_brokers.json";
 
 interface Props {
   params: Promise<{ mc: string }>;
@@ -9,9 +10,12 @@ interface Props {
 // Dynamically generate SEO metadata for EVERY MC number searched
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { mc } = await params;
+  const broker = topBrokers.find(b => b.mc === mc);
+  const brokerName = broker ? broker.name : `Broker MC# ${mc}`;
+
   return {
-    title: `Broker Credit & Safety Report: MC# ${mc} | Truck Coverage Experts`,
-    description: `Check the active bond status and credit rating for freight broker MC# ${mc}. Generate a Free COI for this broker instantly.`,
+    title: `Broker Credit & Safety Report: ${brokerName} | Truck Coverage Experts`,
+    description: `Check the active bond status and credit rating for ${brokerName}. Generate a Free COI for this broker instantly.`,
     alternates: {
       canonical: `https://truckcoverageexperts.com/broker-check/${mc}`,
     },
@@ -21,10 +25,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function BrokerCheckPage({ params }: Props) {
   const { mc } = await params;
 
-  // In a production environment, we would fetch real FMCSA data here via API or our Supabase database.
-  // For this Honey Pot MVP, we will simulate a real-time data fetch.
+  // Find the generated broker data
+  const broker = topBrokers.find(b => b.mc === mc);
   const isApproved = true; 
-  const dummyBrokerName = `Logistics Broker (MC# ${mc})`;
+  const dummyBrokerName = broker ? broker.name : `Logistics Broker (MC# ${mc})`;
 
   return (
     <main className="min-h-screen bg-[#0a0f1c] text-slate-200 py-24">
