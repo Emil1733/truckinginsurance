@@ -25,6 +25,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function BrokerCheckPage({ params }: Props) {
   const { mc } = await params;
 
+  const broker = topBrokers.find(b => b.mc === mc);
   let dummyBrokerName = `Logistics Broker (MC# ${mc})`;
   let bondStatus = "Active ($75k Trust)";
 
