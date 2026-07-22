@@ -17,6 +17,17 @@ const nextConfig: NextConfig = {
         destination: 'https://www.truckcoverageexperts.com/:path*',
         permanent: true,
       },
+      // Fix 404 Crawl Budget Leaks
+      {
+        source: '/route/:path*',
+        destination: '/filings',
+        permanent: true,
+      },
+      {
+        source: '/broker/:path*',
+        destination: '/broker-approval/:path*',
+        permanent: true,
+      },
     ];
   },
   async headers() {
