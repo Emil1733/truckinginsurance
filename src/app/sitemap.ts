@@ -5,6 +5,7 @@ import { TRAILERS_DATA } from '@/lib/data/trailers';
 import { BROKERS_DATA } from '@/lib/data/brokers';
 import topBrokers from '@/lib/data/top_brokers.json';
 import { UBER_BLACK_STATES } from '@/lib/data/uber-black-states';
+import { US_STATES } from '@/lib/data/us-states';
 import { supabase } from '@/lib/supabase';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -184,6 +185,38 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }));
 
   // 10. Programmatic: Uber Black Insurance by State
+
+  const boxtruckRoutes = US_STATES.map((state) => ({
+    url: `${baseUrl}/box-truck-insurance/${state.slug}`,
+    lastModified: new Date(),
+    changeFrequency: 'weekly' as const,
+    priority: 0.9,
+  }));
+
+
+  const hotshotRoutes = US_STATES.map((state) => ({
+    url: `${baseUrl}/hot-shot-insurance/${state.slug}`,
+    lastModified: new Date(),
+    changeFrequency: 'weekly' as const,
+    priority: 0.9,
+  }));
+
+
+  const amazonrelayRoutes = US_STATES.map((state) => ({
+    url: `${baseUrl}/amazon-relay-insurance/${state.slug}`,
+    lastModified: new Date(),
+    changeFrequency: 'weekly' as const,
+    priority: 0.9,
+  }));
+
+
+  const commercialtruckRoutes = US_STATES.map((state) => ({
+    url: `${baseUrl}/commercial-truck-insurance/${state.slug}`,
+    lastModified: new Date(),
+    changeFrequency: 'weekly' as const,
+    priority: 0.9,
+  }));
+
   const uberBlackRoutes = UBER_BLACK_STATES.map((state) => ({
     url: `${baseUrl}/uber-black-insurance/${state.slug}`,
     lastModified: new Date(),
@@ -202,6 +235,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...safetyRoutes,
     ...statusRoutes,
     ...brokerCheckRoutes,
+    ...boxtruckRoutes,
+    ...hotshotRoutes,
+    ...amazonrelayRoutes,
+    ...commercialtruckRoutes,
     ...uberBlackRoutes,
   ];
 }
