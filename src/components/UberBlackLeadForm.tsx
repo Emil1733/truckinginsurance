@@ -40,6 +40,7 @@ export default function UberBlackLeadForm({ stateName }: { stateName: string }) 
         .insert([
           {
             lead_type: 'Uber Black',
+            source: localStorage.getItem('affiliate_ref') ? `affiliate_${localStorage.getItem('affiliate_ref')}` : 'organic',
             first_name: formData.firstName,
             last_name: formData.lastName,
             phone: formData.phone,
