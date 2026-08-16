@@ -35,6 +35,7 @@ export function Footer() {
         <div className="col-span-1">
           <h3 className="text-white font-bold uppercase tracking-widest mb-4 text-xs">Insurance</h3>
           <ul className="space-y-2">
+            <li><Link href="/locations" className="hover:text-safety-orange transition-colors">Coverage by State</Link></li>
             <li><Link href="/insurance" className="hover:text-safety-orange transition-colors">By Trailer Type</Link></li>
             <li><Link href="/insurance/hazmat-tanker-insurance" className="hover:text-safety-orange transition-colors">Hazmat Tankers</Link></li>
             <li><Link href="/insurance/auto-hauler-car-carrier-insurance" className="hover:text-safety-orange transition-colors">Auto Haulers</Link></li>
