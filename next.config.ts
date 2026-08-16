@@ -30,6 +30,38 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+  
+  async rewrites() {
+    return {
+      beforeFiles: [
+        {
+          source: '/hot-shot-insurance/:state',
+          has: [{ type: 'header', key: 'accept', value: '(?i).*application/json.*' }],
+          destination: '/api/agentic/quote?niche=hot-shot&state=:state',
+        },
+        {
+          source: '/box-truck-insurance/:state',
+          has: [{ type: 'header', key: 'accept', value: '(?i).*application/json.*' }],
+          destination: '/api/agentic/quote?niche=box-truck&state=:state',
+        },
+        {
+          source: '/amazon-relay-insurance/:state',
+          has: [{ type: 'header', key: 'accept', value: '(?i).*application/json.*' }],
+          destination: '/api/agentic/quote?niche=amazon-relay&state=:state',
+        },
+        {
+          source: '/commercial-truck-insurance/:state',
+          has: [{ type: 'header', key: 'accept', value: '(?i).*application/json.*' }],
+          destination: '/api/agentic/quote?niche=commercial-truck&state=:state',
+        },
+        {
+          source: '/uber-black-insurance/:state',
+          has: [{ type: 'header', key: 'accept', value: '(?i).*application/json.*' }],
+          destination: '/api/agentic/quote?niche=uber-black&state=:state',
+        }
+      ]
+    };
+  },
   async headers() {
     return [
       {
