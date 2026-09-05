@@ -23,6 +23,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     '/trucking-insurance-requirements',
     '/dot-insurance-requirements',
     '/new-authority-insurance',
+    '/trucking-insurance-readiness',
     '/contact',
     '/filings',
     '/violations',

@@ -43,7 +43,7 @@ async function airtableLeadExists(email?: string, phone?: string) {
 
 export async function POST(request: Request) {
   try {
-    const { name, phone, email, businessType, state, authorityStatus, landingPage, utmSource, dot } = await request.json();
+    const { name, phone, email, businessType, state, authorityStatus, landingPage, utmSource, dot, readinessReport } = await request.json();
 
     if (dot && email) {
       const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -57,6 +57,17 @@ export async function POST(request: Request) {
     }
 
     if (!name || !phone || !email || !businessType || !state || !authorityStatus) {
+      if (readinessReport && name && email && businessType && state) {
+        const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
+        const SUPABASE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+        if (SUPABASE_URL && SUPABASE_KEY) {
+          const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+          const { error } = await supabase.from('leads').insert({ driver_name: name, phone: phone || 'Not provided', email, violation_code: `Readiness report | ${businessType} | ${state}`, source: `website${landingPage ? `:${landingPage}` : ''}`, status: 'new' });
+          if (error) return NextResponse.json({ error: 'Readiness request could not be saved' }, { status: 500 });
+        }
+        await saveToAirtable({ 'Lead Name': name, Phone: phone || '', Email: email, 'Business Type': businessType, State: state, Source: `website${landingPage ? `:${landingPage}` : ''}`, Status: 'New', Notes: 'Readiness report request' });
+        return NextResponse.json({ success: true, message: 'Readiness report requested' });
+      }
       return NextResponse.json({ error: 'Required lead details are missing' }, { status: 400 });
     }
 
