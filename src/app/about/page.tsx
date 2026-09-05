@@ -22,7 +22,6 @@ export default function AboutPage() {
       },
       'contactPoint': {
         '@type': 'ContactPoint',
-        'contactType': 'online request',
         'contactType': 'customer service'
       },
       'employee': [
