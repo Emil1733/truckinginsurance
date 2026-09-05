@@ -258,6 +258,15 @@ export default function DotInsuranceLookup() {
             </div>
           </div>
         </section>
+        <section className="max-w-5xl mx-auto px-6 pb-16">
+          <h2 className="text-2xl font-bold text-white mb-4">Turn your DOT review into an insurance plan</h2>
+          <p className="text-slate-400 mb-5">Use your operating profile, equipment, cargo, and safety history to guide the next coverage conversation.</p>
+          <div className="flex flex-wrap gap-3">
+            <Link href="/insurance" className="border border-white/10 text-slate-200 px-4 py-3 rounded">Explore equipment insurance</Link>
+            <Link href="/hot-shot" className="border border-white/10 text-slate-200 px-4 py-3 rounded">Hot shot startup guide</Link>
+            <Link href="/quote" className="bg-blue-500 text-white px-4 py-3 rounded">Request a quote review</Link>
+          </div>
+        </section>
       </main>
 
       {/* Final SEO Footer Block */}

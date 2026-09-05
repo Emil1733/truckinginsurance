@@ -81,6 +81,25 @@ export default function HotShotPage() {
           </div>
         </section>
 
+        <section className="mb-20 border-t border-industrial-800 pt-12">
+          <h2 className="text-3xl font-bold text-white mb-4">Hot shot trucking insurance resources</h2>
+          <p className="text-industrial-400 max-w-3xl mb-6">Hot shot operators may need to review pickup or dually configuration, trailer type, operating radius, cargo, authority status, and state requirements. Use these related guides to plan the insurance conversation.</p>
+          <div className="grid md:grid-cols-3 gap-4">
+            <Link href="/hot-shot-insurance/texas" className="bg-industrial-800 border border-industrial-700 p-5 hover:border-safety-orange transition-colors">
+              <span className="text-safety-orange font-bold">Texas hot shot insurance</span>
+              <span className="block text-sm text-industrial-400 mt-2">State-specific starting points for Texas operators.</span>
+            </Link>
+            <Link href="/insurance/lowboy-rgn-heavy-haul-insurance" className="bg-industrial-800 border border-industrial-700 p-5 hover:border-safety-orange transition-colors">
+              <span className="text-safety-orange font-bold">Heavy-haul coverage guide</span>
+              <span className="block text-sm text-industrial-400 mt-2">Review specialized equipment and high-value cargo considerations.</span>
+            </Link>
+            <Link href="/filing/bmc91x-federal-filing-fmsca" className="bg-industrial-800 border border-industrial-700 p-5 hover:border-safety-orange transition-colors">
+              <span className="text-safety-orange font-bold">Federal filing guide</span>
+              <span className="block text-sm text-industrial-400 mt-2">Understand the insurance filing topic before applying for authority.</span>
+            </Link>
+          </div>
+        </section>
+
         {/* FAQ / REINSTATEMENT CTA */}
         <div className="bg-black/40 rounded-2xl p-8 md:p-12 border border-industrial-800 text-center">
            <h2 className="text-3xl font-bold text-white mb-4">ALREADY DENIED COVERAGE?</h2>

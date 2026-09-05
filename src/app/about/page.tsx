@@ -12,21 +12,17 @@ export default function AboutPage() {
     '@context': 'https://schema.org',
     '@type': 'AboutPage',
     'mainEntity': {
-      '@type': 'InsuranceAgency',
+      '@type': 'Organization',
       'name': 'Truck Coverage Experts',
       'foundingDate': '2015',
       'description': 'Specialized agency for high-risk commercial trucking insurance.',
       'address': {
         '@type': 'PostalAddress',
-        'streetAddress': '123 Compliance Way',
-        'addressLocality': 'Dallas',
-        'addressRegion': 'TX',
-        'postalCode': '75201',
         'addressCountry': 'US'
       },
       'contactPoint': {
         '@type': 'ContactPoint',
-        'telephone': '+1-800-555-0199',
+        'contactType': 'online request',
         'contactType': 'customer service'
       },
       'employee': [
@@ -174,14 +170,13 @@ export default function AboutPage() {
               </h2>
               <address className="not-italic text-industrial-400 space-y-2 mb-8 border-l-2 border-industrial-700 pl-4">
                 <strong className="text-white block">Truck Coverage Experts</strong>
-                123 Compliance Way, Suite 400<br />
-                Dallas, TX 75201<br />
+                Online service; availability depends on the licensed professional handling your request.<br />
                 United States
               </address>
               
               <div className="flex items-center gap-3 text-white font-bold text-lg">
                 <Phone className="w-5 h-5 text-safety-orange" />
-                +1 (800) 555-0199
+                Online requests only
               </div>
               <p className="text-xs text-industrial-600 mt-2">
                 Mon-Fri: 8:00 AM - 6:00 PM CST

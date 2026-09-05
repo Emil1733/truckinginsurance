@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Truck, ShieldAlert, FileText, Map, Phone } from 'lucide-react';
+import { Truck } from 'lucide-react';
 
 export function Footer() {
   return (
@@ -15,9 +15,9 @@ export function Footer() {
            <p className="mb-4 text-xs leading-relaxed">
              Specializing in high-risk commercial auto liability, cargo insurance, and federal filings for distressed motor carriers.
            </p>
-           <div className="flex items-center gap-2 text-white font-bold">
-             <Phone className="w-4 h-4" /> (800) 555-0199
-           </div>
+           <p className="text-xs leading-relaxed text-industrial-500">
+             Request assistance online and a licensed insurance professional will follow up where coverage is available.
+           </p>
         </div>
 
         {/* COMPLIANCE */}
@@ -55,6 +55,12 @@ export function Footer() {
           </ul>
         </div>
 
+      </div>
+
+      <div className="max-w-7xl mx-auto border-t border-industrial-800 pt-6 text-xs leading-relaxed text-industrial-500">
+        Truck Coverage Experts is a marketing and referral brand, not an insurance carrier. Quote requests may be shared with
+        licensed insurance professionals for assistance. Coverage, terms, pricing, and availability are subject to underwriting
+        approval and applicable state requirements. Submitting a request does not guarantee coverage or a quote.
       </div>
 
       <div className="max-w-7xl mx-auto border-t border-industrial-800 pt-8 flex flex-col md:flex-row justify-between items-center text-xs">

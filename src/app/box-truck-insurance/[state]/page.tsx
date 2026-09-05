@@ -1,26 +1,31 @@
 import { US_STATES } from "@/lib/data/us-states";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
+import Link from "next/link";
 import NicheLeadForm from "@/components/NicheLeadForm";
 import { ShieldCheck, TrendingUp, CheckCircle2 } from "lucide-react";
+import { getStateInsuranceContext } from "@/lib/data/state-insurance-context";
 
 export async function generateStaticParams() {
   return US_STATES.map((state) => ({ state: state.slug }));
 }
 
-export async function generateMetadata({ params }: { params: { state: string } }): Promise<Metadata> {
-  const stateData = US_STATES.find(s => s.slug === params.state);
+export async function generateMetadata({ params }: { params: Promise<{ state: string }> }): Promise<Metadata> {
+  const { state } = await params;
+  const stateData = US_STATES.find(s => s.slug === state);
   if (!stateData) return {};
   return {
     title: `Best ${stateData.name} Box Truck Insurance Quotes (2026)`,
-    description: `Compare ${stateData.name} Box Truck Insurance rates. We specialize in Box Trucks & Straight Trucks in ${stateData.name}. Get cheap commercial truck insurance quotes today.`,
+    description: `Review ${stateData.name} box truck and straight truck insurance options. Request help from a licensed insurance professional.`,
     alternates: { canonical: `https://www.truckcoverageexperts.com/box-truck-insurance/${stateData.slug}` }
   };
 }
 
-export default function NicheStatePage({ params }: { params: { state: string } }) {
-  const stateData = US_STATES.find(s => s.slug === params.state);
+export default async function NicheStatePage({ params }: { params: Promise<{ state: string }> }) {
+  const { state } = await params;
+  const stateData = US_STATES.find(s => s.slug === state);
   if (!stateData) return notFound();
+  const stateContext = getStateInsuranceContext(stateData.slug);
 
   // JSON-LD Schema
   const schema = {
@@ -53,10 +58,10 @@ export default function NicheStatePage({ params }: { params: { state: string } }
                   <span className="text-sm font-semibold tracking-wider uppercase">${stateData.name} Commercial Auto</span>
                 </div>
                 <h1 className="text-5xl md:text-6xl font-black text-white tracking-tight mb-6">
-                  Affordable <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-500">Box Truck Insurance</span> in ${stateData.name}.
+                  Box Truck Insurance <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-500">in ${stateData.name}</span>.
                 </h1>
                 <p className="text-xl text-slate-300 leading-relaxed mb-8">
-                  We specialize in commercial auto coverage for Box Trucks & Straight Trucks. Get access to exclusive programs for ${stateData.name} motor carriers and save thousands on your annual premium.
+                  Review commercial auto coverage for box trucks and straight trucks operating from ${stateData.name}. The right policy depends on vehicle weight, cargo, routes, drivers, authority, and whether the work is local or interstate.
                 </p>
                 <ul className="space-y-4 mb-10">
                   <li className="flex items-center gap-3 text-slate-300"><CheckCircle2 className="w-5 h-5 text-emerald-400" /> Instant DOT & FMCSA Filings</li>
@@ -68,6 +73,17 @@ export default function NicheStatePage({ params }: { params: { state: string } }
                 <NicheLeadForm stateName={stateData.name} nicheName="Box Truck Insurance" />
               </div>
             </div>
+          </div>
+        </section>
+
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+          <h2 className="text-2xl font-bold text-white mb-3">Related commercial truck insurance resources</h2>
+          <p className="text-slate-400 mb-4">Box truck insurance can change with vehicle weight, cargo, radius, drivers, and whether the operation is local or interstate. {stateContext.focus}</p>
+          <p className="text-slate-500 mb-5">{stateContext.filingNote}</p>
+          <div className="flex flex-wrap gap-3">
+            <Link href="/insurance" className="border border-slate-700 text-slate-200 px-4 py-3 rounded hover:border-blue-400">Compare equipment insurance</Link>
+            <Link href="/insurance/auto-hauler-car-carrier-insurance" className="border border-slate-700 text-slate-200 px-4 py-3 rounded hover:border-blue-400">Car hauler coverage guide</Link>
+            <Link href={stateContext.filingHref} className="border border-slate-700 text-slate-200 px-4 py-3 rounded hover:border-blue-400">{stateContext.filingLabel}</Link>
           </div>
         </section>
 

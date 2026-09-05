@@ -38,7 +38,7 @@ export default function ContactPage() {
                 <Phone className="w-6 h-6 text-safety-orange mt-1" />
                 <div>
                   <div className="text-white font-bold">Phone</div>
-                  <a href="tel:+18005550199" className="hover:text-white transition-colors">(800) 555-0199</a>
+                  <span className="text-industrial-500">Online requests only</span>
                   <div className="text-xs text-industrial-500">Mon-Fri: 8am - 6pm EST</div>
                 </div>
               </div>
@@ -57,8 +57,7 @@ export default function ContactPage() {
                 <div>
                   <div className="text-white font-bold">Headquarters</div>
                   <address className="not-italic">
-                    123 Compliance Way<br />
-                    Dallas, TX 75201
+                    Service available online; local availability depends on the licensed professional handling your request.
                   </address>
                 </div>
               </div>

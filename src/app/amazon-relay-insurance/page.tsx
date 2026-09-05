@@ -246,6 +246,16 @@ export default function AmazonRelayInsurancePage() {
           </div>
         </div>
       </section>
+    <section className="max-w-7xl mx-auto px-6 pb-16">
+      <h2 className="text-2xl font-bold text-white mb-3">Related commercial truck insurance resources</h2>
+      <p className="text-slate-400 mb-5">Amazon Relay insurance reviews should consider certificate requirements, liability, cargo, vehicle type, authority status, and the operation’s actual contracts.</p>
+      <div className="flex flex-wrap gap-3">
+        <Link href="/insurance" className="border border-slate-700 text-slate-200 px-4 py-3 rounded hover:border-blue-400">Compare equipment insurance</Link>
+        <Link href="/insurance/reefer-breakdown-insurance" className="border border-slate-700 text-slate-200 px-4 py-3 rounded hover:border-blue-400">Reefer coverage guide</Link>
+        <Link href="/uiia-certification" className="border border-slate-700 text-slate-200 px-4 py-3 rounded hover:border-blue-400">Port and interchange resources</Link>
+        <Link href="/quote" className="bg-blue-500 text-white px-4 py-3 rounded hover:bg-blue-400">Request a quote review</Link>
+      </div>
+    </section>
     </main>
   );
 }

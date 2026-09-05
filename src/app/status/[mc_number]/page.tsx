@@ -201,7 +201,7 @@ export default async function RevocationPage({ params }: { params: Promise<{ mc_
               <p className="text-sm text-blue-200 mb-2">Or call for immediate filing:</p>
               <a href="tel:18005550199" className="flex items-center gap-2 text-xl font-bold">
                 <PhoneCall className="w-5 h-5" />
-                (800) 555-0199
+                Submit an online request for assistance
               </a>
             </div>
           </div>

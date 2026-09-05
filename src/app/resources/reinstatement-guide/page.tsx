@@ -1,5 +1,6 @@
 
 import { FileText, Download, ShieldCheck, Lock } from "lucide-react";
+import Link from "next/link";
 
 export const metadata = {
   title: "Restricted: FMCSA Reinstatement Protocol | Truck Coverage Experts",
@@ -71,6 +72,15 @@ export default function ReinstatementGuidePage() {
             </button>
           </div>
         </div>
+        <section className="border-t border-industrial-800 pt-8">
+          <h2 className="text-xl font-bold text-white mb-3">Continue your compliance review</h2>
+          <p className="text-industrial-400 mb-5">Reinstatement, filings, safety history, and insurance requirements often need to be reviewed together.</p>
+          <div className="flex flex-wrap gap-3">
+            <Link href="/safety-rating" className="border border-industrial-700 text-silver px-4 py-3 rounded hover:border-safety-orange">Review safety-rating factors</Link>
+            <Link href="/filing/bmc91x-federal-filing-fmsca" className="border border-industrial-700 text-silver px-4 py-3 rounded hover:border-safety-orange">Federal filing guide</Link>
+            <Link href="/quote" className="bg-safety-orange text-black font-bold px-4 py-3 rounded">Request insurance review</Link>
+          </div>
+        </section>
       </div>
     </div>
   );

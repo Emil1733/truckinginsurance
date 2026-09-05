@@ -9,7 +9,7 @@ import { US_STATES } from '@/lib/data/us-states';
 import { supabase } from '@/lib/supabase';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = 'https://truckcoverageexperts.com';
+  const baseUrl = 'https://www.truckcoverageexperts.com';
 
   // 1. Static Routes
   const staticRoutes = [
@@ -22,6 +22,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     '/contact',
     '/filings',
     '/violations',
+    '/insurance/car-hauler-insurance-cost',
+    '/insurance/car-hauler-insurance-requirements',
   ].map((route) => ({
     url: `${baseUrl}${route}`,
     lastModified: new Date(),

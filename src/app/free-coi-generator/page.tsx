@@ -319,6 +319,15 @@ export default function CoiGeneratorPage() {
             </div>
           </div>
         </div>
+        <section className="max-w-5xl mx-auto px-6 pb-16">
+          <h2 className="text-2xl font-bold text-white mb-4">Need coverage before generating a COI?</h2>
+          <p className="text-slate-400 mb-5">A certificate documents existing coverage; it does not create or change a policy. Review the appropriate equipment program first if you need new insurance.</p>
+          <div className="flex flex-wrap gap-3">
+            <Link href="/insurance" className="border border-slate-800 text-slate-200 px-4 py-3 rounded">Compare insurance programs</Link>
+            <Link href="/insurance/auto-hauler-car-carrier-insurance" className="border border-slate-800 text-slate-200 px-4 py-3 rounded">Car hauler coverage guide</Link>
+            <Link href="/quote" className="bg-blue-500 text-white px-4 py-3 rounded">Request a quote review</Link>
+          </div>
+        </section>
       </main>
     </div>
   );

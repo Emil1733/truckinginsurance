@@ -3,8 +3,8 @@ import { TRAILERS_DATA } from '@/lib/data/trailers';
 import { Truck, ArrowRight } from 'lucide-react';
 
 export const metadata = {
-  title: 'Commercial Truck Insurance by Trailer Type',
-  description: 'Specialized insurance for Hazmat, Auto Haulers, and Bottom Dumps. We cover the high-risk trailers that other agents decline. Get a quote in 24 hours.',
+  title: 'Commercial Truck Insurance by Equipment Type',
+  description: 'Compare commercial truck insurance considerations for auto haulers, hazmat tankers, heavy haul, reefer, dump trailer, and specialized trucking operations.',
   alternates: {
     canonical: '/insurance',
   },
@@ -28,13 +28,32 @@ export default function InsuranceIndex() {
             <Truck className="w-4 h-4" /> SPECIALIZED PROGRAMS
           </div>
           <h1 className="text-4xl md:text-5xl font-display font-bold text-white mb-6">
-            INSURANCE BY TRAILER TYPE
+            COMMERCIAL TRUCK INSURANCE BY EQUIPMENT TYPE
           </h1>
           <p className="text-xl text-industrial-400 max-w-2xl">
-            We insure the trailers other agencies reject. From Hazmat Tankers to Bull Haulers,
-            get coverage tailored to your specific cargo risks.
+            Find insurance guidance for the equipment, cargo, and operating risks that make
+            specialized trucking different from standard commercial auto coverage. Select an
+            equipment type to review common coverage considerations and request help from a
+            licensed insurance professional.
           </p>
         </header>
+
+        <section className="mb-12 grid lg:grid-cols-3 gap-4">
+          <div className="lg:col-span-2 bg-industrial-800 border border-industrial-700 p-6 rounded">
+            <h2 className="text-2xl font-bold text-white mb-3">Choose the right insurance path</h2>
+            <p className="text-sm text-industrial-400 leading-relaxed">
+              Auto transporters may need to review vehicle-in-transit cargo coverage, loading and
+              unloading conditions, and broker requirements. Hazmat, heavy-haul, reefer, and dump
+              operations each create different underwriting questions. The pages below explain the
+              issues to discuss before requesting a quote review.
+            </p>
+          </div>
+          <Link href="/insurance/auto-hauler-car-carrier-insurance" className="bg-yellow-400 hover:bg-yellow-300 text-black p-6 rounded font-bold transition-colors">
+            <span className="block text-xs uppercase tracking-widest mb-3">Featured guide</span>
+            <span className="block text-xl mb-2">Car Hauler Insurance</span>
+            <span className="block text-sm font-normal">Coverage, requirements, cost factors, and FAQs for auto transport businesses.</span>
+          </Link>
+        </section>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {TRAILERS_DATA.map((t) => (
@@ -52,12 +71,16 @@ export default function InsuranceIndex() {
                   </div>
                 </div>
                 
-                <p className="text-sm text-industrial-400 mb-6 line-clamp-3 min-h-[4rem]">
+                <p className="text-sm text-industrial-400 mb-4 line-clamp-3 min-h-[4rem]">
                   {t.description}
                 </p>
 
+                <p className="text-xs text-industrial-500 mb-5">
+                  Review cargo limits, exclusions, equipment, and operating requirements.
+                </p>
+
                 <div className="flex items-center justify-between border-t border-industrial-700 pt-4">
-                   <span className="text-xs text-industrial-500 font-bold">Multiplier: {t.premium_multiplier}x</span>
+                   <span className="text-xs text-industrial-500 font-bold">VIEW COVERAGE GUIDE</span>
                    <ArrowRight className="w-4 h-4 text-industrial-600 group-hover:text-white transition-colors" />
                 </div>
              </Link>

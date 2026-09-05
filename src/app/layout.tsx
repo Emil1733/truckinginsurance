@@ -19,7 +19,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://truckcoverageexperts.com'),
+  metadataBase: new URL('https://www.truckcoverageexperts.com'),
   title: {
     template: '%s | Truck Coverage Experts',
     default: 'Truck Insurance for the 1% | High Risk Specialists',
@@ -50,26 +50,10 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               '@context': 'https://schema.org',
-              '@type': 'InsuranceAgency',
+              '@type': 'Organization',
               'name': 'Truck Coverage Experts',
-              'url': 'https://truckcoverageexperts.com',
-              'logo': 'https://truckcoverageexperts.com/logo.png',
-              'description': 'Specialized high-risk trucking insurance and federal filing services.',
-              'address': {
-                '@type': 'PostalAddress',
-                'streetAddress': '123 Compliance Way',
-                'addressLocality': 'Dallas',
-                'addressRegion': 'TX',
-                'postalCode': '75201',
-                'addressCountry': 'US'
-              },
-              'contactPoint': {
-                '@type': 'ContactPoint',
-                'telephone': '+1-800-555-0199',
-                'contactType': 'customer service',
-                'areaServed': 'US',
-                'availableLanguage': 'English'
-              }
+              'url': 'https://www.truckcoverageexperts.com',
+              'description': 'Marketing and referral platform connecting trucking companies with licensed insurance professionals.'
             })
           }}
         />

@@ -1,26 +1,31 @@
 import { US_STATES } from "@/lib/data/us-states";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
+import Link from "next/link";
 import NicheLeadForm from "@/components/NicheLeadForm";
 import { ShieldCheck, TrendingUp, CheckCircle2 } from "lucide-react";
+import { getStateInsuranceContext } from "@/lib/data/state-insurance-context";
 
 export async function generateStaticParams() {
   return US_STATES.map((state) => ({ state: state.slug }));
 }
 
-export async function generateMetadata({ params }: { params: { state: string } }): Promise<Metadata> {
-  const stateData = US_STATES.find(s => s.slug === params.state);
+export async function generateMetadata({ params }: { params: Promise<{ state: string }> }): Promise<Metadata> {
+  const { state } = await params;
+  const stateData = US_STATES.find(s => s.slug === state);
   if (!stateData) return {};
   return {
     title: `Best ${stateData.name} Hot Shot Trucking Insurance Quotes (2026)`,
-    description: `Compare ${stateData.name} Hot Shot Trucking Insurance rates. We specialize in F-350s & Flatbed Trailers in ${stateData.name}. Get cheap commercial truck insurance quotes today.`,
+    description: `Review ${stateData.name} hot shot trucking insurance options for pickups and flatbed trailers. Request help from a licensed insurance professional.`,
     alternates: { canonical: `https://www.truckcoverageexperts.com/hot-shot-insurance/${stateData.slug}` }
   };
 }
 
-export default function NicheStatePage({ params }: { params: { state: string } }) {
-  const stateData = US_STATES.find(s => s.slug === params.state);
+export default async function NicheStatePage({ params }: { params: Promise<{ state: string }> }) {
+  const { state } = await params;
+  const stateData = US_STATES.find(s => s.slug === state);
   if (!stateData) return notFound();
+  const stateContext = getStateInsuranceContext(stateData.slug);
 
   // JSON-LD Schema
   const schema = {
@@ -30,7 +35,7 @@ export default function NicheStatePage({ params }: { params: { state: string } }
       {
         "@type": "Question",
         "name": `How much is Hot Shot Trucking Insurance in ${stateData.name}?`,
-        "acceptedAnswer": { "@type": "Answer", "text": `The cost of Hot Shot Trucking Insurance in ${stateData.name} depends on your driving record and cargo. We compare top commercial auto carriers to find the cheapest rate.` }
+        "acceptedAnswer": { "@type": "Answer", "text": `The cost of Hot Shot Trucking Insurance in ${stateData.name} depends on the pickup and trailer, cargo, radius, drivers, authority status, limits, deductibles, and claims history. A licensed professional can review options for the operation.` }
       }
     ]
   };
@@ -53,10 +58,10 @@ export default function NicheStatePage({ params }: { params: { state: string } }
                   <span className="text-sm font-semibold tracking-wider uppercase">${stateData.name} Commercial Auto</span>
                 </div>
                 <h1 className="text-5xl md:text-6xl font-black text-white tracking-tight mb-6">
-                  Affordable <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-500">Hot Shot Trucking Insurance</span> in ${stateData.name}.
+                  Hot Shot Trucking Insurance <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-500">in ${stateData.name}</span>.
                 </h1>
                 <p className="text-xl text-slate-300 leading-relaxed mb-8">
-                  We specialize in commercial auto coverage for F-350s & Flatbed Trailers. Get access to exclusive programs for ${stateData.name} motor carriers and save thousands on your annual premium.
+                  Review commercial auto coverage for pickups, dually trucks, gooseneck and flatbed trailers, and the cargo you haul from ${stateData.name}. Requirements depend on your operation, authority, routes, and contracts.
                 </p>
                 <ul className="space-y-4 mb-10">
                   <li className="flex items-center gap-3 text-slate-300"><CheckCircle2 className="w-5 h-5 text-emerald-400" /> Instant DOT & FMCSA Filings</li>
@@ -68,6 +73,17 @@ export default function NicheStatePage({ params }: { params: { state: string } }
                 <NicheLeadForm stateName={stateData.name} nicheName="Hot Shot Trucking Insurance" />
               </div>
             </div>
+          </div>
+        </section>
+
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+          <h2 className="text-2xl font-bold text-white mb-3">${stateData.name} hot shot insurance: what to review</h2>
+          <p className="text-slate-400 max-w-3xl mb-4">{stateContext.focus}</p>
+          <p className="text-slate-500 max-w-3xl mb-5">{stateContext.filingNote}</p>
+          <div className="flex flex-wrap gap-3">
+            <Link href="/hot-shot" className="border border-slate-700 text-slate-200 px-4 py-3 rounded hover:border-blue-400">Hot shot startup guide</Link>
+            <Link href="/insurance/lowboy-rgn-heavy-haul-insurance" className="border border-slate-700 text-slate-200 px-4 py-3 rounded hover:border-blue-400">Heavy-haul coverage guide</Link>
+            <Link href={stateContext.filingHref} className="border border-slate-700 text-slate-200 px-4 py-3 rounded hover:border-blue-400">{stateContext.filingLabel}</Link>
           </div>
         </section>
 

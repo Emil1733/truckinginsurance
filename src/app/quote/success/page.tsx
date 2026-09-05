@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { CheckCircle2, PhoneCall } from "lucide-react";
+import { CheckCircle2 } from "lucide-react";
 
 export default function SuccessPage() {
   return (
@@ -13,14 +13,11 @@ export default function SuccessPage() {
         
         <h1 className="font-display text-4xl text-white mb-4">RECEIVED.</h1>
         <p className="text-industrial-500 mb-8">
-          Your profile has been routed to our High-Risk Underwriting Desk. An agent will contact you within <span className="text-white font-bold">2 hours</span>.
+          Your request has been received and may be reviewed by a licensed insurance professional. Response time depends on the information provided and availability.
         </p>
 
         <div className="bg-industrial-900/50 p-4 rounded mb-8 border border-industrial-700">
           <p className="text-xs text-industrial-500 mb-2 uppercase tracking-widest">Urgent Case?</p>
-          <a href="tel:1-800-555-0199" className="text-xl font-bold text-silver flex items-center justify-center gap-2 hover:text-safety-orange transition-colors">
-            <PhoneCall className="w-5 h-5" /> 1-800-555-0199
-          </a>
         </div>
 
         <Link 

@@ -1,26 +1,31 @@
 import { US_STATES } from "@/lib/data/us-states";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
+import Link from "next/link";
 import NicheLeadForm from "@/components/NicheLeadForm";
 import { ShieldCheck, TrendingUp, CheckCircle2 } from "lucide-react";
+import { getStateInsuranceContext } from "@/lib/data/state-insurance-context";
 
 export async function generateStaticParams() {
   return US_STATES.map((state) => ({ state: state.slug }));
 }
 
-export async function generateMetadata({ params }: { params: { state: string } }): Promise<Metadata> {
-  const stateData = US_STATES.find(s => s.slug === params.state);
+export async function generateMetadata({ params }: { params: Promise<{ state: string }> }): Promise<Metadata> {
+  const { state } = await params;
+  const stateData = US_STATES.find(s => s.slug === state);
   if (!stateData) return {};
   return {
     title: `Best ${stateData.name} Commercial Truck Insurance Quotes (2026)`,
-    description: `Compare ${stateData.name} Commercial Truck Insurance rates. We specialize in Class 7 & 8 Heavy Duty Trucks in ${stateData.name}. Get cheap commercial truck insurance quotes today.`,
+    description: `Review ${stateData.name} commercial truck insurance options for Class 7 and 8 vehicles. Request help from a licensed insurance professional.`,
     alternates: { canonical: `https://www.truckcoverageexperts.com/commercial-truck-insurance/${stateData.slug}` }
   };
 }
 
-export default function NicheStatePage({ params }: { params: { state: string } }) {
-  const stateData = US_STATES.find(s => s.slug === params.state);
+export default async function NicheStatePage({ params }: { params: Promise<{ state: string }> }) {
+  const { state } = await params;
+  const stateData = US_STATES.find(s => s.slug === state);
   if (!stateData) return notFound();
+  const stateContext = getStateInsuranceContext(stateData.slug);
 
   // JSON-LD Schema
   const schema = {
@@ -30,7 +35,7 @@ export default function NicheStatePage({ params }: { params: { state: string } }
       {
         "@type": "Question",
         "name": `How much is Commercial Truck Insurance in ${stateData.name}?`,
-        "acceptedAnswer": { "@type": "Answer", "text": `The cost of Commercial Truck Insurance in ${stateData.name} depends on your driving record and cargo. We compare top commercial auto carriers to find the cheapest rate.` }
+        "acceptedAnswer": { "@type": "Answer", "text": `The cost of Commercial Truck Insurance in ${stateData.name} depends on equipment, routes, cargo, drivers, limits, deductibles, and claims history. A licensed professional can review options for the operation.` }
       }
     ]
   };
@@ -53,10 +58,10 @@ export default function NicheStatePage({ params }: { params: { state: string } }
                   <span className="text-sm font-semibold tracking-wider uppercase">${stateData.name} Commercial Auto</span>
                 </div>
                 <h1 className="text-5xl md:text-6xl font-black text-white tracking-tight mb-6">
-                  Affordable <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-500">Commercial Truck Insurance</span> in ${stateData.name}.
+                  Commercial Truck Insurance <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-500">in ${stateData.name}</span>.
                 </h1>
                 <p className="text-xl text-slate-300 leading-relaxed mb-8">
-                  We specialize in commercial auto coverage for Class 7 & 8 Heavy Duty Trucks. Get access to exclusive programs for ${stateData.name} motor carriers and save thousands on your annual premium.
+                  Review commercial auto coverage for Class 7 and Class 8 trucks operating from ${stateData.name}. The right policy depends on equipment, cargo, routes, drivers, authority status, and the contracts your carrier accepts.
                 </p>
                 <ul className="space-y-4 mb-10">
                   <li className="flex items-center gap-3 text-slate-300"><CheckCircle2 className="w-5 h-5 text-emerald-400" /> Instant DOT & FMCSA Filings</li>
@@ -68,6 +73,28 @@ export default function NicheStatePage({ params }: { params: { state: string } }
                 <NicheLeadForm stateName={stateData.name} nicheName="Commercial Truck Insurance" />
               </div>
             </div>
+          </div>
+        </section>
+
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+          <h2 className="text-2xl font-bold text-white mb-3">Commercial truck insurance resources</h2>
+          <p className="text-slate-400 mb-5">Class 7 and Class 8 insurance reviews should account for equipment, cargo, operating radius, authority, drivers, and broker or shipper requirements.</p>
+          <div className="flex flex-wrap gap-3">
+            <Link href="/insurance" className="border border-slate-700 text-slate-200 px-4 py-3 rounded hover:border-blue-400">Compare equipment insurance</Link>
+            <Link href="/hot-shot" className="border border-slate-700 text-slate-200 px-4 py-3 rounded hover:border-blue-400">Hot shot startup guide</Link>
+            <Link href="/insurance/reefer-breakdown-insurance" className="border border-slate-700 text-slate-200 px-4 py-3 rounded hover:border-blue-400">Reefer coverage guide</Link>
+            <Link href="/filing/bmc91x-federal-filing-fmsca" className="border border-slate-700 text-slate-200 px-4 py-3 rounded hover:border-blue-400">Federal filing guide</Link>
+          </div>
+        </section>
+
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+          <h2 className="text-2xl font-bold text-white mb-3">${stateData.name} commercial truck insurance: what to prepare</h2>
+          <p className="text-slate-400 max-w-3xl mb-4">{stateContext.focus}</p>
+          <p className="text-slate-500 max-w-3xl mb-5">{stateContext.filingNote}</p>
+          <div className="flex flex-wrap gap-3">
+            <Link href="/insurance" className="border border-slate-700 text-slate-200 px-4 py-3 rounded hover:border-blue-400">Compare equipment insurance</Link>
+            <Link href="/insurance/auto-hauler-car-carrier-insurance" className="border border-slate-700 text-slate-200 px-4 py-3 rounded hover:border-blue-400">Car hauler coverage guide</Link>
+            <Link href={stateContext.filingHref} className="border border-slate-700 text-slate-200 px-4 py-3 rounded hover:border-blue-400">{stateContext.filingLabel}</Link>
           </div>
         </section>
 

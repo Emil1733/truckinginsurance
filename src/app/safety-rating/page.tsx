@@ -65,6 +65,15 @@ export default async function SafetyRatingIndex() {
              </Link>
           ))}
         </div>
+        <section className="mt-16 border-t border-industrial-800 pt-10">
+          <h2 className="text-2xl font-bold text-white mb-3">Connect your safety review to insurance planning</h2>
+          <p className="text-industrial-400 mb-5">Safety factors are only one part of an underwriting review. Equipment, cargo, drivers, routes, and claims history also matter.</p>
+          <div className="flex flex-wrap gap-3">
+            <Link href="/insurance" className="border border-industrial-700 text-silver px-4 py-3 rounded hover:border-yellow-500">Explore equipment insurance</Link>
+            <Link href="/resources/reinstatement-guide" className="border border-industrial-700 text-silver px-4 py-3 rounded hover:border-yellow-500">Reinstatement resources</Link>
+            <Link href="/quote" className="bg-yellow-400 text-black font-bold px-4 py-3 rounded">Request a quote review</Link>
+          </div>
+        </section>
       </main>
     </div>
   );

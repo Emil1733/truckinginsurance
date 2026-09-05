@@ -4,7 +4,7 @@ import { ArrowRight, ShieldAlert, Zap, FileWarning, Truck, Map, AlertTriangle } 
 
 export const metadata = {
   title: "Commercial Truck Insurance & Filings",
-  description: "The #1 agency for distressed carriers. Get quotes for Hazmat, Auto Haulers, and Hot Shots. We fix 'Conditional' ratings and file SR-22s same-day.",
+  description: "Connect with licensed insurance professionals for commercial truck coverage, specialty risks, and federal filings.",
   alternates: {
     canonical: '/',
   },
@@ -29,7 +29,7 @@ export default async function Home() {
              The Shop for the <span className="text-safety-orange">Uninsurable.</span>
            </h1>
            <p className="text-xl text-industrial-400 max-w-2xl mx-auto">
-             If other agents said "No," you are in the right place. Select your problem below.
+             If other agents said "No," tell us about your operation and request a review from a licensed insurance professional.
            </p>
         </div>
 
@@ -134,7 +134,7 @@ export default async function Home() {
             </h2>
             <p className="text-xl text-industrial-400 max-w-2xl mx-auto">
               A downgrade to "Conditional" usually causes a 30-day cancellation notice. 
-              We can lift the notice by proving you have a <strong>Corrective Action Plan (CAP)</strong>.
+              We can review your situation and help you understand available insurance and compliance options, including a <strong>Corrective Action Plan (CAP)</strong> where appropriate.
             </p>
           </div>
 
@@ -259,4 +259,3 @@ export default async function Home() {
     </div>
   );
 }
-
