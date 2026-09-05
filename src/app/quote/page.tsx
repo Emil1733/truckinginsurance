@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import type { ReactNode } from 'react';
 import { submitLead } from '../actions';
 import { ArrowRight, AlertTriangle, ShieldCheck, User, Truck } from 'lucide-react';
 
@@ -14,7 +15,7 @@ export default function QuotePage() {
       <div className="w-full md:w-1/3 bg-industrial-800 p-8 border-r border-industrial-700 flex flex-col justify-between">
         <div>
           <div className="font-display text-2xl text-white mb-8">
-            HIGH RISK <span className="text-safety-orange">QUOTE</span>
+            COMMERCIAL TRUCK <span className="text-safety-orange">QUOTE REVIEW</span>
           </div>
           
           <div className="space-y-6">
@@ -36,13 +37,13 @@ export default function QuotePage() {
           {/* STEP 1: VIOLATION */}
           {step === 1 && (
             <div className="animate-in fade-in slide-in-from-right-4 duration-300">
-              <h2 className="text-3xl font-display text-white mb-6">What violation caused the decline?</h2>
+              <h2 className="text-3xl font-display text-white mb-6">What best describes your insurance request?</h2>
               <div className="space-y-4 mb-8">
-                <RadioCard name="violation_code" value="395.8e" label="395.8(e) - False Logs" onChange={setViolation} />
-                <RadioCard name="violation_code" value="392.2S" label="392.2S - Speeding 15+ Over" onChange={setViolation} />
-                <RadioCard name="violation_code" value="382.215" label="382.215 - Drug/Alcohol" onChange={setViolation} />
-                <RadioCard name="violation_code" value="Other" label="Other / Multiple Violations" onChange={setViolation} />
-                <RadioCard name="violation_code" value="None" label="None - New Authority / Startup" onChange={setViolation} />
+                <RadioCard name="violation_code" value="New authority" label="New authority / startup" onChange={setViolation} />
+                <RadioCard name="violation_code" value="New coverage" label="New commercial coverage" onChange={setViolation} />
+                <RadioCard name="violation_code" value="Replacing coverage" label="Replacing current coverage" onChange={setViolation} />
+                <RadioCard name="violation_code" value="Coverage issue" label="Coverage issue or difficult placement" onChange={setViolation} />
+                <RadioCard name="violation_code" value="Other" label="Other trucking insurance request" onChange={setViolation} />
               </div>
               <button 
                 type="button" 
@@ -74,7 +75,7 @@ export default function QuotePage() {
                 <div className="flex gap-3">
                   <ShieldCheck className="text-green-500 shrink-0" />
                   <p className="text-sm text-silver">
-                    Note: We specialize in drivers with <strong className="text-white">5+ years</strong> experience who made a single mistake.
+                    Driver experience, vehicle details, cargo, authority, and operating radius can all affect a quote review.
                   </p>
                 </div>
               </div>
@@ -101,7 +102,7 @@ export default function QuotePage() {
           {/* STEP 3: CONTACT */}
           {step === 3 && (
             <div className="animate-in fade-in slide-in-from-right-4 duration-300">
-              <h2 className="text-3xl font-display text-white mb-6">Where should we send the quote?</h2>
+              <h2 className="text-3xl font-display text-white mb-6">Where should we send the review?</h2>
               
               <div className="space-y-6 mb-8">
                 <InputField name="driver_name" label="Full Name" type="text" placeholder="John Doe" />
@@ -122,11 +123,11 @@ export default function QuotePage() {
                   type="submit" 
                   className="w-2/3 bg-safety-orange hover:bg-orange-600 text-black font-bold py-4 rounded flex items-center justify-center gap-2"
                 >
-                  GET MY QUOTE
+                REQUEST MY REVIEW
                 </button>
               </div>
               <p className="text-xs text-industrial-600 mt-4 text-center">
-                By submitting, you agree to receive a call from a specialist underwriter.
+                By submitting, you agree to be contacted about your commercial insurance request.
               </p>
             </div>
           )}
@@ -138,7 +139,7 @@ export default function QuotePage() {
 }
 
 // Sub-components for cleaner code
-function StepIndicator({ current, number, title, icon }: { current: number, number: number, title: string, icon: any }) {
+function StepIndicator({ current, number, title, icon }: { current: number, number: number, title: string, icon: ReactNode }) {
   const isActive = current === number;
   const isCompleted = current > number;
   
@@ -148,7 +149,7 @@ function StepIndicator({ current, number, title, icon }: { current: number, numb
         ${isActive ? 'border-safety-orange text-safety-orange' : 
           isCompleted ? 'bg-safety-orange border-safety-orange text-black' : 
           'border-industrial-600 text-industrial-600'}`}>
-        {isCompleted ? <CheckCircle2 className="w-4 h-4" /> : number}
+        {isCompleted ? <CheckCircle2 className="w-4 h-4" /> : icon}
       </div>
       <div className="font-bold text-silver uppercase text-sm tracking-wider">{title}</div>
     </div>

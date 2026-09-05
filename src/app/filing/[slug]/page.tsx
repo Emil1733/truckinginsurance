@@ -12,12 +12,13 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
   if (!data) return { title: 'Filing Not Found' };
 
+  const isBmc91x = slug === 'bmc91x-federal-filing-fmsca';
   return {
-    title: `File ${data.form_id} Online | One-Day Processing (${data.state_code})`,
-    description: `Need a ${data.official_name} (${data.form_id})? We file electronically with the DMV/FMCSA in 15 minutes. Avoid the $${data.penalty_per_day}/day penalty.`,
+    title: isBmc91x ? 'BMC-91X Filing Requirements & Insurance Guide (2026)' : `File ${data.form_id} Online | Filing Information (${data.state_code})`,
+    description: isBmc91x ? 'Learn what the BMC-91X filing is, who may need it, what information to prepare, and how it connects to commercial trucking insurance.' : `Review ${data.official_name} (${data.form_id}) filing information, preparation steps, and applicable requirements.`,
     openGraph: {
-      title: `Instant ${data.form_id} Filing - ${data.state_code}`,
-      description: `Don't let your authority lapse. We are an authorized e-filer for ${data.official_name}.`,
+      title: isBmc91x ? 'BMC-91X Filing Requirements | Truck Coverage Experts' : `${data.form_id} Filing Information - ${data.state_code}`,
+      description: isBmc91x ? 'BMC-91X commercial motor carrier insurance filing guidance.' : `Information about ${data.official_name} filing requirements.`,
     },
     alternates: {
       canonical: `/filing/${slug}`,
@@ -45,6 +46,8 @@ export default async function FilingPage({ params }: { params: Promise<{ slug: s
   ]);
 
   if (!filing) return notFound();
+
+  const isBmc91x = slug === 'bmc91x-federal-filing-fmsca';
 
 
 
@@ -156,11 +159,11 @@ export default async function FilingPage({ params }: { params: Promise<{ slug: s
             </div>
             
             <h1 className="font-display text-5xl lg:text-7xl font-bold text-white mb-6 leading-[0.9]">
-              {filing.official_name}
+              {isBmc91x ? 'BMC-91X Insurance Filing Requirements' : filing.official_name}
             </h1>
             
             <p className="text-xl text-industrial-400 mb-8 border-l-2 border-blue-500 pl-6">
-              {filing.purpose}
+              {isBmc91x ? 'A federal insurance filing associated with applicable motor carrier operating authority and financial responsibility.' : filing.purpose}
             </p>
 
             <div className="grid grid-cols-2 gap-4 mb-12">
@@ -173,7 +176,7 @@ export default async function FilingPage({ params }: { params: Promise<{ slug: s
               <div className="bg-industrial-800 p-6 rounded border border-industrial-700">
                 <div className="text-industrial-500 text-xs font-bold mb-1 uppercase">Filing Speed</div>
                 <div className="text-2xl font-bold text-blue-400 flex items-center gap-2">
-                  <Clock className="w-5 h-5" /> INSTANT
+                  <Clock className="w-5 h-5" /> REVIEW TIMING
                 </div>
               </div>
             </div>
@@ -202,7 +205,7 @@ export default async function FilingPage({ params }: { params: Promise<{ slug: s
             <div className="text-center mb-8">
               <h2 className="text-2xl font-bold text-white mb-2">FILE {filing.form_id} NOW</h2>
               <p className="text-industrial-400 text-sm">
-                Avoid fines. We transmit electronically to {filing.state_code === 'US' ? 'FMCSA' : `${filing.state_code} DMV`}.
+                Prepare the information needed for a filing review with {filing.state_code === 'US' ? 'FMCSA' : `${filing.state_code} DMV`}.
               </p>
             </div>
 
@@ -213,7 +216,7 @@ export default async function FilingPage({ params }: { params: Promise<{ slug: s
               </div>
               <div className="flex justify-between p-4 bg-industrial-900 rounded border border-industrial-700">
                 <span className="text-silver">Processing</span>
-                <span className="text-blue-400 font-bold uppercase">Same Day</span>
+                <span className="text-blue-400 font-bold uppercase">Varies</span>
               </div>
               <div className="flex justify-between p-4 bg-green-500/10 rounded border border-green-500/20">
                 <span className="text-green-400">Total Due</span>
@@ -231,7 +234,7 @@ export default async function FilingPage({ params }: { params: Promise<{ slug: s
             </div>
             
             <p className="text-center text-xs text-industrial-500 mt-4">
-              Authorized e-filer for {filing.state_code}.
+              Availability, timing, and filing eligibility depend on the carrier and applicable requirements.
             </p>
           </div>
 

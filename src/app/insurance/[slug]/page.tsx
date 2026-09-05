@@ -13,12 +13,16 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
   if (!data) return { title: 'Coverage Not Found' };
 
+  const isCarHaulerPage = slug === 'auto-hauler-car-carrier-insurance';
+
   return {
-    title: `${data.display_name} Insurance | Coverage Review for Trucking Operations`,
-    description: `Review commercial insurance considerations for ${data.display_name} operations and request help from a licensed insurance professional.`,
+    title: isCarHaulerPage ? 'Car Hauler & Auto Transport Insurance | Coverage, Cost & Requirements' : `${data.display_name} Insurance | Coverage Review for Trucking Operations`,
+    description: isCarHaulerPage
+      ? 'Review car hauler, auto hauler, and auto transport insurance coverage, cost factors, requirements, cargo protection, and quote preparation.'
+      : `Review commercial insurance considerations for ${data.display_name} operations and request help from a licensed insurance professional.`,
     openGraph: {
-      title: `${data.display_name} Insurance | Truck Coverage Experts`,
-      description: `Commercial insurance considerations and quote-review assistance for ${data.display_name} operations.`,
+      title: isCarHaulerPage ? 'Car Hauler & Auto Transport Insurance | Truck Coverage Experts' : `${data.display_name} Insurance | Truck Coverage Experts`,
+      description: isCarHaulerPage ? 'Commercial auto transport insurance guidance for car haulers and vehicle transport businesses.' : `Commercial insurance considerations and quote-review assistance for ${data.display_name} operations.`,
     },
     alternates: {
       canonical: `/insurance/${slug}`,
@@ -44,7 +48,7 @@ export default async function TrailerPage({ params }: { params: Promise<{ slug: 
   if (!trailer) return notFound();
 
   const isCarHauler = slug === 'auto-hauler-car-carrier-insurance';
-  const pageName = isCarHauler ? 'Car Hauler Insurance' : `${trailer.display_name} Insurance`;
+  const pageName = isCarHauler ? 'Car Hauler & Auto Transport Insurance' : `${trailer.display_name} Insurance`;
 
   // Cast exclusions safely
   const exclusions = (trailer.common_exclusions || []) as string[];

@@ -4,8 +4,8 @@ import { Truck, CheckCircle2, FileText, Shield, ArrowRight } from 'lucide-react'
 import { ReinstatementModal } from '@/components/ReinstatementModal';
 
 export const metadata = {
-  title: 'Non-CDL Hot Shot Insurance & Startup Guide | Truck Coverage Experts',
-  description: 'Starting a Hot Shot business with a pickup and flatbed? Use our Non-CDL Calculator and get insured without a Commercial Drivers License. 26,000 lbs rule explained.',
+  title: 'Hot Shot Trucking Insurance: Coverage, Cost & Requirements (2026)',
+  description: 'Review hot shot trucking insurance coverage, cost factors, authority requirements, cargo protection, and quote preparation for pickup-and-trailer operations.',
   alternates: {
     canonical: '/hot-shot',
   },
@@ -33,17 +33,19 @@ export default function HotShotPage() {
                 <Truck className="w-4 h-4" /> REVOLUTIONIZING LOGISTICS
              </div>
              <h1 className="text-4xl md:text-6xl font-display font-bold text-white mb-6 leading-tight">
-               START YOUR <br />
-               <span className="text-transparent bg-clip-text bg-gradient-to-r from-safety-orange to-yellow-500">HOT SHOT EMPIRE.</span>
+               HOT SHOT TRUCKING <br />
+               <span className="text-transparent bg-clip-text bg-gradient-to-r from-safety-orange to-yellow-500">INSURANCE GUIDE.</span>
              </h1>
              <p className="text-xl text-industrial-400 mb-8 max-w-lg">
-               You don't need a Semi-Truck to make $5k/week. You usually don't even need a CDL. 
-               We specialize in "3500 dually + 40ft gooseneck" insurance setups.
+               Review commercial insurance for pickup-and-trailer operations, including dually trucks,
+               gooseneck trailers, local hauling, interstate freight, and new authorities. CDL
+               requirements depend on the vehicle and combination, while insurance needs depend on
+               your cargo, radius, drivers, contracts, and authority.
              </p>
              
              <div className="flex flex-col sm:flex-row gap-4">
                 <Link href="/quote" className="bg-safety-orange text-black font-bold py-4 px-8 rounded flex items-center justify-center gap-2 hover:bg-orange-500 transition-colors">
-                  GET STARTUP QUOTE <ArrowRight className="w-5 h-5" />
+                  REQUEST A QUOTE REVIEW <ArrowRight className="w-5 h-5" />
                 </Link>
                 <Link href="#checklist" className="border border-industrial-600 text-white font-bold py-4 px-8 rounded flex items-center justify-center hover:bg-industrial-800 transition-colors">
                   VIEW CHECKLIST
@@ -61,16 +63,16 @@ export default function HotShotPage() {
         <section id="checklist" className="mb-20">
            <div className="flex items-center gap-4 mb-8">
             <div className="h-px bg-industrial-800 flex-1"></div>
-            <h2 className="text-2xl font-display text-white tracking-widest">THE NON-CDL BLUEPRINT</h2>
+            <h2 className="text-2xl font-display text-white tracking-widest">THE HOT SHOT STARTUP CHECKLIST</h2>
             <div className="h-px bg-industrial-800 flex-1"></div>
           </div>
 
           <div className="grid md:grid-cols-4 gap-4">
              {[
-               { icon: FileText, title: '1. LLC Formation', desc: 'Separate your personal assets. We recommend "Trucking" in the name.' },
-               { icon: Truck, title: '2. MC & DOT #', desc: 'Apply for Motor Carrier authority. DO NOT pay the $300 "processing fees" from scammers.' },
-               { icon: Shield, title: '3. Insurance (BOC-3)', desc: 'You need $750k Liability (FMCSA min) + $100k Cargo. We file your BOC-3 instantly.' },
-               { icon: CheckCircle2, title: '4. IRP & IFTA', desc: 'Apportioned plates and fuel tax. This allows you to cross state lines legally.' },
+               { icon: FileText, title: '1. Business setup', desc: 'Confirm your entity, vehicle ownership, operating model, cargo, and whether you will haul under your own authority or lease on.' },
+               { icon: Truck, title: '2. DOT and MC status', desc: 'Check the current FMCSA authority process and avoid unofficial services that add unnecessary fees.' },
+               { icon: Shield, title: '3. Coverage review', desc: 'Discuss commercial auto liability, cargo, physical damage, and any broker or shipper requirements with a licensed professional.' },
+               { icon: CheckCircle2, title: '4. Documents and filings', desc: 'Prepare driver, vehicle, loss-run, cargo, and authority information. A BOC-3 is a process-agent filing, not insurance.' },
              ].map((step, i) => (
                <div key={i} className="bg-industrial-800 p-6 rounded border border-industrial-700 hover:border-blue-500 transition-colors group">
                   <step.icon className="w-10 h-10 text-industrial-600 mb-4 group-hover:text-blue-500 transition-colors" />
@@ -78,6 +80,19 @@ export default function HotShotPage() {
                   <p className="text-sm text-industrial-400">{step.desc}</p>
                </div>
              ))}
+          </div>
+        </section>
+
+        <section className="mb-20 grid lg:grid-cols-2 gap-8">
+          <div className="bg-industrial-800 border border-industrial-700 rounded p-8">
+            <h2 className="text-3xl font-bold text-white mb-4">What hot shot insurance may include</h2>
+            <p className="text-industrial-400 leading-relaxed mb-5">A hot shot policy is shaped by the operation, not just the pickup truck. Coverage to discuss may include:</p>
+            <ul className="space-y-3 text-industrial-300">{['Primary commercial auto liability', 'Motor truck cargo coverage', 'Physical damage for the pickup and trailer', 'Trailer interchange or non-owned trailer coverage when applicable', 'General liability, occupational accident, or workers compensation where appropriate'].map(item => <li key={item} className="flex gap-3"><CheckCircle2 className="w-5 h-5 text-safety-orange shrink-0" />{item}</li>)}</ul>
+          </div>
+          <div className="bg-industrial-800 border border-industrial-700 rounded p-8">
+            <h2 className="text-3xl font-bold text-white mb-4">What affects hot shot insurance cost?</h2>
+            <p className="text-industrial-400 leading-relaxed mb-5">Insurers commonly review the truck and trailer, operating radius, cargo, driver history, authority age, prior coverage, claims, limits, and deductibles. New ventures may be evaluated differently from established carriers.</p>
+            <p className="text-industrial-400 leading-relaxed">There is no universal “cheap” rate. The fastest way to receive a useful review is to prepare your driver list, vehicle details, cargo description, radius, authority information, and loss history.</p>
           </div>
         </section>
 
@@ -104,13 +119,13 @@ export default function HotShotPage() {
         <div className="bg-black/40 rounded-2xl p-8 md:p-12 border border-industrial-800 text-center">
            <h2 className="text-3xl font-bold text-white mb-4">ALREADY DENIED COVERAGE?</h2>
            <p className="text-industrial-400 max-w-2xl mx-auto mb-8">
-             New ventures are "high risk" to most agents. 
+             New ventures can be harder to place with some markets. 
              If you bought a truck before getting a quote, you might be panicking. 
              We write New Ventures every single day.
            </p>
            <ReinstatementModal>
              <button className="text-safety-orange font-bold uppercase tracking-widest hover:text-white transition-colors border-b border-safety-orange hover:border-white pb-1">
-               Download "New Authority" Survival Guide
+               Download the New Authority Survival Guide
              </button>
            </ReinstatementModal>
         </div>

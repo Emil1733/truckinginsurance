@@ -3,7 +3,7 @@ User-agent: *
 Allow: /
 
 # Host
-Host: https://www.truckcoverageexperts.com
+Host: sc-domain:truckcoverageexperts.com
 
 # Sitemaps
-Sitemap: https://www.truckcoverageexperts.com/sitemap.xml
+Sitemap: sc-domain:truckcoverageexperts.com/sitemap.xml

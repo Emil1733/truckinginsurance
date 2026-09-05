@@ -26,5 +26,30 @@ export async function submitLead(formData: FormData) {
     throw new Error('Failed to submit');
   }
 
+  const airtableToken = process.env.AIRTABLE_PAT;
+  const airtableBase = process.env.AIRTABLE_BASE_ID;
+  const airtableTable = process.env.AIRTABLE_TABLE_ID;
+  if (airtableToken && airtableBase && airtableTable) {
+    try {
+      const airtableResponse = await fetch(`https://api.airtable.com/v0/${airtableBase}/${airtableTable}`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${airtableToken}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ records: [{ fields: {
+          'Lead Name': driver_name,
+          Phone: phone,
+          Email: email,
+          Source: 'website:/quote',
+          Status: 'New',
+          Notes: `Quote request. CDL experience: ${Number.isNaN(cdl_years) ? 'Not provided' : `${cdl_years} years`}. Request type: ${violation_code}`,
+        } }] }),
+      });
+      if (!airtableResponse.ok) console.error('Airtable quote sync error:', airtableResponse.status, await airtableResponse.text());
+    } catch (airtableError) {
+      console.error('Airtable quote sync failed:', airtableError);
+    }
+  } else {
+    console.warn('Airtable quote sync skipped: missing Airtable environment variables');
+  }
+
   redirect('/quote/success');
 }

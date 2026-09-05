@@ -19,6 +19,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     '/dot-insurance-lookup',
     '/free-coi-generator',
     '/hot-shot',
+    '/box-truck-insurance',
+    '/trucking-insurance-requirements',
+    '/dot-insurance-requirements',
+    '/new-authority-insurance',
     '/contact',
     '/filings',
     '/violations',
@@ -75,7 +79,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }));
 
   // 5. Programmatic: Brokers (Fetched from DB with Pagination)
-  let brokerRoutes: MetadataRoute.Sitemap = [];
+  const brokerRoutes: MetadataRoute.Sitemap = [];
   try {
       let hasMore = true;
       let page = 0;
@@ -107,7 +111,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }
 
   // 6. Programmatic: Safety Ratings (Fetched from DB with Pagination)
-  let safetyRoutes: MetadataRoute.Sitemap = [];
+  const safetyRoutes: MetadataRoute.Sitemap = [];
   try {
       let hasMore = true;
       let page = 0;
@@ -140,7 +144,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
 
   // 8. Programmatic: Revocation Status (Fetched with Admin Key to bypass RLS)
-  let statusRoutes: MetadataRoute.Sitemap = [];
+  const statusRoutes: MetadataRoute.Sitemap = [];
   try {
       const { createClient } = await import('@supabase/supabase-js');
       const supabaseAdmin = createClient(
