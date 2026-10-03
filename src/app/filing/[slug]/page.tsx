@@ -3,6 +3,7 @@ import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { SiteHeader } from "@/components/SiteHeader";
 
 
 // SEO Metadata Generation
@@ -48,6 +49,8 @@ export default async function FilingPage({ params }: { params: Promise<{ slug: s
   if (!filing) return notFound();
 
   const isBmc91x = slug === 'bmc91x-federal-filing-fmsca';
+  const filingFee = Number(filing.filing_fee);
+  const hasFixedFilingFee = Number.isFinite(filingFee);
 
 
 
@@ -62,19 +65,19 @@ export default async function FilingPage({ params }: { params: Promise<{ slug: s
             '@type': 'ListItem',
             'position': 1,
             'name': 'Home',
-            'item': 'https://truckcoverageexperts.com'
+            'item': 'https://www.truckcoverageexperts.com'
           },
           {
             '@type': 'ListItem',
             'position': 2,
             'name': 'Filings',
-            'item': 'https://truckcoverageexperts.com/filings'
+            'item': 'https://www.truckcoverageexperts.com/filings'
           },
           {
             '@type': 'ListItem',
             'position': 3,
             'name': `${filing.state_code} ${filing.form_id}`,
-            'item': `https://truckcoverageexperts.com/filing/${slug}`
+            'item': `https://www.truckcoverageexperts.com/filing/${slug}`
           }
         ]
       },
@@ -85,7 +88,7 @@ export default async function FilingPage({ params }: { params: Promise<{ slug: s
         'provider': {
           '@type': 'Organization',
           'name': 'Truck Coverage Experts',
-          'url': 'https://truckcoverageexperts.com'
+          'url': 'https://www.truckcoverageexperts.com'
         },
         'areaServed': {
           '@type': 'AdministrativeArea',
@@ -93,7 +96,7 @@ export default async function FilingPage({ params }: { params: Promise<{ slug: s
         },
         'offers': {
           '@type': 'Offer',
-          'price': (filing.filing_fee + 25).toString(),
+          'price': hasFixedFilingFee ? (filingFee + 25).toString() : '0',
           'priceCurrency': 'USD',
           'description': 'Filing Fee + Processing'
         },
@@ -110,7 +113,7 @@ export default async function FilingPage({ params }: { params: Promise<{ slug: s
             'name': `How fast can I get a ${filing.form_id} filing in ${filing.state_code}?`,
             'acceptedAnswer': {
               '@type': 'Answer',
-              'text': `We process ${filing.form_id} filings instantly. Once approved, the electronic transmission is sent to the ${filing.state_code === 'US' ? 'FMCSA' : filing.state_code + ' DMV'} the same day.`
+              'text': `Timing depends on the carrier information, insurer appointment, eligibility, and the applicable ${filing.state_code === 'US' ? 'FMCSA' : filing.state_code + ' DMV'} process. Confirm the expected transmission timing during the filing review.`
             }
           },
           {
@@ -132,18 +135,7 @@ export default async function FilingPage({ params }: { params: Promise<{ slug: s
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      {/* HEADER */}
-      <header className="border-b border-industrial-800 bg-industrial-900 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-          <Link href="/" className="font-display font-bold text-xl tracking-tighter text-white">
-            TRUCK COVERAGE EXPERTS
-          </Link>
-          <div className="flex items-center gap-2">
-            <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-            <span className="text-xs font-bold text-green-500">FILING PORTAL ONLINE</span>
-          </div>
-        </div>
-      </header>
+      <SiteHeader statusLabel="Filing portal online" ctaLabel="Request a review" />
 
       <main className="max-w-7xl mx-auto px-6 py-12 lg:py-20">
         <Breadcrumbs items={[
@@ -190,7 +182,7 @@ export default async function FilingPage({ params }: { params: Promise<{ slug: s
                   "Active Authority Verification",
                   "Financial Responsibility Proof",
                   "Electronic Transmission to State/FMCSA",
-                  "Instant PDF Certificate Download"
+                  "Filing confirmation and supporting records"
                 ].map((item, i) => (
                 <li key={i} className="flex gap-3 text-sm text-silver">
                   <CheckCircle2 className="w-4 h-4 text-industrial-600 mt-1" />
@@ -212,7 +204,7 @@ export default async function FilingPage({ params }: { params: Promise<{ slug: s
             <div className="space-y-4 mb-8">
               <div className="flex justify-between p-4 bg-industrial-900 rounded border border-industrial-700">
                 <span className="text-silver">Filing Fee</span>
-                <span className="text-white font-bold">${filing.filing_fee}</span>
+                <span className="text-white font-bold">{hasFixedFilingFee ? `$${filingFee}` : 'Confirmed during review'}</span>
               </div>
               <div className="flex justify-between p-4 bg-industrial-900 rounded border border-industrial-700">
                 <span className="text-silver">Processing</span>
@@ -220,7 +212,7 @@ export default async function FilingPage({ params }: { params: Promise<{ slug: s
               </div>
               <div className="flex justify-between p-4 bg-green-500/10 rounded border border-green-500/20">
                 <span className="text-green-400">Total Due</span>
-                <span className="text-white font-bold">${filing.filing_fee + 25}</span>
+                <span className="text-white font-bold">{hasFixedFilingFee ? `$${filingFee + 25}` : 'Confirmed during review'}</span>
               </div>
             </div>
 
@@ -236,9 +228,30 @@ export default async function FilingPage({ params }: { params: Promise<{ slug: s
             <p className="text-center text-xs text-industrial-500 mt-4">
               Availability, timing, and filing eligibility depend on the carrier and applicable requirements.
             </p>
+            <Link href="/trucking-insurance-readiness" className="block mt-5 text-center border border-blue-500/50 text-blue-300 hover:text-white px-4 py-3 rounded text-sm font-bold">
+              Build your filing-readiness checklist first
+            </Link>
           </div>
 
         </div>
+
+        {isBmc91x && (
+          <section className="mt-20 border-t border-industrial-800 pt-12 grid lg:grid-cols-2 gap-10">
+            <div>
+              <h2 className="text-3xl font-bold text-white mb-4">What to prepare for a BMC-91X review</h2>
+              <p className="text-industrial-400 leading-relaxed mb-5">BMC-91X questions usually sit inside a larger authority and insurance review. Have your DOT/MC information, operating status, equipment, cargo, requested liability limits, insurer information, and any broker requirements available.</p>
+              <p className="text-industrial-400 leading-relaxed">A filing is not the same thing as a policy, a BOC-3 process-agent filing, or permission to operate. Confirm which filings apply to your authority and commodity before submitting information.</p>
+            </div>
+            <div>
+              <h2 className="text-3xl font-bold text-white mb-4">Related carrier preparation</h2>
+              <div className="flex flex-wrap gap-3">
+                <Link href="/trucking-insurance-requirements" className="border border-industrial-700 px-4 py-3 rounded hover:border-blue-400">Insurance requirements guide</Link>
+                <Link href="/trucking-insurance-readiness" className="border border-blue-500 text-blue-300 px-4 py-3 rounded hover:bg-blue-600 hover:text-white">Free readiness checklist</Link>
+                <Link href="/quote" className="bg-blue-600 text-white font-bold px-4 py-3 rounded">Request a review</Link>
+              </div>
+            </div>
+          </section>
+        )}
 
         {/* RELATED VIOLATIONS SECTION */}
         <div className="mt-24 border-t border-industrial-800 pt-12">

@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import { ShieldAlert, AlertTriangle, FileText, CheckCircle2, TrendingUp, ArrowRight, Activity, XCircle } from 'lucide-react';
 import { ReinstatementModal } from '@/components/ReinstatementModal';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
+import { SiteHeader } from '@/components/SiteHeader';
 
 export const revalidate = 86400; // Cache for 24 hours
 
@@ -45,19 +46,19 @@ export default async function SafetyFactorPage({ params }: { params: Promise<{ s
         '@type': 'ListItem',
         'position': 1,
         'name': 'Home',
-        'item': 'https://truckcoverageexperts.com'
+        'item': 'https://www.truckcoverageexperts.com'
       },
       {
         '@type': 'ListItem',
         'position': 2,
         'name': 'Safety Ratings',
-        'item': 'https://truckcoverageexperts.com/safety-rating'
+        'item': 'https://www.truckcoverageexperts.com/safety-rating'
       },
       {
         '@type': 'ListItem',
         'position': 3,
         'name': `Factor ${factor.factor_number}`,
-        'item': `https://truckcoverageexperts.com/safety-rating/${slug}`
+        'item': `https://www.truckcoverageexperts.com/safety-rating/${slug}`
       }
     ]
   };
@@ -68,15 +69,7 @@ export default async function SafetyFactorPage({ params }: { params: Promise<{ s
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      {/* HEADER */}
-      <nav className="border-b border-industrial-800 bg-industrial-900/90 backdrop-blur sticky top-0 z-50">
-         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-           <Link href="/" className="text-xl font-bold tracking-tighter text-white">TRUCK COVERAGE EXPERTS</Link>
-           <Link href="/quote" className="text-xs font-bold bg-safety-orange text-black px-4 py-2 rounded">
-             GET INSURED
-           </Link>
-         </div>
-      </nav>
+      <SiteHeader ctaLabel="Request a review" statusLabel="Safety rating alert" />
 
       <main className="max-w-4xl mx-auto px-6 py-12">
         <Breadcrumbs items={[

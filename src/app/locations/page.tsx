@@ -1,6 +1,7 @@
 import { US_STATES } from "@/lib/data/us-states";
 import Link from "next/link";
 import { Metadata } from "next";
+import { SiteHeader } from "@/components/SiteHeader";
 
 export const metadata: Metadata = {
   title: "Commercial Truck Insurance by State | Locations",
@@ -17,7 +18,8 @@ export default function LocationsPage() {
   ];
 
   return (
-    <main className="min-h-screen bg-slate-950 text-white pt-24 pb-16 px-4">
+    <main className="min-h-screen bg-slate-950 text-white pb-16 px-4">
+      <SiteHeader statusLabel="Coverage by state" ctaLabel="Request a review" />
       <div className="max-w-7xl mx-auto">
         <h1 className="text-4xl md:text-5xl font-black mb-4">Coverage by State</h1>
         <p className="text-slate-400 text-xl mb-12 max-w-3xl">Browse our specialized commercial auto insurance programs available in your state. We help motor carriers across the nation secure affordable coverage.</p>

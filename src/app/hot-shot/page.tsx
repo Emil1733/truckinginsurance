@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { CDLCalculator } from '@/components/CDLCalculator';
 import { Truck, CheckCircle2, FileText, Shield, ArrowRight } from 'lucide-react';
 import { ReinstatementModal } from '@/components/ReinstatementModal';
+import { SiteHeader } from '@/components/SiteHeader';
 
 export const metadata = {
   title: 'Hot Shot Trucking Insurance: Coverage, Cost & Requirements (2026)',
@@ -11,18 +12,28 @@ export const metadata = {
   },
 };
 
+const faqs = [
+  ['What insurance does a hot shot trucking business need?', 'Many hot shot operators review commercial auto liability, motor truck cargo, and physical damage for the pickup and trailer. Trailer interchange, general liability, occupational accident, or workers compensation may also matter depending on the operation and contracts.'],
+  ['How much does hot shot insurance cost?', 'Cost varies with the pickup and trailer, cargo, radius, driver history, authority age, prior coverage, claims, limits, and deductibles. New ventures can be evaluated differently from established carriers, so a generic average may not represent your operation.'],
+  ['Do hot shot truckers need a CDL?', 'A CDL may depend on the actual and rated combination weight, configuration, and applicable rules. Insurance underwriting may still review driver experience and motor vehicle records even when a CDL is not required.'],
+  ['What is needed for a hot shot insurance quote?', 'Prepare the driver list, vehicle and trailer details, cargo description, operating radius, authority status, loss history, and any broker or shipper requirements.'],
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map(([question, answer]) => ({
+    '@type': 'Question',
+    name: question,
+    acceptedAnswer: { '@type': 'Answer', text: answer },
+  })),
+};
+
 export default function HotShotPage() {
   return (
     <div className="min-h-screen bg-industrial-900 font-mono text-silver">
-      {/* HEADER */}
-      <nav className="border-b border-industrial-800 bg-industrial-900/90 backdrop-blur sticky top-0 z-50">
-         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-           <Link href="/" className="text-xl font-bold tracking-tighter text-white">TRUCK COVERAGE EXPERTS</Link>
-           <Link href="/quote" className="text-xs font-bold bg-safety-orange text-black px-4 py-2 rounded">
-             GET INSURED
-           </Link>
-         </div>
-      </nav>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+      <SiteHeader ctaLabel="Get insured" />
 
       <main className="max-w-6xl mx-auto px-6 py-12">
         
@@ -108,10 +119,26 @@ export default function HotShotPage() {
               <span className="text-safety-orange font-bold">Heavy-haul coverage guide</span>
               <span className="block text-sm text-industrial-400 mt-2">Review specialized equipment and high-value cargo considerations.</span>
             </Link>
+            <Link href="/trucking-insurance-readiness" className="bg-blue-950/40 border border-blue-800 p-5 hover:border-safety-orange transition-colors">
+              <span className="text-safety-orange font-bold">Build your readiness checklist</span>
+              <span className="block text-sm text-industrial-400 mt-2">Organize cargo, radius, authority, and document details before requesting a quote review.</span>
+            </Link>
             <Link href="/filing/bmc91x-federal-filing-fmsca" className="bg-industrial-800 border border-industrial-700 p-5 hover:border-safety-orange transition-colors">
               <span className="text-safety-orange font-bold">Federal filing guide</span>
               <span className="block text-sm text-industrial-400 mt-2">Understand the insurance filing topic before applying for authority.</span>
             </Link>
+          </div>
+        </section>
+
+        <section className="mb-20 border-t border-industrial-800 pt-12">
+          <h2 className="text-3xl font-bold text-white mb-6">Hot shot insurance questions</h2>
+          <div className="space-y-3">
+            {faqs.map(([question, answer]) => (
+              <details key={question} className="border-b border-industrial-800 py-5">
+                <summary className="cursor-pointer text-lg font-bold text-white">{question}</summary>
+                <p className="text-industrial-400 leading-relaxed mt-3">{answer}</p>
+              </details>
+            ))}
           </div>
         </section>
 

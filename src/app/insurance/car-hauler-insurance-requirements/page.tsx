@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { ArrowRight, CheckCircle2, FileText, ShieldCheck, Truck } from 'lucide-react';
+import { SiteHeader } from '@/components/SiteHeader';
 
 export const metadata = {
   title: 'Car Hauler Insurance Requirements: Liability, Cargo and Filings',
@@ -19,7 +20,7 @@ const requirements = [
 export default function CarHaulerInsuranceRequirementsPage() {
   return (
     <main className="min-h-screen bg-industrial-900 text-silver font-mono">
-      <nav className="border-b border-industrial-800 bg-industrial-900/90 sticky top-0 z-50"><div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between"><Link href="/" className="text-xl font-bold tracking-tighter text-white">TRUCK COVERAGE EXPERTS</Link><Link href="/quote" className="text-xs font-bold bg-yellow-400 text-black px-4 py-2 rounded">REQUEST A REVIEW</Link></div></nav>
+      <SiteHeader ctaLabel="Request a review" statusLabel="Auto transport guide" />
       <section className="max-w-5xl mx-auto px-6 py-16 lg:py-24">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded bg-yellow-400/10 text-yellow-400 text-xs font-bold border border-yellow-400/20 mb-6 uppercase tracking-widest"><Truck className="w-4 h-4" /> AUTO TRANSPORT COMPLIANCE GUIDE</div>
         <h1 className="text-5xl lg:text-7xl font-bold text-white leading-[0.95] mb-6">Car Hauler Insurance Requirements</h1>

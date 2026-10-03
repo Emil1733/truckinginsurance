@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { CheckCircle2, FileCheck2, ArrowRight, ClipboardCheck, ShieldCheck } from 'lucide-react';
 import NicheLeadForm from '@/components/NicheLeadForm';
 import { Footer } from '@/components/Footer';
+import { SiteHeader } from '@/components/SiteHeader';
 
 export const metadata = {
   title: 'Commercial Trucking Insurance Requirements (2026 Guide)',
@@ -18,9 +19,20 @@ const requirements = [
 ];
 
 const documents = ['Driver list and motor vehicle records', 'Vehicle year, VIN, value, and equipment schedule', 'Cargo description and operating radius', 'DOT/MC authority information', 'Prior declarations page and loss runs', 'Broker, shipper, or contract insurance requirements'];
+const faqs = [
+  ['What are the minimum commercial truck insurance requirements?', 'Minimums vary by authority, commodity, vehicle, and applicable federal or state rules. Broker and shipper contracts may request limits above a legal minimum.'],
+  ['Does every trucking company need an FMCSA filing?', 'Not every operation has the same federal filing obligations. Interstate motor carriers should review their authority and commodity requirements with a qualified professional.'],
+  ['What insurance does a new authority need?', 'A new authority typically needs a coverage and filing review before operating. The exact requirements depend on the operation, cargo, vehicles, routes, and authority status.'],
+  ['Can requirements differ by state?', 'Yes. State and federal requirements can differ, especially for intrastate operations, permits, filings, and special commodities.'],
+];
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map(([question, answer]) => ({ '@type': 'Question', name: question, acceptedAnswer: { '@type': 'Answer', text: answer } })),
+};
 
 export default function TruckingInsuranceRequirementsPage() {
-  return <div className="min-h-screen bg-slate-950 text-slate-200"><nav className="border-b border-slate-800 bg-slate-950/95 sticky top-0 z-50"><div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between"><Link href="/" className="text-white font-black tracking-tight">TRUCK COVERAGE EXPERTS</Link><Link href="#review" className="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded text-sm font-bold">Request a review</Link></div></nav><main>
+  return <div className="min-h-screen bg-slate-950 text-slate-200"><script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} /><SiteHeader ctaHref="#review" ctaLabel="Request a review" /><main>
     <section className="border-b border-slate-800 bg-gradient-to-br from-blue-950/60 via-slate-950 to-slate-950"><div className="max-w-7xl mx-auto px-6 py-20 grid lg:grid-cols-2 gap-12 items-center"><div><div className="inline-flex items-center gap-2 text-blue-300 text-xs uppercase tracking-widest font-bold mb-6"><ClipboardCheck className="w-4 h-4" /> Carrier requirements guide</div><h1 className="text-5xl md:text-6xl font-black text-white leading-tight mb-6">Commercial Trucking Insurance Requirements</h1><p className="text-xl text-slate-300 leading-relaxed mb-8">Understand the coverage, filings, and documents commonly reviewed when starting or operating a trucking company. Requirements vary by authority, cargo, vehicle, routes, contracts, and state.</p><div className="flex flex-wrap gap-3"><Link href="#checklist" className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-bold px-6 py-4 rounded-xl">View the checklist <ArrowRight className="w-4 h-4" /></Link><Link href="/filing/bmc91x-federal-filing-fmsca" className="border border-slate-700 hover:border-blue-400 px-6 py-4 rounded-xl">Review BMC-91X</Link><Link href="/trucking-insurance-readiness" className="border border-slate-700 hover:border-blue-400 px-6 py-4 rounded-xl">Free readiness checklist</Link></div></div><div id="review"><NicheLeadForm stateName="your state" nicheName="Commercial Trucking Insurance Requirements" /></div></div></section>
 
     <section id="checklist" className="max-w-7xl mx-auto px-6 py-16"><div className="max-w-3xl mb-10"><h2 className="text-3xl font-black text-white mb-4">What insurance does a trucking company need?</h2><p className="text-slate-400 leading-relaxed">There is no single policy that fits every motor carrier. A useful requirements review starts with how the business operates, what it hauls, whose authority it uses, and what contracts require.</p></div><div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">{requirements.map(([title, body]) => <article key={title} className="bg-slate-900 border border-slate-800 rounded-2xl p-6"><ShieldCheck className="text-blue-400 mb-4" /><h3 className="text-xl font-bold text-white mb-3">{title}</h3><p className="text-slate-400 leading-relaxed">{body}</p></article>)}</div></section>
@@ -29,6 +41,6 @@ export default function TruckingInsuranceRequirementsPage() {
 
     <section className="max-w-7xl mx-auto px-6 py-16"><h2 className="text-3xl font-black text-white mb-8">Requirements by trucking operation</h2><div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">{[['Box truck', '/box-truck-insurance'], ['Hot shot', '/hot-shot'], ['Car hauler', '/insurance/auto-hauler-car-carrier-insurance'], ['Specialized equipment', '/insurance']].map(([name, href]) => <Link key={href} href={href} className="bg-slate-900 border border-slate-800 rounded-xl p-5 hover:border-blue-400"><span className="font-bold text-white">{name} insurance</span><span className="block text-sm text-slate-400 mt-2">Review coverage and requirements <ArrowRight className="inline w-4 h-4" /></span></Link>)}</div></section>
 
-    <section className="max-w-4xl mx-auto px-6 pb-20"><h2 className="text-3xl font-black text-white mb-8">Trucking insurance requirement questions</h2>{[['What are the minimum commercial truck insurance requirements?', 'Minimums vary by authority, commodity, vehicle, and applicable federal or state rules. Broker and shipper contracts may request limits above a legal minimum.'], ['Does every trucking company need an FMCSA filing?', 'Not every operation has the same federal filing obligations. Interstate motor carriers should review their authority and commodity requirements with a qualified professional.'], ['What insurance does a new authority need?', 'A new authority typically needs a coverage and filing review before operating. The exact requirements depend on the operation, cargo, vehicles, routes, and authority status.'], ['Can requirements differ by state?', 'Yes. State and federal requirements can differ, especially for intrastate operations, permits, filings, and special commodities.']].map(([q, a]) => <details key={q} className="border-b border-slate-800 py-5"><summary className="cursor-pointer font-bold text-white text-lg">{q}</summary><p className="text-slate-400 leading-relaxed mt-3">{a}</p></details>)}</section>
+    <section className="max-w-4xl mx-auto px-6 pb-20"><h2 className="text-3xl font-black text-white mb-8">Trucking insurance requirement questions</h2>{faqs.map(([q, a]) => <details key={q} className="border-b border-slate-800 py-5"><summary className="cursor-pointer font-bold text-white text-lg">{q}</summary><p className="text-slate-400 leading-relaxed mt-3">{a}</p></details>)}</section>
   </main><Footer /></div>;
 }

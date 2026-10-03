@@ -1,5 +1,14 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## Project operating documents
+
+- [AGENTS.md](./AGENTS.md) — required implementation, SEO, privacy, and documentation rules.
+- [PROJECT-CONTEXT.md](./PROJECT-CONTEXT.md) — business goals, architecture, lead flow, current evidence, and phased roadmap.
+- [ROUTE-INVENTORY.md](./ROUTE-INVENTORY.md) — route families, indexation classifications, sitemap findings, and SEO remediation order.
+- [SEO-CONTENT-ROADMAP.md](./SEO-CONTENT-ROADMAP.md) — keyword/page opportunities and content priorities.
+
+Update the relevant documents whenever a code, page, lead-flow, SEO, or deployment change changes the project’s behavior or strategy.
+
 ## Getting Started
 
 First, run the development server:

@@ -8,7 +8,7 @@ export const metadata = {
   title: 'Denied by Amazon Relay? | 48-Hour Approval & Seattle PO Box Guide',
   description: 'Stop getting rejected by the Amazon Relay OCR. We solve the 3 hidden reasons for insurance denial and get your fleet approved in 48 hours.',
   alternates: {
-    canonical: 'https://truckcoverageexperts.com/amazon-relay-insurance',
+    canonical: 'https://www.truckcoverageexperts.com/amazon-relay-insurance',
   },
 };
 

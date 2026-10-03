@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 import { AlertTriangle, ArrowRight, ShieldAlert } from "lucide-react";
+import { SiteHeader } from "@/components/SiteHeader";
 
 export const metadata = {
   title: "FMCSA Violation Code Database",
@@ -21,7 +22,8 @@ export default async function ViolationsIndex() {
 
   return (
     <div className="min-h-screen bg-industrial-900 font-mono text-silver">
-      <nav className="border-b border-industrial-800 bg-industrial-900/90 backdrop-blur sticky top-0 z-50">
+      <SiteHeader ctaLabel="Request a review" statusLabel="Compliance database" />
+      {/*
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
           <Link
             href="/"
@@ -36,7 +38,7 @@ export default async function ViolationsIndex() {
             GET INSURED
           </Link>
         </div>
-      </nav>
+      </nav> */}
 
       <main className="max-w-6xl mx-auto px-6 py-12">
         <header className="mb-12">

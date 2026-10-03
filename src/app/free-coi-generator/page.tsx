@@ -1,8 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import { ShieldCheck, FileText, UploadCloud, ArrowRight, CheckCircle2, AlertTriangle, Building, Truck, Clock } from 'lucide-react';
+import { FileText, UploadCloud, ArrowRight, CheckCircle2, AlertTriangle, Building, Truck, Clock } from 'lucide-react';
 import Link from 'next/link';
+import { SiteHeader } from '@/components/SiteHeader';
 
 export default function CoiGeneratorPage() {
   const [step, setStep] = useState(1);
@@ -82,17 +83,9 @@ export default function CoiGeneratorPage() {
 
   return (
     <div className="min-h-screen bg-[#060913] text-slate-200 font-sans selection:bg-blue-500/30">
-      {/* Navbar */}
-      <nav className="fixed w-full top-0 z-50 bg-[#060913]/60 backdrop-blur-2xl border-b border-white/5">
-        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-          <Link href="/" className="text-2xl font-black tracking-tighter text-white flex items-center gap-2">
-            <ShieldCheck className="w-8 h-8 text-blue-500" />
-            <span>TRUCK COVERAGE <span className="text-blue-500">EXPERTS</span></span>
-          </Link>
-        </div>
-      </nav>
+      <SiteHeader statusLabel="Free COI tool" ctaLabel="Request a review" />
 
-      <main className="pt-32 pb-24 px-6 relative overflow-hidden">
+      <main className="pt-12 pb-24 px-6 relative overflow-hidden">
         {/* Dynamic Background */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[600px] bg-blue-600/10 blur-[120px] rounded-full pointer-events-none -z-10 mix-blend-screen" />
 

@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { TRAILERS_DATA } from '@/lib/data/trailers';
 import { Truck, ArrowRight } from 'lucide-react';
+import { SiteHeader } from '@/components/SiteHeader';
 
 export const metadata = {
   title: 'Commercial Truck Insurance by Equipment Type',
@@ -13,14 +14,7 @@ export const metadata = {
 export default function InsuranceIndex() {
   return (
     <div className="min-h-screen bg-industrial-900 font-mono text-silver">
-      <nav className="border-b border-industrial-800 bg-industrial-900/90 backdrop-blur sticky top-0 z-50">
-         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-           <Link href="/" className="text-xl font-bold tracking-tighter text-white">TRUCK COVERAGE EXPERTS</Link>
-           <Link href="/quote" className="text-xs font-bold bg-safety-orange text-black px-4 py-2 rounded">
-             GET INSURED
-           </Link>
-         </div>
-      </nav>
+      <SiteHeader ctaLabel="Request a review" statusLabel="Specialized programs" />
 
       <main className="max-w-6xl mx-auto px-6 py-12">
         <header className="mb-12">

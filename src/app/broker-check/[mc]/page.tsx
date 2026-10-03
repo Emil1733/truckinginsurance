@@ -16,7 +16,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: `Broker Credit & Safety Report: ${brokerName} | Truck Coverage Experts`,
     description: `Check the active bond status, physical address, and credit rating for ${brokerName}. Generate a Free COI for this broker instantly.`,
     alternates: {
-      canonical: `https://truckcoverageexperts.com/broker-check/${mc}`,
+      canonical: `https://www.truckcoverageexperts.com/broker-check/${mc}`,
+    },
+    robots: {
+      index: false,
+      follow: true,
     },
   };
 }

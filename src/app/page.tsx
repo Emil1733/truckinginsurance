@@ -249,7 +249,7 @@ export default async function Home() {
               Avoid $1,100 fines for missing 'Trip Permits'.
             </p>
           </div>
-          <Link href="/route" className="bg-industrial-800 hover:bg-industrial-700 border border-industrial-600 text-white font-bold py-4 px-8 rounded flex items-center gap-3 transition-all">
+          <Link href="/filings" className="bg-industrial-800 hover:bg-industrial-700 border border-industrial-600 text-white font-bold py-4 px-8 rounded flex items-center gap-3 transition-all">
             <Map className="w-5 h-5 text-blue-500" />
             CHECK YOUR ROUTE
           </Link>

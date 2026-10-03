@@ -1,6 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // Keep Turbopack rooted in this app when a parent directory has another lockfile.
+  turbopack: {
+    root: __dirname,
+  },
   experimental: {
     optimizePackageImports: ['lucide-react', 'framer-motion'],
   },
@@ -21,11 +25,6 @@ const nextConfig: NextConfig = {
       {
         source: '/route/:path*',
         destination: '/filings',
-        permanent: true,
-      },
-      {
-        source: '/broker/:path*',
-        destination: '/broker-approval/:path*',
         permanent: true,
       },
     ];

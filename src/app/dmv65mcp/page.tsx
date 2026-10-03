@@ -8,7 +8,7 @@ export const metadata = {
   title: 'Suspended? California DMV MCP-65 Rescue | Direct EDI Filing (24-Hours)',
   description: 'Restore your suspended CA Motor Carrier Permit today. We provide direct digital EDI filings to Sacramento to clear your MCP-65 status in 24 hours.',
   alternates: {
-    canonical: 'https://truckcoverageexperts.com/dmv65mcp',
+    canonical: 'https://www.truckcoverageexperts.com/dmv65mcp',
   },
 };
 

@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: `Uber Black Insurance Requirements in ${stateData.name} | Truck Coverage Experts`,
     description: `Learn the commercial livery and Uber Black insurance requirements for ${stateData.name}. Get instant quotes for your TCP or ${stateData.agency} permits.`,
     alternates: {
-      canonical: `https://truckcoverageexperts.com/uber-black-insurance/${state}`,
+      canonical: `https://www.truckcoverageexperts.com/uber-black-insurance/${state}`,
     },
   };
 }

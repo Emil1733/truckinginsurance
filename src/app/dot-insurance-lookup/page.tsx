@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { Mail, ShieldCheck, Activity, AlertTriangle, ArrowRight, CheckCircle2, ChevronRight, Search, TrendingDown } from 'lucide-react';
 import Link from 'next/link';
+import { SiteHeader } from '@/components/SiteHeader';
 
 export default function DotInsuranceLookup() {
   const [dot, setDot] = useState('');
@@ -43,15 +44,7 @@ export default function DotInsuranceLookup() {
     <div className="min-h-screen bg-[#060913] text-slate-200 selection:bg-blue-500/30 flex flex-col font-sans">
       
       {/* Premium Glass Navbar */}
-      <nav className="fixed w-full top-0 z-50 bg-[#060913]/60 backdrop-blur-2xl border-b border-white/5">
-        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-          <Link href="/" className="text-2xl font-black tracking-tighter text-white flex items-center gap-2">
-            <ShieldCheck className="w-8 h-8 text-blue-500" />
-            <span>TRUCK COVERAGE <span className="text-blue-500">EXPERTS</span></span>
-          </Link>
-        </div>
-      </nav>
-
+      <SiteHeader ctaLabel="Request a quote review" />
       {/* Hero & Lead Capture Section - Ultra Premium */}
       <header className="relative pt-40 pb-32 px-6 overflow-hidden">
         {/* Dynamic Background Glows */}
@@ -69,7 +62,7 @@ export default function DotInsuranceLookup() {
             </span>
           </h1>
           <p className="text-xl md:text-2xl text-slate-400/90 max-w-2xl mx-auto leading-relaxed font-light">
-            Enter your DOT number below. Our underwriters will run a forensic audit on your public FMCSA safety data and email your <strong className="text-white font-semibold">Insurance Readiness Score</strong> in minutes.
+            Enter your DOT number below to request a review of publicly available FMCSA safety information and receive an <strong className="text-white font-semibold">insurance-readiness summary</strong>.
           </p>
         </div>
 
@@ -117,7 +110,7 @@ export default function DotInsuranceLookup() {
                 )}
                 
                 <p className="text-xs text-slate-500 text-center flex items-center justify-center gap-2 font-medium">
-                  <ShieldCheck className="w-4 h-4 text-emerald-500" /> Bank-level encryption. We never share your data.
+                  <ShieldCheck className="w-4 h-4 text-emerald-500" /> Your request is used to prepare a compliance and insurance-readiness follow-up.
                 </p>
               </form>
             </div>
@@ -247,7 +240,7 @@ export default function DotInsuranceLookup() {
             <div className="bg-[#0a0f1c] border border-white/5 p-8 rounded-3xl hover:border-white/10 transition-colors">
               <h4 className="text-xl font-bold text-white mb-4 leading-snug">What does an "Insurance Readiness Score" mean?</h4>
               <p className="text-slate-400 text-base leading-relaxed font-light">
-                Our proprietary score is an aggregate metric that mimics how an underwriter scores your DOT. A score above 80 indicates you are primed for preferred rates, while a score below 60 flags high-risk pricing.
+                The readiness summary is an educational screening aid, not an underwriting decision, quote, or guarantee of eligibility. A licensed professional must review the full operation and current market requirements.
               </p>
             </div>
             <div className="bg-[#0a0f1c] border border-white/5 p-8 rounded-3xl hover:border-white/10 transition-colors">
@@ -263,6 +256,7 @@ export default function DotInsuranceLookup() {
           <p className="text-slate-400 mb-5">Use your operating profile, equipment, cargo, and safety history to guide the next coverage conversation.</p>
           <div className="flex flex-wrap gap-3">
             <Link href="/insurance" className="border border-white/10 text-slate-200 px-4 py-3 rounded">Explore equipment insurance</Link>
+            <Link href="/trucking-insurance-readiness" className="border border-blue-500/50 text-blue-200 px-4 py-3 rounded">Build a free readiness checklist</Link>
             <Link href="/hot-shot" className="border border-white/10 text-slate-200 px-4 py-3 rounded">Hot shot startup guide</Link>
             <Link href="/quote" className="bg-blue-500 text-white px-4 py-3 rounded">Request a quote review</Link>
           </div>

@@ -8,7 +8,7 @@ export const metadata = {
   title: 'UIIA Port Certification | 48-Hour Port Access & Amazon Intermodal Gateway',
   description: 'Need port access? Get your UIIA certification in 48 hours. We specialize in EDI insurance filings for US ports and Amazon Relay intermodal loads.',
   alternates: {
-    canonical: 'https://truckcoverageexperts.com/uiia-certification',
+    canonical: 'https://www.truckcoverageexperts.com/uiia-certification',
   },
 };
 

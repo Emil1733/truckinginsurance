@@ -8,7 +8,7 @@ export const metadata = {
   title: "GEICO Truck Insurance: 5 Things They Don't Tell Owner-Operators",
   description: "Before you bind a GEICO commercial truck policy, read this forensic comparison. See why generalist insurance could cost you your authority.",
   alternates: {
-    canonical: 'https://truckcoverageexperts.com/geico-truck-insurance-comparison',
+    canonical: 'https://www.truckcoverageexperts.com/geico-truck-insurance-comparison',
   },
 };
 

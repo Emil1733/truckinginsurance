@@ -41,9 +41,27 @@ async function airtableLeadExists(email?: string, phone?: string) {
   }
 }
 
+function attributionSummary({ landingPage, utmSource, utmMedium, utmCampaign, gclid, referrer }: {
+  landingPage?: string;
+  utmSource?: string;
+  utmMedium?: string;
+  utmCampaign?: string;
+  gclid?: string;
+  referrer?: string;
+}) {
+  return [
+    `Page: ${landingPage || 'unknown'}`,
+    `UTM source: ${utmSource || 'none'}`,
+    `UTM medium: ${utmMedium || 'none'}`,
+    `UTM campaign: ${utmCampaign || 'none'}`,
+    `GCLID: ${gclid || 'none'}`,
+    `Referrer: ${referrer || 'direct'}`,
+  ].join(' | ');
+}
+
 export async function POST(request: Request) {
   try {
-    const { name, phone, email, businessType, state, authorityStatus, landingPage, utmSource, dot, readinessReport } = await request.json();
+    const { name, phone, email, businessType, state, authorityStatus, landingPage, utmSource, utmMedium, utmCampaign, gclid, referrer, consent, dot, readinessReport, primaryProblem, cargo, radius } = await request.json();
 
     if (dot && email) {
       const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -58,14 +76,23 @@ export async function POST(request: Request) {
 
     if (!name || !phone || !email || !businessType || !state || !authorityStatus) {
       if (readinessReport && name && email && businessType && state) {
+        const hasConsent = consent === true || consent === 'true' || consent === 'yes';
+        if (!hasConsent) return NextResponse.json({ error: 'Consent is required to request a readiness report' }, { status: 400 });
+
+        if (await airtableLeadExists(email, phone)) {
+          return NextResponse.json({ success: true, duplicate: true, message: 'Readiness request already received' });
+        }
+
+        const source = `website${landingPage ? `:${landingPage}` : ''}${utmSource ? `:${utmSource}` : ''}${utmMedium ? `:${utmMedium}` : ''}`;
+        const notes = `Readiness report | Problem: ${primaryProblem || 'General preparation'} | Authority: ${authorityStatus || 'Not provided'} | Cargo: ${cargo || 'Not provided'} | Radius: ${radius || 'Not provided'} | Contact consent: Yes | ${attributionSummary({ landingPage, utmSource, utmMedium, utmCampaign, gclid, referrer })}`;
         const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
         const SUPABASE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
         if (SUPABASE_URL && SUPABASE_KEY) {
           const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
-          const { error } = await supabase.from('leads').insert({ driver_name: name, phone: phone || 'Not provided', email, violation_code: `Readiness report | ${businessType} | ${state}`, source: `website${landingPage ? `:${landingPage}` : ''}`, status: 'new' });
+          const { error } = await supabase.from('leads').insert({ driver_name: name, phone: phone || 'Not provided', email, violation_code: `Readiness | ${primaryProblem || 'General preparation'} | ${businessType} | ${state}`, source, status: 'new' });
           if (error) return NextResponse.json({ error: 'Readiness request could not be saved' }, { status: 500 });
         }
-        await saveToAirtable({ 'Lead Name': name, Phone: phone || '', Email: email, 'Business Type': businessType, State: state, Source: `website${landingPage ? `:${landingPage}` : ''}`, Status: 'New', Notes: 'Readiness report request' });
+        await saveToAirtable({ 'Lead Name': name, Phone: phone || '', Email: email, 'Business Type': businessType, State: state, Source: source, Status: 'New', Notes: notes });
         return NextResponse.json({ success: true, message: 'Readiness report requested' });
       }
       return NextResponse.json({ error: 'Required lead details are missing' }, { status: 400 });
@@ -94,7 +121,7 @@ export async function POST(request: Request) {
           phone,
           email,
           violation_code: `${businessType} | ${state} | ${authorityStatus}`,
-          source: `website${landingPage ? `:${landingPage}` : ''}${utmSource ? `:${utmSource}` : ''}`,
+          source: `website${landingPage ? `:${landingPage}` : ''}${utmSource ? `:${utmSource}` : ''}${utmMedium ? `:${utmMedium}` : ''}`,
           status: 'new'
         }
       ]);
@@ -115,6 +142,7 @@ export async function POST(request: Request) {
       'Landing Page': landingPage || '',
       Source: `website${landingPage ? `:${landingPage}` : ''}${utmSource ? `:${utmSource}` : ''}`,
       Status: 'New',
+      Notes: attributionSummary({ landingPage, utmSource, utmMedium, utmCampaign, gclid, referrer }),
     });
 
     return NextResponse.json({ success: true, message: 'Lead captured successfully' });

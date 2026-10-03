@@ -20,7 +20,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: `How to bypass the ${broker.name.split(' ')[0]} Vetting Firewall | 48-Hour Approval`,
     description: `Stop getting rejected by ${broker.name.split(' ')[0]}. Our forensic insurance audit helps you bypass the automated vetting system and get approved for loads in 48 hours.`,
     alternates: {
-      canonical: `https://truckcoverageexperts.com/broker/${slug}`,
+      canonical: `https://www.truckcoverageexperts.com/broker/${slug}`,
     },
   };
 }

@@ -1,9 +1,0 @@
-# *
-User-agent: *
-Allow: /
-
-# Host
-Host: sc-domain:truckcoverageexperts.com
-
-# Sitemaps
-Sitemap: sc-domain:truckcoverageexperts.com/sitemap.xml

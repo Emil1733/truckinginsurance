@@ -1,9 +1,10 @@
-import { AlertTriangle, ShieldAlert, BadgeDollarSign, CheckCircle2, TrendingUp, Lock } from "lucide-react";
+import { AlertTriangle, ShieldAlert, BadgeDollarSign, CheckCircle2, TrendingUp } from "lucide-react";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 import { notFound } from "next/navigation";
 import { ReinstatementModal } from "@/components/ReinstatementModal";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { SiteHeader } from "@/components/SiteHeader";
 import ReactMarkdown from 'react-markdown';
 
 
@@ -63,7 +64,7 @@ export default async function ViolationPage({ params }: { params: Promise<{ slug
         'provider': {
           '@type': 'Organization',
           'name': 'Truck Coverage Experts',
-          'url': 'https://truckcoverageexperts.com'
+          'url': 'https://www.truckcoverageexperts.com'
         },
         'areaServed': 'US',
         'audience': {
@@ -84,19 +85,19 @@ export default async function ViolationPage({ params }: { params: Promise<{ slug
             '@type': 'ListItem',
             'position': 1,
             'name': 'Home',
-            'item': 'https://truckcoverageexperts.com'
+            'item': 'https://www.truckcoverageexperts.com'
           },
           {
             '@type': 'ListItem',
             'position': 2,
             'name': 'Violations',
-            'item': 'https://truckcoverageexperts.com/violations'
+            'item': 'https://www.truckcoverageexperts.com/violations'
           },
           {
             '@type': 'ListItem',
             'position': 3,
             'name': data.code,
-            'item': `https://truckcoverageexperts.com/violation/${slug}`
+            'item': `https://www.truckcoverageexperts.com/violation/${slug}`
           }
         ]
       },
@@ -122,22 +123,7 @@ export default async function ViolationPage({ params }: { params: Promise<{ slug
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      {/* 1. The "Panic Header" */}
-      <header className="border-b border-industrial-700 bg-industrial-800/50 backdrop-blur-md sticky top-0 z-50">
-        <div className="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Lock className="w-5 h-5 text-safety-orange" />
-            <Link href="/" className="text-xl font-bold tracking-tighter text-white">TRUCK COVERAGE EXPERTS</Link>
-            <span className="font-display font-bold text-xl tracking-tighter text-white">
-              {data.code} // LIVE ACCESS
-            </span>
-          </div>
-          <div className="text-xs text-industrial-500 hidden md:block">
-            FMCSA DATABASE // SECURE
-          </div>
-        </div>
-      </header>
-
+      <SiteHeader ctaLabel="Request a review" statusLabel={`Violation ${data.code}`} />
       <main className="max-w-5xl mx-auto px-6 py-12 md:py-20">
         <Breadcrumbs items={[
           { label: 'Violations', href: '/violations' },

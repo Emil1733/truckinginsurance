@@ -5,8 +5,9 @@ import { fetchCarrierSafety } from "@/actions/fmcsa";
 import { BigNumpad } from "@/components/dashboard/BigNumpad";
 import { SafetyGauge } from "@/components/dashboard/SafetyGauge";
 import { FMCSAOverview } from "@/types/fmcsa";
-import { AlertCircle, Truck, RefreshCw, Phone } from "lucide-react";
+import { AlertCircle, RefreshCw, Phone } from "lucide-react";
 import { ReinstatementModal } from "@/components/ReinstatementModal";
+import { SiteHeader } from "@/components/SiteHeader";
 
 export default function CheckScoreClient() {
   const [dotNumber, setDotNumber] = useState("");
@@ -67,19 +68,7 @@ export default function CheckScoreClient() {
 
   return (
     <div className="min-h-screen bg-industrial-900 text-white font-mono flex flex-col">
-      
-      {/* NAVBAR */}
-      <div className="p-4 border-b border-industrial-800 flex justify-between items-center bg-black/20">
-         <div className="flex items-center gap-2 text-safety-orange font-bold tracking-widest">
-            <Truck className="w-6 h-6" /> QCMOBILE
-         </div>
-         {data && (
-           <button onClick={() => { setData(null); setDotNumber(''); }} className="text-xs text-industrial-400 uppercase border border-industrial-700 px-3 py-1 rounded">
-             New Search
-           </button>
-         )}
-      </div>
-
+      <SiteHeader statusLabel="Live carrier health check" ctaLabel="Request a review" />
       <main className="flex-1 flex flex-col items-center justify-center p-6">
         
         {/* STATE 1: LOADING */}

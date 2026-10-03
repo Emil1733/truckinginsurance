@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { ShieldAlert, ArrowRight, XCircle, Search, BadgeCheck, Zap } from 'lucide-react';
 import { BROKERS_DATA } from '@/lib/data/brokers';
+import { SiteHeader } from '@/components/SiteHeader';
 
 export const metadata = {
   title: 'Broker Insurance Requirements Directory',
@@ -17,18 +18,7 @@ export default function BrokerIndex() {
 
   return (
     <div className="min-h-screen bg-[#0a0f1c] text-slate-200">
-      {/* Premium Navbar */}
-      <nav className="border-b border-slate-800 bg-slate-950/80 backdrop-blur sticky top-0 z-50">
-          <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-            <Link href="/" className="text-xl font-bold tracking-tighter text-white">
-              TRUCK COVERAGE <span className="text-blue-500">EXPERTS</span>
-            </Link>
-            <Link href="/amazon-relay-insurance" className="text-[10px] font-bold bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-500 transition-all uppercase tracking-widest">
-              Amazon Specialist
-            </Link>
-          </div>
-      </nav>
-
+      <SiteHeader ctaLabel="Request a review" statusLabel="Broker approval guides" />
       <main className="max-w-7xl mx-auto px-6 py-20">
         <header className="mb-20">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-500/10 text-red-500 text-xs font-black mb-8 border border-red-500/20 uppercase tracking-widest">

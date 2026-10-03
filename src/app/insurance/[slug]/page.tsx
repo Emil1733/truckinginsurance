@@ -4,6 +4,14 @@ import { supabase } from "@/lib/supabase";
 import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { TRAILERS_DATA } from "@/lib/data/trailers";
+import { SiteHeader } from "@/components/SiteHeader";
+
+const carHaulerFaqs = [
+  ['What is car hauler insurance?', 'It is specialized commercial auto transport insurance for businesses that move vehicles with open or enclosed car carriers.'],
+  ['How much does car hauler insurance cost?', 'There is no single price. Underwriters consider equipment, vehicle values, routes, drivers, claims history, coverage limits, and the type of auto transport work.'],
+  ['Do new authorities need auto hauler insurance?', 'New authorities may face different underwriting and broker requirements. A licensed professional can review available options for the specific operation.'],
+  ['Is open or enclosed auto transport insurance different?', 'The equipment, cargo values, and contractual requirements can differ. The policy should be reviewed against the vehicles and services actually transported.'],
+];
 
 
 // SEO Metadata Generation
@@ -93,7 +101,15 @@ export default async function TrailerPage({ params }: { params: Promise<{ slug: 
           'url': 'https://www.truckcoverageexperts.com'
         },
         'feesAndCommissionsSpecification': `Coverage conditions to review: ${exclusions.join(', ')}`
-      }
+      },
+      ...(isCarHauler ? [{
+        '@type': 'FAQPage',
+        'mainEntity': carHaulerFaqs.map(([question, answer]) => ({
+          '@type': 'Question',
+          name: question,
+          acceptedAnswer: { '@type': 'Answer', text: answer },
+        })),
+      }] : [])
     ]
   };
 
@@ -103,16 +119,7 @@ export default async function TrailerPage({ params }: { params: Promise<{ slug: 
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      {/* HEADER */}
-      <header className="border-b border-yellow-500/20 bg-industrial-900 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-          <Link href="/" className="font-display font-bold text-xl tracking-tighter text-white">TRUCK COVERAGE EXPERTS</Link>
-          <div className="flex items-center gap-2">
-            <span className="w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></span>
-            <span className="text-xs font-bold text-yellow-400">HEAVY HAUL DIVISION</span>
-          </div>
-        </div>
-      </header>
+      <SiteHeader statusLabel="Heavy haul division" ctaLabel="Request a review" />
 
       <main className="max-w-7xl mx-auto px-6 py-12 lg:py-20">
         <Breadcrumbs items={[
@@ -226,6 +233,7 @@ export default async function TrailerPage({ params }: { params: Promise<{ slug: 
               <h2 className="text-3xl font-bold text-white mb-4">Requirements and cost factors</h2>
               <p className="text-industrial-400 mb-4">Insurance requirements vary by state, operating authority, vehicle weight, cargo, and whether you operate interstate or intrastate. Many brokers and shippers also set their own liability and cargo requirements.</p>
               <p className="text-industrial-400 mb-6">Premiums commonly depend on open versus enclosed equipment, vehicle values, operating radius, driver experience, new-authority status, loss runs, limits, deductibles, and the number of units. A licensed professional should confirm the requirements for your operation.</p>
+              <Link href="/trucking-insurance-readiness" className="inline-block border border-yellow-400 text-yellow-400 font-bold px-6 py-3 rounded uppercase mr-3">Build your readiness checklist</Link>
               <Link href="/quote" className="inline-block bg-yellow-400 hover:bg-yellow-300 text-black font-bold px-6 py-3 rounded uppercase">Request a car hauler quote review</Link>
             </div>
           </section>
@@ -264,12 +272,7 @@ export default async function TrailerPage({ params }: { params: Promise<{ slug: 
           <section className="mt-16 border-t border-industrial-800 pt-12 max-w-4xl">
             <h2 className="text-3xl font-bold text-white mb-6">Car hauler insurance questions</h2>
             <div className="space-y-5">
-              {[
-                ['What is car hauler insurance?', 'It is specialized commercial auto transport insurance for businesses that move vehicles with open or enclosed car carriers.'],
-                ['How much does car hauler insurance cost?', 'There is no single price. Underwriters consider equipment, vehicle values, routes, drivers, claims history, coverage limits, and the type of auto transport work.'],
-                ['Do new authorities need auto hauler insurance?', 'New authorities may face different underwriting and broker requirements. Submit your operation details so a licensed professional can review available options.'],
-                ['Is open or enclosed auto transport insurance different?', 'The equipment, cargo values, and contractual requirements can differ. Your policy should be reviewed against the vehicles and services you actually transport.']
-              ].map(([question, answer]) => (
+              {carHaulerFaqs.map(([question, answer]) => (
                 <div key={question} className="border-b border-industrial-800 pb-5">
                   <h3 className="text-white font-bold mb-2">{question}</h3>
                   <p className="text-industrial-400">{answer}</p>
@@ -283,6 +286,7 @@ export default async function TrailerPage({ params }: { params: Promise<{ slug: 
           <section className="mt-12 flex flex-wrap gap-3">
             <Link href="/insurance/car-hauler-insurance-cost" className="border border-industrial-700 px-4 py-3 rounded hover:border-yellow-400">Car hauler insurance cost</Link>
             <Link href="/insurance/car-hauler-insurance-requirements" className="border border-industrial-700 px-4 py-3 rounded hover:border-yellow-400">Car hauler requirements</Link>
+            <Link href="/trucking-insurance-readiness" className="border border-yellow-400 text-yellow-400 px-4 py-3 rounded hover:bg-yellow-400 hover:text-black">Build readiness checklist</Link>
           </section>
         )}
 

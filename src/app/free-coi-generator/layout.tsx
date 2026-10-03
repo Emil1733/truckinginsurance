@@ -4,7 +4,7 @@ export const metadata: Metadata = {
   title: 'Free COI Generator for Truckers | Instant Certificate of Insurance',
   description: 'Stop waiting on your insurance agent. Generate a custom Certificate of Insurance (COI) instantly for any freight broker. Upload your dec page and get your COI in minutes.',
   alternates: {
-    canonical: 'https://truckcoverageexperts.com/free-coi-generator',
+    canonical: 'https://www.truckcoverageexperts.com/free-coi-generator',
   },
 };
 

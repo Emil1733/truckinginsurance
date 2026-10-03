@@ -51,7 +51,7 @@ export function Footer() {
             <li><Link href="/filing/mcp65-california-dmv-filing" className="hover:text-safety-orange transition-colors">CA MCP-65 Filing</Link></li>
             <li><Link href="/filing/sr22-texas-trucking-insurance" className="hover:text-safety-orange transition-colors">Texas SR-22</Link></li>
             <li><Link href="/filing/bmc91x-federal-filing-fmsca" className="hover:text-safety-orange transition-colors">BMC-91X (Federal)</Link></li>
-            <li><Link href="/route" className="hover:text-safety-orange transition-colors">Route Permit Calculator</Link></li>
+            <li><Link href="/filings" className="hover:text-safety-orange transition-colors">State filing directory</Link></li>
           </ul>
         </div>
 

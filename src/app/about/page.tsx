@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ShieldCheck, MapPin, Phone, Award, Users, FileText } from "lucide-react";
+import { SiteHeader } from '@/components/SiteHeader';
 
 export const metadata = {
   title: "About Truck Coverage Experts | High Risk Specialists",
@@ -46,19 +47,7 @@ export default function AboutPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       
-      {/* HEADER */}
-      <header className="border-b border-industrial-800 bg-industrial-900 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-          <Link href="/" className="font-display font-bold text-xl tracking-tighter text-white">
-            TRUCK COVERAGE EXPERTS
-          </Link>
-          <div className="hidden md:flex items-center gap-6 text-sm font-bold">
-            <Link href="/" className="hover:text-white transition-colors">HOME</Link>
-            <Link href="/contact" className="hover:text-white transition-colors">CONTACT</Link>
-          </div>
-        </div>
-      </header>
-
+      <SiteHeader ctaLabel="Request a review" statusLabel="About our approach" />
       <main>
         {/* HERO */}
         <section className="py-20 px-6 border-b border-industrial-800">
