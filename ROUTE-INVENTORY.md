@@ -112,6 +112,10 @@ Required standard: production canonicals, sitemap URLs, structured-data URLs, in
 
 - Preserved UTM/GCLID values across the visitor session so multi-page SEO journeys retain their original acquisition attribution.
 
+- Added an early canonical-host redirect in middleware so non-www requests cannot render a parallel page version; Vercel domain-level redirect behavior still requires production verification.
+
+- Clarified MCP-65/DMV-65 page intent: the state filing route targets requirements and terminology, while `/dmv65mcp` targets urgent suspension/rescue needs, with reciprocal internal links and a filing-intent readiness CTA.
+
 - Upgraded `/trucking-insurance-readiness` lead capture with attribution fields and explicit contact consent; preserved the existing readiness result and quote-review path.
 
 - Removed commented-out legacy header implementations so migrated routes now have one active header implementation.
@@ -162,3 +166,9 @@ Required standard: production canonicals, sitemap URLs, structured-data URLs, in
 - Migrated `/dot-insurance-requirements` to `SiteHeader` and retained its lead form and `#review` path.
 - Migrated `/filing/[slug]` to `SiteHeader`, preserving the filing portal status context and `/quote` conversion path.
 - Migrated `/insurance/[slug]` to `SiteHeader`, preserving the heavy-haul division context and `/quote` conversion path.
+
+### 2026-10-20
+
+- Reworked `/insurance/auto-hauler-car-carrier-insurance` for the high-impression car-hauler query cluster. The page now answers coverage, vehicle-in-transit, open-versus-enclosed, requirements, cost, and quote-preparation questions in trucker-oriented language.
+- Kept `/insurance/car-hauler-insurance-cost` and `/insurance/car-hauler-insurance-requirements` as distinct supporting pages rather than duplicating their full content on the canonical page.
+- Added contextual links from the canonical, cost, and requirements pages into the readiness tool with `problem=quote` or `problem=filing` where appropriate.

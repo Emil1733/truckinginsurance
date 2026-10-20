@@ -2,6 +2,14 @@ import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
 export async function middleware(request: NextRequest) {
+  // Enforce one canonical host before auth or page handling. This prevents
+  // non-www URLs from producing a second crawlable version of the same page.
+  if (request.nextUrl.hostname === 'truckcoverageexperts.com') {
+    const canonicalUrl = request.nextUrl.clone()
+    canonicalUrl.hostname = 'www.truckcoverageexperts.com'
+    return NextResponse.redirect(canonicalUrl, 308)
+  }
+
   let response = NextResponse.next({
     request: {
       headers: request.headers,

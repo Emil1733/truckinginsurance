@@ -161,6 +161,10 @@ Each page must have one primary intent and a clear next step. Supporting pages s
 
 - Persisted UTM and GCLID attribution in session storage so the original acquisition source survives internal navigation before a readiness lead is submitted.
 
+- Added an early middleware-level 308 redirect from the non-www host to `www.truckcoverageexperts.com`, preserving path and query parameters before authentication/page handling; this reinforces canonical host consolidation for crawlers.
+
+- Reworked the MCP-65/DMV-65 cluster so `/filing/mcp65-california-dmv-filing` owns informational requirements intent while `/dmv65mcp` owns suspension/rescue intent; added explicit cross-links and filing-readiness routing to reduce cannibalization.
+
 - Upgraded the trucking readiness tool's lead handoff: it now records UTM/referrer attribution and explicit contact consent, while presenting the checklist as an email-and-next-steps action.
 
 - Removed commented-out legacy header implementations and unused header-only icon imports after the shared-header migration; each migrated route now has one active header implementation.
@@ -214,3 +218,10 @@ Each page must have one primary intent and a clear next step. Supporting pages s
 - Migrated `/dot-insurance-requirements` to `SiteHeader` while preserving its `#review` CTA and lead form.
 - Migrated the dynamic filing route (`/filing/[slug]`) to `SiteHeader`, preserving the filing portal status context and quote review path.
 - Migrated the dynamic insurance route (`/insurance/[slug]`) to `SiteHeader`, preserving the heavy-haul division context and quote-review path.
+
+### 2026-10-20
+
+- Reworked `/insurance/auto-hauler-car-carrier-insurance` around the GSC opportunity cluster for `car hauler insurance`, `car hauler insurance requirements`, `car hauling insurance`, `car hauler insurance cost`, and `auto hauler insurance`.
+- Replaced generic equipment language and risk-score presentation with plain-language guidance on vehicles in transit, loading/unloading, theft controls, broker requirements, open versus enclosed carriers, cost factors, and quote preparation.
+- Added clearer internal paths to the car-hauler cost page, requirements page, and problem-specific readiness tool; retained the canonical route and supporting intent split.
+- Strengthened contextual readiness-tool links across the car-hauler cost and requirements pages, using quote or filing intent parameters to preserve attribution and user context.

@@ -7,10 +7,19 @@ import { TRAILERS_DATA } from "@/lib/data/trailers";
 import { SiteHeader } from "@/components/SiteHeader";
 
 const carHaulerFaqs = [
-  ['What is car hauler insurance?', 'It is specialized commercial auto transport insurance for businesses that move vehicles with open or enclosed car carriers.'],
-  ['How much does car hauler insurance cost?', 'There is no single price. Underwriters consider equipment, vehicle values, routes, drivers, claims history, coverage limits, and the type of auto transport work.'],
-  ['Do new authorities need auto hauler insurance?', 'New authorities may face different underwriting and broker requirements. A licensed professional can review available options for the specific operation.'],
-  ['Is open or enclosed auto transport insurance different?', 'The equipment, cargo values, and contractual requirements can differ. The policy should be reviewed against the vehicles and services actually transported.'],
+  ['What does car hauler insurance cover?', 'A car-hauling policy is built around commercial auto liability and the vehicles in your care. The review may also include physical damage, general liability, and coverage for loading and unloading, depending on the operation and policy wording.'],
+  ['How much does car hauler insurance cost?', 'There is no reliable one-size-fits-all price. Open or enclosed equipment, vehicle values, radius, drivers, claims history, limits, deductibles, and new-authority status can all change the quote.'],
+  ['What are common car hauler insurance requirements?', 'Brokers and shippers commonly ask for primary liability, vehicle-in-transit cargo, certificates of insurance, and sometimes specific limits or endorsements. Federal and state filing requirements depend on the operation.'],
+  ['Is open or enclosed auto transport insurance different?', 'The vehicles carried, equipment value, theft controls, loading process, and contract requirements can differ. Tell the reviewer whether you haul open, enclosed, or both before comparing quotes.'],
+];
+
+const carHaulerCoverage = [
+  ['Primary auto liability', 'Helps address covered third-party bodily injury and property damage claims arising from your trucking operation.'],
+  ['Vehicles in transit', 'Ask how the policy treats customer vehicles while they are loaded, in your custody, being moved, and being delivered.'],
+  ['Physical damage', 'Review protection for your tractor, car carrier, and attached equipment, including deductibles and stated values.'],
+  ['Loading and unloading', 'Damage can happen before the truck leaves. Confirm how loading, unloading, ramps, straps, and handling are treated.'],
+  ['Theft and unattended vehicles', 'Tell the reviewer where equipment and customer vehicles are parked overnight and what security controls you use.'],
+  ['Broker and shipper terms', 'Compare the proposed limits, certificates, filings, and cargo language with the contracts you actually accept.'],
 ];
 
 
@@ -24,13 +33,13 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const isCarHaulerPage = slug === 'auto-hauler-car-carrier-insurance';
 
   return {
-    title: isCarHaulerPage ? 'Car Hauler & Auto Transport Insurance | Coverage, Cost & Requirements' : `${data.display_name} Insurance | Coverage Review for Trucking Operations`,
+    title: isCarHaulerPage ? 'Car Hauler Insurance: Coverage, Cost & Requirements' : `${data.display_name} Insurance | Coverage Review for Trucking Operations`,
     description: isCarHaulerPage
-      ? 'Review car hauler, auto hauler, and auto transport insurance coverage, cost factors, requirements, cargo protection, and quote preparation.'
+      ? 'Understand car hauler, auto hauler, and car hauling insurance: vehicle-in-transit coverage, broker requirements, cost factors, and quote preparation.'
       : `Review commercial insurance considerations for ${data.display_name} operations and request help from a licensed insurance professional.`,
     openGraph: {
-      title: isCarHaulerPage ? 'Car Hauler & Auto Transport Insurance | Truck Coverage Experts' : `${data.display_name} Insurance | Truck Coverage Experts`,
-      description: isCarHaulerPage ? 'Commercial auto transport insurance guidance for car haulers and vehicle transport businesses.' : `Commercial insurance considerations and quote-review assistance for ${data.display_name} operations.`,
+      title: isCarHaulerPage ? 'Car Hauler Insurance: Coverage, Cost & Requirements | Truck Coverage Experts' : `${data.display_name} Insurance | Truck Coverage Experts`,
+      description: isCarHaulerPage ? 'Plain-language guidance for car haulers on liability, vehicles in transit, broker requirements, and the information needed for a quote review.' : `Commercial insurance considerations and quote-review assistance for ${data.display_name} operations.`,
     },
     alternates: {
       canonical: `/insurance/${slug}`,
@@ -56,7 +65,7 @@ export default async function TrailerPage({ params }: { params: Promise<{ slug: 
   if (!trailer) return notFound();
 
   const isCarHauler = slug === 'auto-hauler-car-carrier-insurance';
-  const pageName = isCarHauler ? 'Car Hauler & Auto Transport Insurance' : `${trailer.display_name} Insurance`;
+  const pageName = isCarHauler ? 'Car Hauler Insurance' : `${trailer.display_name} Insurance`;
 
   // Cast exclusions safely
   const exclusions = (trailer.common_exclusions || []) as string[];
@@ -119,7 +128,7 @@ export default async function TrailerPage({ params }: { params: Promise<{ slug: 
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <SiteHeader statusLabel="Heavy haul division" ctaLabel="Request a review" />
+      <SiteHeader statusLabel={isCarHauler ? 'Auto transport coverage' : 'Heavy haul division'} ctaLabel="Request a review" />
 
       <main className="max-w-7xl mx-auto px-6 py-12 lg:py-20">
         <Breadcrumbs items={[
@@ -140,11 +149,16 @@ export default async function TrailerPage({ params }: { params: Promise<{ slug: 
             
             <p className="text-xl text-industrial-400 mb-8 border-l-4 border-yellow-400 pl-6 italic">
               {isCarHauler
-                ? 'Commercial auto transport insurance for open and enclosed car carriers, including liability, vehicle-in-transit cargo, and physical damage considerations.'
+                ? 'If you move customer vehicles with an open or enclosed carrier, your insurance needs to address both the truck and the vehicles in your care. Here is what to review before you ask for a quote.'
                 : 'Commercial insurance guidance for specialized trucking equipment and the cargo or property your operation carries.'}
             </p>
 
-            <div className="grid grid-cols-2 gap-4 mb-12">
+            {isCarHauler ? (
+              <div className="bg-industrial-800 p-6 rounded border border-industrial-700 mb-12">
+                <div className="text-yellow-400 text-xs font-bold mb-2 uppercase tracking-wider">The short version</div>
+                <p className="text-white leading-relaxed">The cheapest-looking quote is not useful if it does not match the value of the cars you haul, your loading process, or the certificate and cargo terms your broker requires.</p>
+              </div>
+            ) : <div className="grid grid-cols-2 gap-4 mb-12">
               <div className="bg-industrial-800 p-6 rounded border border-industrial-700">
                 <div className="text-industrial-500 text-xs font-bold mb-1 uppercase">Typical Cargo Review</div>
                 <div className="text-2xl font-bold text-white flex items-center gap-2">
@@ -157,20 +171,20 @@ export default async function TrailerPage({ params }: { params: Promise<{ slug: 
                   <AlertTriangle className="w-5 h-5" /> {trailer.premium_multiplier}x
                 </div>
               </div>
-            </div>
+            </div>}
 
             <h2 className="text-white font-bold mb-4 flex items-center gap-2 text-red-500">
               <ShieldCheck className="w-5 h-5" />
-              WATCH OUT FOR EXCLUSIONS
+              {isCarHauler ? 'Questions to ask before you bind' : 'WATCH OUT FOR EXCLUSIONS'}
             </h2>
             <p className="text-sm text-industrial-500 mb-4">
-              Coverage exclusions and conditions vary by policy and operation. A licensed insurance professional can review the details with you.
+              {isCarHauler ? 'Ask these questions before choosing a car-hauler policy. The answers should match how you actually load, park, move, and deliver vehicles.' : 'Coverage exclusions and conditions vary by policy and operation. A licensed insurance professional can review the details with you.'}
             </p>
             <ul className="space-y-4 mb-12">
               {exclusions.map((item, i) => (
                 <li key={i} className="flex gap-3 text-sm text-silver bg-red-900/10 p-3 rounded border border-red-900/30">
                   <AlertTriangle className="w-4 h-4 text-red-500 mt-1 shrink-0" />
-                  <span className="text-red-200">REVIEW THIS CONDITION: {item}</span>
+                  <span className="text-red-200">{isCarHauler ? `Ask about: ${item}` : `REVIEW THIS CONDITION: ${item}`}</span>
                 </li>
               ))}
             </ul>
@@ -179,9 +193,9 @@ export default async function TrailerPage({ params }: { params: Promise<{ slug: 
           {/* RIGHT: THE ACTION CARD */}
           <div className="bg-industrial-800 border-2 border-yellow-500/50 p-8 rounded-lg sticky top-24 shadow-[0_0_50px_rgba(234,179,8,0.1)]">
             <div className="text-center mb-8">
-              <h2 className="text-2xl font-bold text-white mb-2">INSURE THIS TRAILER</h2>
+              <h2 className="text-2xl font-bold text-white mb-2">{isCarHauler ? 'Review your car-hauler operation' : 'INSURE THIS TRAILER'}</h2>
               <p className="text-industrial-400 text-sm">
-                Request a quote review for {trailer.display_name} operations. Availability and timing depend on your submission and underwriting.
+                {isCarHauler ? 'Share the equipment, routes, drivers, and cargo details that determine whether a quote fits your auto-transport work.' : `Request a quote review for ${trailer.display_name} operations. Availability and timing depend on your submission and underwriting.`}
               </p>
             </div>
 
@@ -197,7 +211,7 @@ export default async function TrailerPage({ params }: { params: Promise<{ slug: 
                 href="/quote"
                 className="block w-full bg-yellow-400 hover:bg-yellow-300 text-black font-bold py-4 text-center rounded transition-all shadow-lg hover:shadow-yellow-400/25 active:scale-[0.98] uppercase"
               >
-                Request {trailer.display_name} Quote Review
+                {isCarHauler ? 'Start my car-hauler quote review' : `Request ${trailer.display_name} Quote Review`}
               </Link>
             </div>
             
@@ -211,17 +225,10 @@ export default async function TrailerPage({ params }: { params: Promise<{ slug: 
         {isCarHauler && (
           <section className="mt-20 grid lg:grid-cols-2 gap-12 border-t border-industrial-800 pt-12">
             <div>
-              <h2 className="text-3xl font-bold text-white mb-4">Car hauler insurance coverage</h2>
-              <p className="text-industrial-400 mb-6">Auto hauler insurance is commercial truck insurance tailored to businesses transporting vehicles. The right policy depends on the equipment, vehicles in transit, routes, drivers, and contracts you accept.</p>
+              <h2 className="text-3xl font-bold text-white mb-4">What car hauler insurance needs to address</h2>
+              <p className="text-industrial-400 mb-6">Car hauling is different from ordinary freight because the cargo is someone else’s vehicle. A useful review starts with how many cars you carry, their typical value, how they are loaded, and what happens if one is damaged before delivery.</p>
               <div className="grid sm:grid-cols-2 gap-4">
-                {[
-                  ['Primary auto liability', 'Protection for covered third-party bodily injury and property damage claims.'],
-                  ['Motor truck cargo', 'Review cargo or vehicle-in-transit coverage for the cars you haul.'],
-                  ['Physical damage', 'Coverage review for the tractor, trailer, and attached equipment.'],
-                  ['General liability', 'May help address covered non-driving business liability exposures.'],
-                  ['Loading and unloading', 'Confirm how the policy treats vehicle damage during loading and unloading.'],
-                  ['Broker requirements', 'Compare requested limits, certificates, filings, and cargo terms before hauling.']
-                ].map(([title, body]) => (
+                {carHaulerCoverage.map(([title, body]) => (
                   <div key={title} className="bg-industrial-800 border border-industrial-700 p-5 rounded">
                     <h3 className="text-white font-bold mb-2">{title}</h3>
                     <p className="text-sm text-industrial-400">{body}</p>
@@ -230,11 +237,32 @@ export default async function TrailerPage({ params }: { params: Promise<{ slug: 
               </div>
             </div>
             <div>
-              <h2 className="text-3xl font-bold text-white mb-4">Requirements and cost factors</h2>
-              <p className="text-industrial-400 mb-4">Insurance requirements vary by state, operating authority, vehicle weight, cargo, and whether you operate interstate or intrastate. Many brokers and shippers also set their own liability and cargo requirements.</p>
-              <p className="text-industrial-400 mb-6">Premiums commonly depend on open versus enclosed equipment, vehicle values, operating radius, driver experience, new-authority status, loss runs, limits, deductibles, and the number of units. A licensed professional should confirm the requirements for your operation.</p>
-              <Link href="/trucking-insurance-readiness" className="inline-block border border-yellow-400 text-yellow-400 font-bold px-6 py-3 rounded uppercase mr-3">Build your readiness checklist</Link>
-              <Link href="/quote" className="inline-block bg-yellow-400 hover:bg-yellow-300 text-black font-bold px-6 py-3 rounded uppercase">Request a car hauler quote review</Link>
+              <h2 className="text-3xl font-bold text-white mb-4">What changes the cost?</h2>
+              <p className="text-industrial-400 mb-4">Car hauler insurance cost is driven by the risk your operation presents, not just the number of trucks. Open versus enclosed equipment, the value and mix of vehicles, operating radius, driver history, loss runs, limits, deductibles, and new-authority status all matter.</p>
+              <p className="text-industrial-400 mb-6">Requirements also come from more than one place: federal or state rules, your broker’s contract, and the shipper’s requested limits. Compare those requirements with the actual policy and certificate before accepting a load.</p>
+              <div className="flex flex-wrap gap-3">
+                <Link href="/insurance/car-hauler-insurance-cost" className="inline-block border border-yellow-400 text-yellow-400 font-bold px-5 py-3 rounded">See cost factors</Link>
+                <Link href="/insurance/car-hauler-insurance-requirements" className="inline-block border border-industrial-600 text-silver font-bold px-5 py-3 rounded">See requirements</Link>
+                <Link href="/trucking-insurance-readiness?problem=quote" className="inline-block bg-yellow-400 hover:bg-yellow-300 text-black font-bold px-5 py-3 rounded">Build my checklist</Link>
+              </div>
+            </div>
+          </section>
+        )}
+
+        {isCarHauler && (
+          <section className="mt-16 border-t border-industrial-800 pt-12 grid lg:grid-cols-2 gap-12">
+            <div>
+              <h2 className="text-3xl font-bold text-white mb-4">Open vs. enclosed car hauling</h2>
+              <p className="text-industrial-400 leading-relaxed mb-4">Open carriers are common for everyday vehicle transport. Enclosed carriers may handle higher-value, collector, luxury, or specialty vehicles. The equipment, security, loading method, and customer contracts can change the underwriting review.</p>
+              <p className="text-industrial-400 leading-relaxed">Be specific about what you haul. “Auto transport” can mean dealer moves, auctions, private customers, salvage, repossessions, or specialty vehicles—and those are not always evaluated the same way.</p>
+            </div>
+            <div>
+              <h2 className="text-3xl font-bold text-white mb-4">Have these details ready</h2>
+              <ul className="space-y-3 text-industrial-400">
+                {['Open or enclosed carrier, make/model, and number of cars', 'States or radius where you operate and whether you cross state lines', 'Typical vehicle value and the highest-value vehicle you carry', 'Driver list, experience, prior insurance, and loss runs', 'Operating authority status and any broker or shipper requirements'].map((item) => (
+                  <li key={item} className="flex gap-3"><span className="text-yellow-400">✓</span><span>{item}</span></li>
+                ))}
+              </ul>
             </div>
           </section>
         )}
@@ -286,7 +314,7 @@ export default async function TrailerPage({ params }: { params: Promise<{ slug: 
           <section className="mt-12 flex flex-wrap gap-3">
             <Link href="/insurance/car-hauler-insurance-cost" className="border border-industrial-700 px-4 py-3 rounded hover:border-yellow-400">Car hauler insurance cost</Link>
             <Link href="/insurance/car-hauler-insurance-requirements" className="border border-industrial-700 px-4 py-3 rounded hover:border-yellow-400">Car hauler requirements</Link>
-            <Link href="/trucking-insurance-readiness" className="border border-yellow-400 text-yellow-400 px-4 py-3 rounded hover:bg-yellow-400 hover:text-black">Build readiness checklist</Link>
+            <Link href="/trucking-insurance-readiness?problem=quote" className="border border-yellow-400 text-yellow-400 px-4 py-3 rounded hover:bg-yellow-400 hover:text-black">Build my car-hauler checklist</Link>
           </section>
         )}
 

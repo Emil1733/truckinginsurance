@@ -5,8 +5,8 @@ import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { BrokerLeadForm } from "@/components/BrokerLeadForm";
 
 export const metadata = {
-  title: 'Suspended? California DMV MCP-65 Rescue | Direct EDI Filing (24-Hours)',
-  description: 'Restore your suspended CA Motor Carrier Permit today. We provide direct digital EDI filings to Sacramento to clear your MCP-65 status in 24 hours.',
+  title: 'MCP-65 Filing & DMV-65 Certificate Help for California Carriers',
+  description: 'Understand California MCP-65 filing requirements, DMV-65 certificate terminology, suspension issues, documents, timing, and how to request a filing review.',
   alternates: {
     canonical: 'https://www.truckcoverageexperts.com/dmv65mcp',
   },
@@ -99,10 +99,10 @@ export default function CaliforniaDMVPage() {
               </div>
               <h1 className="text-6xl md:text-8xl font-black tracking-tight text-white leading-[0.9] mb-8">
                 California DMV <br/>
-                <span className="text-red-500 font-italic">MCP-65 Filing</span>
+                <span className="text-red-500 font-italic">MCP-65 Filing Help</span>
               </h1>
               <p className="text-xl text-slate-400 leading-relaxed max-w-2xl">
-                Is your California Motor Carrier Permit (MCP) suspended? We provide direct EDI filings to the Sacramento DMV database, restoring your authority in 24 hours or less.
+                Need help with a California MCP-65 filing, DMV-65 certificate, or a suspended Motor Carrier Permit? Review the terminology, preparation steps, and filing options before requesting assistance.
               </p>
             </div>
             
@@ -118,6 +118,21 @@ export default function CaliforniaDMVPage() {
           </div>
         </div>
       </div>
+
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 relative z-10">
+        <div className="grid md:grid-cols-2 gap-6">
+          <Link href="/filing/mcp65-california-dmv-filing" className="bg-slate-900/60 border border-slate-800 rounded-3xl p-8 hover:border-red-500/60 transition-colors">
+            <p className="text-xs font-black uppercase tracking-widest text-red-400 mb-3">MCP-65 filing guide</p>
+            <h2 className="text-2xl font-bold text-white mb-3">Review requirements and preparation steps</h2>
+            <p className="text-slate-400 leading-relaxed">Start with the informational guide if you are researching the California filing, certificate, fees, or documents needed for a review.</p>
+          </Link>
+          <Link href="/trucking-insurance-readiness?problem=filing" className="bg-slate-900/60 border border-slate-800 rounded-3xl p-8 hover:border-blue-500/60 transition-colors">
+            <p className="text-xs font-black uppercase tracking-widest text-blue-400 mb-3">Carrier readiness</p>
+            <h2 className="text-2xl font-bold text-white mb-3">Build a filing-ready checklist</h2>
+            <p className="text-slate-400 leading-relaxed">Organize authority, equipment, cargo, operating radius, and document details before requesting a filing or insurance review.</p>
+          </Link>
+        </div>
+      </section>
 
       {/* Main Content Area */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-16 pb-32 relative z-20">

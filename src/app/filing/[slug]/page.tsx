@@ -14,12 +14,13 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   if (!data) return { title: 'Filing Not Found' };
 
   const isBmc91x = slug === 'bmc91x-federal-filing-fmsca';
+  const isMcp65 = slug === 'mcp65-california-dmv-filing';
   return {
-    title: isBmc91x ? 'BMC-91X Filing Requirements & Insurance Guide (2026)' : `File ${data.form_id} Online | Filing Information (${data.state_code})`,
-    description: isBmc91x ? 'Learn what the BMC-91X filing is, who may need it, what information to prepare, and how it connects to commercial trucking insurance.' : `Review ${data.official_name} (${data.form_id}) filing information, preparation steps, and applicable requirements.`,
+    title: isBmc91x ? 'BMC-91X Filing Requirements & Insurance Guide (2026)' : isMcp65 ? 'MCP-65 Filing Requirements & DMV-65 Certificate Guide' : `File ${data.form_id} Online | Filing Information (${data.state_code})`,
+    description: isBmc91x ? 'Learn what the BMC-91X filing is, who may need it, what information to prepare, and how it connects to commercial trucking insurance.' : isMcp65 ? 'Understand California MCP-65 filing requirements, DMV-65 certificate terminology, documents, timing, and how to request a filing review.' : `Review ${data.official_name} (${data.form_id}) filing information, preparation steps, and applicable requirements.`,
     openGraph: {
-      title: isBmc91x ? 'BMC-91X Filing Requirements | Truck Coverage Experts' : `${data.form_id} Filing Information - ${data.state_code}`,
-      description: isBmc91x ? 'BMC-91X commercial motor carrier insurance filing guidance.' : `Information about ${data.official_name} filing requirements.`,
+      title: isBmc91x ? 'BMC-91X Filing Requirements | Truck Coverage Experts' : isMcp65 ? 'MCP-65 Filing Requirements | Truck Coverage Experts' : `${data.form_id} Filing Information - ${data.state_code}`,
+      description: isBmc91x ? 'BMC-91X commercial motor carrier insurance filing guidance.' : isMcp65 ? 'California MCP-65 and DMV-65 filing information for commercial carriers.' : `Information about ${data.official_name} filing requirements.`,
     },
     alternates: {
       canonical: `/filing/${slug}`,
@@ -49,6 +50,7 @@ export default async function FilingPage({ params }: { params: Promise<{ slug: s
   if (!filing) return notFound();
 
   const isBmc91x = slug === 'bmc91x-federal-filing-fmsca';
+  const isMcp65 = slug === 'mcp65-california-dmv-filing';
   const filingFee = Number(filing.filing_fee);
   const hasFixedFilingFee = Number.isFinite(filingFee);
 
@@ -151,11 +153,11 @@ export default async function FilingPage({ params }: { params: Promise<{ slug: s
             </div>
             
             <h1 className="font-display text-5xl lg:text-7xl font-bold text-white mb-6 leading-[0.9]">
-              {isBmc91x ? 'BMC-91X Insurance Filing Requirements' : filing.official_name}
+              {isBmc91x ? 'BMC-91X Insurance Filing Requirements' : isMcp65 ? 'MCP-65 Filing Requirements & DMV-65 Certificate Guide' : filing.official_name}
             </h1>
             
             <p className="text-xl text-industrial-400 mb-8 border-l-2 border-blue-500 pl-6">
-              {isBmc91x ? 'A federal insurance filing associated with applicable motor carrier operating authority and financial responsibility.' : filing.purpose}
+              {isBmc91x ? 'A federal insurance filing associated with applicable motor carrier operating authority and financial responsibility.' : isMcp65 ? 'California carriers use MCP-65 filing information and DMV-65 certificate terminology when reviewing Motor Carrier Permit insurance requirements.' : filing.purpose}
             </p>
 
             <div className="grid grid-cols-2 gap-4 mb-12">
@@ -228,9 +230,12 @@ export default async function FilingPage({ params }: { params: Promise<{ slug: s
             <p className="text-center text-xs text-industrial-500 mt-4">
               Availability, timing, and filing eligibility depend on the carrier and applicable requirements.
             </p>
-            <Link href="/trucking-insurance-readiness" className="block mt-5 text-center border border-blue-500/50 text-blue-300 hover:text-white px-4 py-3 rounded text-sm font-bold">
+            <Link href={isMcp65 ? '/trucking-insurance-readiness?problem=filing' : '/trucking-insurance-readiness'} className="block mt-5 text-center border border-blue-500/50 text-blue-300 hover:text-white px-4 py-3 rounded text-sm font-bold">
               Build your filing-readiness checklist first
             </Link>
+            {isMcp65 && <Link href="/dmv65mcp" className="block mt-3 text-center border border-red-500/50 text-red-300 hover:text-white px-4 py-3 rounded text-sm font-bold">
+              Need help with a suspended MCP? View the California rescue page
+            </Link>}
           </div>
 
         </div>
