@@ -234,3 +234,6 @@ Each page must have one primary intent and a clear next step. Supporting pages s
 - Reworked `/insurance/hazmat-tanker-insurance` for the GSC tanker and hazmat opportunity cluster, with operator-focused guidance on commodities, tanks, pollution, loading/unloading, filings, cost inputs, and quote preparation.
 - Refined `/hot-shot` for hot-shot insurance requirements and quote intent, replacing generic startup framing with equipment/combination, authority, coverage, document, non-CDL, and readiness guidance.
 - Strengthened internal linking from `/trucking-insurance-requirements`, `/new-authority-insurance`, and `/dot-insurance-requirements` into problem-specific readiness flows, equipment guides, and the dump/tanker pages.
+- Refined `/box-truck-insurance` around box-truck insurance cost, requirements, cargo, non-CDL, 26-foot truck, and quote-preparation intent, with problem-specific readiness links.
+- Added `/ifta-trucking-requirements` as a compliance resource separate from insurance, covering jurisdiction review, records, quarterly reporting, official sources, and carrier-readiness context.
+- Added `/driver-qualification-file-checklist` as a compliance and lead-generation resource for FMCSA DQ-file requirements, annual reviews, owner-operators, non-CDL drivers, electronic files, and audit preparation.
