@@ -33,7 +33,7 @@ export default function HotShotPage() {
   return (
     <div className="min-h-screen bg-industrial-900 font-mono text-silver">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
-      <SiteHeader ctaLabel="Get insured" />
+      <SiteHeader ctaLabel="Request a review" statusLabel="Hot shot coverage guide" />
 
       <main className="max-w-6xl mx-auto px-6 py-12">
         
@@ -41,11 +41,11 @@ export default function HotShotPage() {
         <div className="grid lg:grid-cols-2 gap-12 mb-16 items-center">
            <div>
              <div className="inline-flex items-center gap-2 px-3 py-1 rounded bg-orange-900/30 text-safety-orange text-xs font-bold mb-6 border border-orange-800 uppercase tracking-widest">
-                <Truck className="w-4 h-4" /> REVOLUTIONIZING LOGISTICS
+                <Truck className="w-4 h-4" /> PICKUP AND TRAILER OPERATIONS
              </div>
              <h1 className="text-4xl md:text-6xl font-display font-bold text-white mb-6 leading-tight">
                HOT SHOT TRUCKING <br />
-               <span className="text-transparent bg-clip-text bg-gradient-to-r from-safety-orange to-yellow-500">INSURANCE GUIDE.</span>
+               <span className="text-transparent bg-clip-text bg-gradient-to-r from-safety-orange to-yellow-500">INSURANCE GUIDE</span>
              </h1>
              <p className="text-xl text-industrial-400 mb-8 max-w-lg">
                Review commercial insurance for pickup-and-trailer operations, including dually trucks,
@@ -55,8 +55,8 @@ export default function HotShotPage() {
              </p>
              
              <div className="flex flex-col sm:flex-row gap-4">
-                <Link href="/quote" className="bg-safety-orange text-black font-bold py-4 px-8 rounded flex items-center justify-center gap-2 hover:bg-orange-500 transition-colors">
-                  REQUEST A QUOTE REVIEW <ArrowRight className="w-5 h-5" />
+               <Link href="/trucking-insurance-readiness?problem=coverage" className="bg-safety-orange text-black font-bold py-4 px-8 rounded flex items-center justify-center gap-2 hover:bg-orange-500 transition-colors">
+                  BUILD MY QUOTE CHECKLIST <ArrowRight className="w-5 h-5" />
                 </Link>
                 <Link href="#checklist" className="border border-industrial-600 text-white font-bold py-4 px-8 rounded flex items-center justify-center hover:bg-industrial-800 transition-colors">
                   VIEW CHECKLIST
@@ -74,16 +74,16 @@ export default function HotShotPage() {
         <section id="checklist" className="mb-20">
            <div className="flex items-center gap-4 mb-8">
             <div className="h-px bg-industrial-800 flex-1"></div>
-            <h2 className="text-2xl font-display text-white tracking-widest">THE HOT SHOT STARTUP CHECKLIST</h2>
+            <h2 className="text-2xl font-display text-white tracking-widest">HOT SHOT INSURANCE REQUIREMENTS CHECKLIST</h2>
             <div className="h-px bg-industrial-800 flex-1"></div>
           </div>
 
           <div className="grid md:grid-cols-4 gap-4">
              {[
-               { icon: FileText, title: '1. Business setup', desc: 'Confirm your entity, vehicle ownership, operating model, cargo, and whether you will haul under your own authority or lease on.' },
-               { icon: Truck, title: '2. DOT and MC status', desc: 'Check the current FMCSA authority process and avoid unofficial services that add unnecessary fees.' },
-               { icon: Shield, title: '3. Coverage review', desc: 'Discuss commercial auto liability, cargo, physical damage, and any broker or shipper requirements with a licensed professional.' },
-               { icon: CheckCircle2, title: '4. Documents and filings', desc: 'Prepare driver, vehicle, loss-run, cargo, and authority information. A BOC-3 is a process-agent filing, not insurance.' },
+               { icon: FileText, title: '1. Describe the operation', desc: 'Confirm the pickup, trailer, cargo, ownership, radius, and whether you will haul under your own authority or lease on.' },
+               { icon: Truck, title: '2. Confirm authority status', desc: 'Separate your DOT and MC authority questions from your insurance questions. Filing needs depend on the operation and rules that apply.' },
+               { icon: Shield, title: '3. Match the coverage', desc: 'Discuss commercial auto liability, cargo, physical damage, and any broker or shipper requirements with a licensed professional.' },
+               { icon: CheckCircle2, title: '4. Gather the documents', desc: 'Prepare driver, vehicle, loss-run, cargo, radius, and authority information. A BOC-3 is a process-agent filing, not insurance.' },
              ].map((step, i) => (
                <div key={i} className="bg-industrial-800 p-6 rounded border border-industrial-700 hover:border-blue-500 transition-colors group">
                   <step.icon className="w-10 h-10 text-industrial-600 mb-4 group-hover:text-blue-500 transition-colors" />
@@ -107,6 +107,21 @@ export default function HotShotPage() {
           </div>
         </section>
 
+        <section className="mb-20 border-t border-industrial-800 pt-12 grid lg:grid-cols-2 gap-8">
+          <div>
+            <h2 className="text-3xl font-bold text-white mb-4">Hot shot insurance requirements depend on the combination</h2>
+            <p className="text-industrial-400 leading-relaxed mb-4">A pickup and gooseneck trailer can look different from a dually and flatbed setup, but the insurance review still comes back to the same facts: the actual vehicle and trailer, loaded weight, cargo, routes, authority, drivers, and contracts.</p>
+            <p className="text-industrial-400 leading-relaxed">Do not assume “non-CDL” means personal auto coverage is appropriate. The licensing question and the commercial insurance question are separate. Describe the work and equipment accurately before comparing options.</p>
+          </div>
+          <div className="bg-industrial-800 border border-industrial-700 rounded p-8">
+            <h2 className="text-3xl font-bold text-white mb-4">What to bring to a quote review</h2>
+            <ul className="space-y-3 text-industrial-300">
+              {['Pickup year, make, model, and stated value', 'Trailer type, length, value, and ownership', 'Cargo description and typical load value', 'Operating radius and states traveled', 'Driver information, prior coverage, and loss runs', 'Broker, shipper, or authority requirements'].map(item => <li key={item} className="flex gap-3"><CheckCircle2 className="w-5 h-5 text-safety-orange shrink-0" />{item}</li>)}
+            </ul>
+            <Link href="/trucking-insurance-readiness?problem=quote" className="inline-flex items-center gap-2 mt-7 bg-safety-orange text-black font-bold py-3 px-5 rounded hover:bg-orange-500">Use the readiness tool <ArrowRight className="w-4 h-4" /></Link>
+          </div>
+        </section>
+
         <section className="mb-20 border-t border-industrial-800 pt-12">
           <h2 className="text-3xl font-bold text-white mb-4">Hot shot trucking insurance resources</h2>
           <p className="text-industrial-400 max-w-3xl mb-6">Hot shot operators may need to review pickup or dually configuration, trailer type, operating radius, cargo, authority status, and state requirements. Use these related guides to plan the insurance conversation.</p>
@@ -119,7 +134,7 @@ export default function HotShotPage() {
               <span className="text-safety-orange font-bold">Heavy-haul coverage guide</span>
               <span className="block text-sm text-industrial-400 mt-2">Review specialized equipment and high-value cargo considerations.</span>
             </Link>
-            <Link href="/trucking-insurance-readiness" className="bg-blue-950/40 border border-blue-800 p-5 hover:border-safety-orange transition-colors">
+            <Link href="/trucking-insurance-readiness?problem=coverage" className="bg-blue-950/40 border border-blue-800 p-5 hover:border-safety-orange transition-colors">
               <span className="text-safety-orange font-bold">Build your readiness checklist</span>
               <span className="block text-sm text-industrial-400 mt-2">Organize cargo, radius, authority, and document details before requesting a quote review.</span>
             </Link>

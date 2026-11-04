@@ -225,3 +225,12 @@ Each page must have one primary intent and a clear next step. Supporting pages s
 - Replaced generic equipment language and risk-score presentation with plain-language guidance on vehicles in transit, loading/unloading, theft controls, broker requirements, open versus enclosed carriers, cost factors, and quote preparation.
 - Added clearer internal paths to the car-hauler cost page, requirements page, and problem-specific readiness tool; retained the canonical route and supporting intent split.
 - Strengthened contextual readiness-tool links across the car-hauler cost and requirements pages, using quote or filing intent parameters to preserve attribution and user context.
+
+### 2026-11-04
+
+- Added the broad-intent `/insurance/dump-trailer-insurance` guide after GSC showed `dump trailer insurance` as a high-impression query with weak ranking, while the specific belly-dump page already showed page-one visibility.
+- Wrote the guide around operator intent: end dump versus bottom/belly dump work, rollover and unloading exposure, off-road and jobsite activity, cost inputs, quote preparation, and a coverage-readiness conversion path.
+- Added the route to the authoritative sitemap and linked it from the equipment insurance hub; retained the existing equipment-specific pages as supporting intent pages.
+- Reworked `/insurance/hazmat-tanker-insurance` for the GSC tanker and hazmat opportunity cluster, with operator-focused guidance on commodities, tanks, pollution, loading/unloading, filings, cost inputs, and quote preparation.
+- Refined `/hot-shot` for hot-shot insurance requirements and quote intent, replacing generic startup framing with equipment/combination, authority, coverage, document, non-CDL, and readiness guidance.
+- Strengthened internal linking from `/trucking-insurance-requirements`, `/new-authority-insurance`, and `/dot-insurance-requirements` into problem-specific readiness flows, equipment guides, and the dump/tanker pages.

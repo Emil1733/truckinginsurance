@@ -22,6 +22,15 @@ const carHaulerCoverage = [
   ['Broker and shipper terms', 'Compare the proposed limits, certificates, filings, and cargo language with the contracts you actually accept.'],
 ];
 
+const hazmatTankerCoverage = [
+  ['Primary auto liability', 'Review the limit required for your authority, the materials hauled, vehicle configuration, and the contracts you accept.'],
+  ['Hazmat cargo', 'The policy should be reviewed against the specific commodity, container or tank type, loading method, and value of the material.'],
+  ['Pollution liability', 'A spill, cleanup order, or contamination claim may raise questions beyond ordinary cargo coverage. Ask what pollution protection is included or needs separate review.'],
+  ['Loading and unloading', 'Fuel, chemicals, and other regulated materials create exposure at the terminal, plant, customer site, and delivery point—not only while driving.'],
+  ['Physical damage', 'Discuss the tractor, tanker, pumps, hoses, valves, and other equipment that are part of the operation.'],
+  ['Filings and endorsements', 'Compare federal or state filing needs, hazmat endorsements, and shipper requirements with the proposed policy and certificates.'],
+];
+
 
 // SEO Metadata Generation
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<import("next").Metadata> {
@@ -31,15 +40,18 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   if (!data) return { title: 'Coverage Not Found' };
 
   const isCarHaulerPage = slug === 'auto-hauler-car-carrier-insurance';
+  const isHazmatTankerPage = slug === 'hazmat-tanker-insurance';
 
   return {
-    title: isCarHaulerPage ? 'Car Hauler Insurance: Coverage, Cost & Requirements' : `${data.display_name} Insurance | Coverage Review for Trucking Operations`,
+    title: isCarHaulerPage ? 'Car Hauler Insurance: Coverage, Cost & Requirements' : isHazmatTankerPage ? 'Tanker Truck Insurance: Hazmat Coverage, Cost & Requirements' : `${data.display_name} Insurance | Coverage Review for Trucking Operations`,
     description: isCarHaulerPage
       ? 'Understand car hauler, auto hauler, and car hauling insurance: vehicle-in-transit coverage, broker requirements, cost factors, and quote preparation.'
+      : isHazmatTankerPage
+        ? 'Review tanker truck and hazmat trucking insurance questions, including cargo, pollution, filings, endorsements, equipment, and quote preparation.'
       : `Review commercial insurance considerations for ${data.display_name} operations and request help from a licensed insurance professional.`,
     openGraph: {
-      title: isCarHaulerPage ? 'Car Hauler Insurance: Coverage, Cost & Requirements | Truck Coverage Experts' : `${data.display_name} Insurance | Truck Coverage Experts`,
-      description: isCarHaulerPage ? 'Plain-language guidance for car haulers on liability, vehicles in transit, broker requirements, and the information needed for a quote review.' : `Commercial insurance considerations and quote-review assistance for ${data.display_name} operations.`,
+      title: isCarHaulerPage ? 'Car Hauler Insurance: Coverage, Cost & Requirements | Truck Coverage Experts' : isHazmatTankerPage ? 'Tanker Truck Insurance: Hazmat Coverage, Cost & Requirements | Truck Coverage Experts' : `${data.display_name} Insurance | Truck Coverage Experts`,
+      description: isCarHaulerPage ? 'Plain-language guidance for car haulers on liability, vehicles in transit, broker requirements, and the information needed for a quote review.' : isHazmatTankerPage ? 'Plain-language guidance for tanker and hazmat operators on cargo, pollution, filings, equipment, and quote preparation.' : `Commercial insurance considerations and quote-review assistance for ${data.display_name} operations.`,
     },
     alternates: {
       canonical: `/insurance/${slug}`,
@@ -65,7 +77,8 @@ export default async function TrailerPage({ params }: { params: Promise<{ slug: 
   if (!trailer) return notFound();
 
   const isCarHauler = slug === 'auto-hauler-car-carrier-insurance';
-  const pageName = isCarHauler ? 'Car Hauler Insurance' : `${trailer.display_name} Insurance`;
+  const isHazmatTanker = slug === 'hazmat-tanker-insurance';
+  const pageName = isCarHauler ? 'Car Hauler Insurance' : isHazmatTanker ? 'Tanker Truck & Hazmat Insurance' : `${trailer.display_name} Insurance`;
 
   // Cast exclusions safely
   const exclusions = (trailer.common_exclusions || []) as string[];
@@ -128,7 +141,7 @@ export default async function TrailerPage({ params }: { params: Promise<{ slug: 
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <SiteHeader statusLabel={isCarHauler ? 'Auto transport coverage' : 'Heavy haul division'} ctaLabel="Request a review" />
+      <SiteHeader statusLabel={isCarHauler ? 'Auto transport coverage' : isHazmatTanker ? 'Hazmat and tanker coverage' : 'Heavy haul division'} ctaLabel="Request a review" />
 
       <main className="max-w-7xl mx-auto px-6 py-12 lg:py-20">
         <Breadcrumbs items={[
@@ -150,6 +163,8 @@ export default async function TrailerPage({ params }: { params: Promise<{ slug: 
             <p className="text-xl text-industrial-400 mb-8 border-l-4 border-yellow-400 pl-6 italic">
               {isCarHauler
                 ? 'If you move customer vehicles with an open or enclosed carrier, your insurance needs to address both the truck and the vehicles in your care. Here is what to review before you ask for a quote.'
+                : isHazmatTanker
+                  ? 'If you haul fuel, chemicals, crude, or another regulated material, the policy review has to follow the material and the way you handle it. Here are the questions to answer before requesting a tanker insurance quote.'
                 : 'Commercial insurance guidance for specialized trucking equipment and the cargo or property your operation carries.'}
             </p>
 
@@ -157,6 +172,11 @@ export default async function TrailerPage({ params }: { params: Promise<{ slug: 
               <div className="bg-industrial-800 p-6 rounded border border-industrial-700 mb-12">
                 <div className="text-yellow-400 text-xs font-bold mb-2 uppercase tracking-wider">The short version</div>
                 <p className="text-white leading-relaxed">The cheapest-looking quote is not useful if it does not match the value of the cars you haul, your loading process, or the certificate and cargo terms your broker requires.</p>
+              </div>
+            ) : isHazmatTanker ? (
+              <div className="bg-industrial-800 p-6 rounded border border-industrial-700 mb-12">
+                <div className="text-yellow-400 text-xs font-bold mb-2 uppercase tracking-wider">The short version</div>
+                <p className="text-white leading-relaxed">A tanker quote is only useful when it matches the exact materials, tank equipment, routes, loading and unloading process, and pollution exposure of the operation. Do not rely on a generic cargo description.</p>
               </div>
             ) : <div className="grid grid-cols-2 gap-4 mb-12">
               <div className="bg-industrial-800 p-6 rounded border border-industrial-700">
@@ -175,16 +195,16 @@ export default async function TrailerPage({ params }: { params: Promise<{ slug: 
 
             <h2 className="text-white font-bold mb-4 flex items-center gap-2 text-red-500">
               <ShieldCheck className="w-5 h-5" />
-              {isCarHauler ? 'Questions to ask before you bind' : 'WATCH OUT FOR EXCLUSIONS'}
+              {isCarHauler ? 'Questions to ask before you bind' : isHazmatTanker ? 'Questions to ask before you bind' : 'WATCH OUT FOR EXCLUSIONS'}
             </h2>
             <p className="text-sm text-industrial-500 mb-4">
-              {isCarHauler ? 'Ask these questions before choosing a car-hauler policy. The answers should match how you actually load, park, move, and deliver vehicles.' : 'Coverage exclusions and conditions vary by policy and operation. A licensed insurance professional can review the details with you.'}
+              {isCarHauler ? 'Ask these questions before choosing a car-hauler policy. The answers should match how you actually load, park, move, and deliver vehicles.' : isHazmatTanker ? 'Ask these questions before choosing a tanker policy. The answers should match the commodity, tank, routes, terminals, and delivery work.' : 'Coverage exclusions and conditions vary by policy and operation. A licensed insurance professional can review the details with you.'}
             </p>
             <ul className="space-y-4 mb-12">
               {exclusions.map((item, i) => (
                 <li key={i} className="flex gap-3 text-sm text-silver bg-red-900/10 p-3 rounded border border-red-900/30">
                   <AlertTriangle className="w-4 h-4 text-red-500 mt-1 shrink-0" />
-                  <span className="text-red-200">{isCarHauler ? `Ask about: ${item}` : `REVIEW THIS CONDITION: ${item}`}</span>
+                  <span className="text-red-200">{isCarHauler || isHazmatTanker ? `Ask about: ${item}` : `REVIEW THIS CONDITION: ${item}`}</span>
                 </li>
               ))}
             </ul>
@@ -193,9 +213,9 @@ export default async function TrailerPage({ params }: { params: Promise<{ slug: 
           {/* RIGHT: THE ACTION CARD */}
           <div className="bg-industrial-800 border-2 border-yellow-500/50 p-8 rounded-lg sticky top-24 shadow-[0_0_50px_rgba(234,179,8,0.1)]">
             <div className="text-center mb-8">
-              <h2 className="text-2xl font-bold text-white mb-2">{isCarHauler ? 'Review your car-hauler operation' : 'INSURE THIS TRAILER'}</h2>
+              <h2 className="text-2xl font-bold text-white mb-2">{isCarHauler ? 'Review your car-hauler operation' : isHazmatTanker ? 'Review your tanker operation' : 'INSURE THIS TRAILER'}</h2>
               <p className="text-industrial-400 text-sm">
-                {isCarHauler ? 'Share the equipment, routes, drivers, and cargo details that determine whether a quote fits your auto-transport work.' : `Request a quote review for ${trailer.display_name} operations. Availability and timing depend on your submission and underwriting.`}
+                {isCarHauler ? 'Share the equipment, routes, drivers, and cargo details that determine whether a quote fits your auto-transport work.' : isHazmatTanker ? 'Share the materials, tank equipment, routes, drivers, and filing details needed to review your hazmat operation.' : `Request a quote review for ${trailer.display_name} operations. Availability and timing depend on your submission and underwriting.`}
               </p>
             </div>
 
@@ -211,7 +231,7 @@ export default async function TrailerPage({ params }: { params: Promise<{ slug: 
                 href="/quote"
                 className="block w-full bg-yellow-400 hover:bg-yellow-300 text-black font-bold py-4 text-center rounded transition-all shadow-lg hover:shadow-yellow-400/25 active:scale-[0.98] uppercase"
               >
-                {isCarHauler ? 'Start my car-hauler quote review' : `Request ${trailer.display_name} Quote Review`}
+                {isCarHauler ? 'Start my car-hauler quote review' : isHazmatTanker ? 'Start my tanker quote review' : `Request ${trailer.display_name} Quote Review`}
               </Link>
             </div>
             
@@ -263,6 +283,50 @@ export default async function TrailerPage({ params }: { params: Promise<{ slug: 
                   <li key={item} className="flex gap-3"><span className="text-yellow-400">✓</span><span>{item}</span></li>
                 ))}
               </ul>
+            </div>
+          </section>
+        )}
+
+        {isHazmatTanker && (
+          <section className="mt-20 grid lg:grid-cols-2 gap-12 border-t border-industrial-800 pt-12">
+            <div>
+              <h2 className="text-3xl font-bold text-white mb-4">What tanker truck insurance needs to address</h2>
+              <p className="text-industrial-400 mb-6">Tanker truck insurance depends on more than the word “tanker.” A gasoline hauler, chemical carrier, crude hauler, and food-grade tanker can present different cargo, contamination, pollution, loading, and contractual questions.</p>
+              <div className="grid sm:grid-cols-2 gap-4">
+                {hazmatTankerCoverage.map(([title, body]) => (
+                  <div key={title} className="bg-industrial-800 border border-industrial-700 p-5 rounded">
+                    <h3 className="text-white font-bold mb-2">{title}</h3>
+                    <p className="text-sm text-industrial-400">{body}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div>
+              <h2 className="text-3xl font-bold text-white mb-4">What changes the cost?</h2>
+              <p className="text-industrial-400 mb-4">Hazmat trucking insurance cost can reflect the commodity and hazard class, tank and vehicle values, operating radius, routes, driver experience, loss history, selected limits, deductibles, and the severity of a possible spill or contamination claim.</p>
+              <p className="text-industrial-400 mb-6">A licensed professional should compare the proposed policy with the materials and services shown on your authority, contracts, certificates, and safety procedures.</p>
+              <div className="flex flex-wrap gap-3">
+                <Link href="/trucking-insurance-readiness?problem=coverage" className="inline-block bg-yellow-400 hover:bg-yellow-300 text-black font-bold px-5 py-3 rounded">Build my hazmat checklist</Link>
+                <Link href="/trucking-insurance-requirements" className="inline-block border border-industrial-600 text-silver font-bold px-5 py-3 rounded">Review requirements</Link>
+              </div>
+            </div>
+          </section>
+        )}
+
+        {isHazmatTanker && (
+          <section className="mt-16 border-t border-industrial-800 pt-12 grid lg:grid-cols-2 gap-12">
+            <div>
+              <h2 className="text-3xl font-bold text-white mb-4">What to have ready</h2>
+              <ul className="space-y-3 text-industrial-400">
+                {['Exact commodities, hazard classes, and typical load values', 'Tank type, capacity, equipment schedule, and maintenance information', 'Loading and unloading locations, routes, radius, and states operated in', 'Driver qualifications, experience, safety procedures, and loss runs', 'Filing, certificate, shipper, and contract requirements'].map((item) => (
+                  <li key={item} className="flex gap-3"><span className="text-yellow-400">✓</span><span>{item}</span></li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <h2 className="text-3xl font-bold text-white mb-4">Do not assume pollution is included</h2>
+              <p className="text-industrial-400 leading-relaxed">Pollution, cleanup, contamination, and gradual release terms can be policy-specific. Ask what is covered, what is excluded, and what conditions apply to loading, unloading, storage, emergency response, and delivery.</p>
+              <Link href="/quote" className="inline-block mt-6 bg-yellow-400 hover:bg-yellow-300 text-black font-bold px-5 py-3 rounded uppercase">Request a tanker quote review</Link>
             </div>
           </section>
         )}

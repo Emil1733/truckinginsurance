@@ -232,3 +232,21 @@ Before building the readiness tool, upgrade the existing high-intent hubs around
 5. Commercial trucking insurance requirements and BMC-91X filing
 
 The readiness tool should be positioned as a conversion layer across these pages, rather than as a standalone page targeting only low-volume terms such as `trucking insurance calculator`.
+
+### GSC opportunity update — 2026-11-04
+
+The latest 28-day GSC export showed `dump trailer insurance` with 66 impressions at an average position near 66, while `belly dump trailer insurance` had page-one visibility. This supports a broad guide that explains dump-trailer operations and routes users to the existing end-dump and bottom-dump pages.
+
+Completed:
+
+- `/insurance/dump-trailer-insurance` — broad dump trailer insurance, coverage questions, cost inputs, requirements, and quote preparation.
+- Internal links from the equipment hub to the new guide.
+- Internal links from the new guide to end-dump, bottom-dump, all equipment guides, and the readiness tool.
+
+Quality guardrail:
+
+- Do not create separate pages for every dump-trailer wording variation. Keep the broad page as the cluster entry point and use the existing equipment pages only where the operating intent is genuinely different.
+
+- `/insurance/hazmat-tanker-insurance` — refreshed for `tanker truck insurance`, `hazmat truck insurance`, and related coverage/requirements intent. Keep this as the cluster page unless GSC later shows a clearly distinct high-volume pollution or tanker-endorsement intent.
+- `/hot-shot` — refreshed for `hot shot trucking insurance`, `hot shot trucking insurance requirements`, `commercial hot shot insurance`, and non-CDL/operator questions. Keep the main guide as the cluster entry point and use state pages only when they contain genuine state-specific information.
+- Requirements-linking pass — updated `/trucking-insurance-requirements`, `/new-authority-insurance`, and `/dot-insurance-requirements` with contextual readiness links and links into the most relevant equipment/filing guides. Query parameters preserve authority, filing, and requirements intent.

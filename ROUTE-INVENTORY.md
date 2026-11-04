@@ -172,3 +172,11 @@ Required standard: production canonicals, sitemap URLs, structured-data URLs, in
 - Reworked `/insurance/auto-hauler-car-carrier-insurance` for the high-impression car-hauler query cluster. The page now answers coverage, vehicle-in-transit, open-versus-enclosed, requirements, cost, and quote-preparation questions in trucker-oriented language.
 - Kept `/insurance/car-hauler-insurance-cost` and `/insurance/car-hauler-insurance-requirements` as distinct supporting pages rather than duplicating their full content on the canonical page.
 - Added contextual links from the canonical, cost, and requirements pages into the readiness tool with `problem=quote` or `problem=filing` where appropriate.
+
+### 2026-11-04
+
+- Added `/insurance/dump-trailer-insurance` as the broad dump-trailer insurance guide. It targets the broad query intent without replacing `/insurance/end-dump-trailer-insurance` or `/insurance/bottom-dump-trailer-insurance`.
+- Added sitemap coverage and an equipment-hub link. The page links to the specific dump-trailer guides and the readiness tool with `problem=coverage`.
+- Expanded `/insurance/hazmat-tanker-insurance` as the canonical tanker/hazmat insurance page instead of adding separate thin pages for each tanker wording variation. Added a readiness path with `problem=coverage`.
+- Refined `/hot-shot` as the primary hot-shot insurance guide, adding a requirements section and contextual readiness links with coverage and quote intent.
+- Strengthened the requirements architecture: commercial requirements now links to equipment-specific pages including dump trailers and tanker/hazmat, while new-authority and DOT pages preserve authority and filing intent in readiness links.

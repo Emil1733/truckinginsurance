@@ -49,6 +49,12 @@ export default function InsuranceIndex() {
           </Link>
         </section>
 
+        <section className="mb-12 bg-industrial-800 border border-industrial-700 rounded p-6">
+          <h2 className="text-2xl font-bold text-white mb-2">Dump trailer insurance</h2>
+          <p className="text-sm text-industrial-400 max-w-3xl leading-relaxed mb-4">Review rollover, unloading, hydraulic, off-road and jobsite questions for end dumps, bottom dumps and belly dumps.</p>
+          <Link href="/insurance/dump-trailer-insurance" className="inline-flex items-center gap-2 text-yellow-400 font-bold">Open the dump trailer guide <ArrowRight className="w-4 h-4" /></Link>
+        </section>
+
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {TRAILERS_DATA.map((t) => (
              <Link 
