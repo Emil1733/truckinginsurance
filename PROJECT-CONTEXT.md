@@ -237,3 +237,5 @@ Each page must have one primary intent and a clear next step. Supporting pages s
 - Refined `/box-truck-insurance` around box-truck insurance cost, requirements, cargo, non-CDL, 26-foot truck, and quote-preparation intent, with problem-specific readiness links.
 - Added `/ifta-trucking-requirements` as a compliance resource separate from insurance, covering jurisdiction review, records, quarterly reporting, official sources, and carrier-readiness context.
 - Added `/driver-qualification-file-checklist` as a compliance and lead-generation resource for FMCSA DQ-file requirements, annual reviews, owner-operators, non-CDL drivers, electronic files, and audit preparation.
+- Added a browser-saved interactive DQ checklist with progress, reset, completion, and document-focused readiness CTA. It does not require contact information and emits `dq_checklist_started`, `dq_checklist_completed`, and `dq_checklist_reset` PostHog events.
+- Added contextual DQ-file links from `/carrier-readiness`, `/new-authority-insurance`, and `/dot-insurance-requirements` at the point where users are preparing driver or compliance documents.

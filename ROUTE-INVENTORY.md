@@ -183,3 +183,5 @@ Required standard: production canonicals, sitemap URLs, structured-data URLs, in
 - Expanded `/box-truck-insurance` as the canonical box-truck cluster hub rather than adding separate thin pages for non-CDL or 26-foot variants.
 - Added `/ifta-trucking-requirements` as an indexable compliance guide and linked it from the commercial trucking requirements hub. It is not positioned as an insurance product page.
 - Added `/driver-qualification-file-checklist` as an indexable compliance guide targeting DQ-file checklist, requirements, forms, packet, owner-operator, non-CDL, and electronic-file intent. It links to official FMCSA resources and the readiness workflow.
+- The DQ-file route now contains the reusable `DQFileChecklist` client interaction. Progress is stored only in the visitor's browser; contact information is not required to complete it.
+- Linked the DQ-file route from the carrier readiness center, new-authority checklist, and DOT requirements preparation section with descriptive anchors.

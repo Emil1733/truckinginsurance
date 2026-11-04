@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { ArrowRight, CheckCircle2, ClipboardCheck, FileText, ShieldCheck, Truck } from 'lucide-react';
 import { SiteHeader } from '@/components/SiteHeader';
+import DQFileChecklist from '@/components/DQFileChecklist';
 
 export const metadata = {
   title: 'Driver Qualification File Checklist: FMCSA DQ File Requirements',
@@ -41,6 +42,10 @@ export default function DriverQualificationFileChecklistPage() {
         <h2 className="text-3xl font-bold text-white mb-6">Core DQ file documents to organize</h2>
         <div className="grid md:grid-cols-2 gap-4">{requiredItems.map(([title, body]) => <div key={title} className="bg-industrial-800 border border-industrial-700 p-6 rounded"><h3 className="text-white font-bold mb-2">{title}</h3><p className="text-industrial-400 leading-relaxed">{body}</p></div>)}</div>
         <p className="text-sm text-industrial-500 mt-6">This is a practical starting checklist, not a substitute for reviewing the current rule, the carrier’s operation, and any applicable state or company requirements.</p>
+      </section>
+
+      <section className="max-w-5xl mx-auto px-6 pb-16" id="checklist">
+        <DQFileChecklist />
       </section>
 
       <section className="bg-industrial-800/40 border-y border-industrial-800">
