@@ -97,7 +97,7 @@ export async function POST(request: Request) {
       const SUPABASE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
       if (!SUPABASE_URL || !SUPABASE_KEY) return NextResponse.json({ error: 'Lead storage is unavailable' }, { status: 503 });
       const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
-      const { error } = await supabase.from('leads').insert({ driver_name: name, phone: phone || 'Not provided', email, violation_code: `Readiness | ${primaryProblem || 'General preparation'} | ${businessType} | ${state}`, source, notes, status: 'new' });
+      const { error } = await supabase.from('leads').insert({ driver_name: name, phone: phone || 'Not provided', email, violation_code: `Readiness | ${primaryProblem || 'General preparation'} | ${businessType} | ${state}`, source, status: 'new' });
       if (error) return NextResponse.json({ error: 'Readiness request could not be saved' }, { status: 500 });
       await saveToAirtable({ 'Lead Name': name, Phone: phone || '', Email: email, 'Business Type': businessType, State: state, Source: source, Status: 'New', Notes: notes });
       return NextResponse.json({ success: true, message: 'Readiness report requested' });
@@ -133,7 +133,6 @@ export async function POST(request: Request) {
           email,
           violation_code: `${businessType} | ${state} | ${authorityStatus}`,
           source: `website${landingPage ? `:${landingPage}` : ''}${utmSource ? `:${utmSource}` : ''}${utmMedium ? `:${utmMedium}` : ''}`,
-          notes,
           status: 'new'
         }
       ]);

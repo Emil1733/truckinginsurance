@@ -35,7 +35,6 @@ export async function submitLead(_previous: { error: string } | { saved: true } 
     violation_code,
     cdl_years,
     source: `website:${sourcePage}`,
-    notes,
     status: 'new'
   });
 

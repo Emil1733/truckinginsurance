@@ -147,6 +147,8 @@ Each page must have one primary intent and a clear next step. Supporting pages s
 
 ## 9. Change log
 
+- Kept production lead inserts compatible with the deployed Supabase leads schema, which has no notes column. Detailed quote notes go to Airtable while Supabase retains core request fields and source.
+
 - Main and state quote forms now capture an optional renewal date for replacement coverage and carry the session landing page and campaign parameters into lead notes. Each quote is saved as a new Supabase request. Airtable updates the latest request notes and follow-up status for a matching email and fills in a missing phone number.
 - Quote sync rechecks Airtable once after a transient server or network failure. Rate-limit responses and prolonged outages leave the Supabase copy available for recovery. There is no background replay queue. Readiness contact deduplication remains separate from quote intake.
 
