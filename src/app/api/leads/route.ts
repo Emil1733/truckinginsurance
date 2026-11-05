@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
+import { syncQuoteLead } from '@/lib/quote-lead-airtable';
+import { renewalDate } from '@/lib/lead-attribution';
 
 async function saveToAirtable(fields: Record<string, string>) {
   const token = process.env.AIRTABLE_PAT;
@@ -9,12 +11,16 @@ async function saveToAirtable(fields: Record<string, string>) {
     console.warn('Airtable sync skipped: missing AIRTABLE_PAT, AIRTABLE_BASE_ID, or AIRTABLE_TABLE_ID');
     return;
   }
-  const response = await fetch(`https://api.airtable.com/v0/${baseId}/${tableId}`, {
-    method: 'POST',
-    headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ records: [{ fields }] }),
-  });
-  if (!response.ok) console.error('Airtable sync error:', response.status, await response.text());
+  try {
+    const response = await fetch(`https://api.airtable.com/v0/${baseId}/${tableId}`, {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ records: [{ fields }] }),
+    });
+    if (!response.ok) console.error('Airtable sync error:', response.status);
+  } catch (error) {
+    console.error('Airtable sync request failed:', error);
+  }
 }
 
 async function airtableLeadExists(email?: string, phone?: string) {
@@ -61,12 +67,12 @@ function attributionSummary({ landingPage, utmSource, utmMedium, utmCampaign, gc
 
 export async function POST(request: Request) {
   try {
-    const { name, phone, email, businessType, state, authorityStatus, landingPage, utmSource, utmMedium, utmCampaign, gclid, referrer, consent, dot, readinessReport, primaryProblem, cargo, radius } = await request.json();
+    const { name, phone, email, businessType, state, authorityStatus, landingPage, utmSource, utmMedium, utmCampaign, gclid, referrer, consent, dot, readinessReport, primaryProblem, cargo, radius, renewalDate: requestedRenewalDate, originatingPage } = await request.json();
 
     if (dot && email) {
       const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
       const SUPABASE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-      if (!SUPABASE_URL || !SUPABASE_KEY) return NextResponse.json({ success: true, message: 'Lead captured' });
+      if (!SUPABASE_URL || !SUPABASE_KEY) return NextResponse.json({ error: 'Lead storage is unavailable' }, { status: 503 });
       const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
       const { error } = await supabase.from('leads').insert({ driver_name: `DOT lookup: ${dot}`, phone: 'Not provided', email, violation_code: 'DOT lookup', source: 'website:/dot-insurance-lookup', status: 'new' });
       if (error) return NextResponse.json({ error: 'Lead could not be saved' }, { status: 500 });
@@ -74,45 +80,50 @@ export async function POST(request: Request) {
       return NextResponse.json({ success: true, message: 'Lead captured successfully' });
     }
 
-    if (!name || !phone || !email || !businessType || !state || !authorityStatus) {
-      if (readinessReport && name && email && businessType && state) {
-        const hasConsent = consent === true || consent === 'true' || consent === 'yes';
-        if (!hasConsent) return NextResponse.json({ error: 'Consent is required to request a readiness report' }, { status: 400 });
-
-        if (await airtableLeadExists(email, phone)) {
-          return NextResponse.json({ success: true, duplicate: true, message: 'Readiness request already received' });
-        }
-
-        const source = `website${landingPage ? `:${landingPage}` : ''}${utmSource ? `:${utmSource}` : ''}${utmMedium ? `:${utmMedium}` : ''}`;
-        const notes = `Readiness report | Problem: ${primaryProblem || 'General preparation'} | Authority: ${authorityStatus || 'Not provided'} | Cargo: ${cargo || 'Not provided'} | Radius: ${radius || 'Not provided'} | Contact consent: Yes | ${attributionSummary({ landingPage, utmSource, utmMedium, utmCampaign, gclid, referrer })}`;
-        const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
-        const SUPABASE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-        if (SUPABASE_URL && SUPABASE_KEY) {
-          const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
-          const { error } = await supabase.from('leads').insert({ driver_name: name, phone: phone || 'Not provided', email, violation_code: `Readiness | ${primaryProblem || 'General preparation'} | ${businessType} | ${state}`, source, status: 'new' });
-          if (error) return NextResponse.json({ error: 'Readiness request could not be saved' }, { status: 500 });
-        }
-        await saveToAirtable({ 'Lead Name': name, Phone: phone || '', Email: email, 'Business Type': businessType, State: state, Source: source, Status: 'New', Notes: notes });
-        return NextResponse.json({ success: true, message: 'Readiness report requested' });
+    if (readinessReport) {
+      if (!name || !email || !businessType || !state) {
+        return NextResponse.json({ error: 'Required readiness details are missing' }, { status: 400 });
       }
-      return NextResponse.json({ error: 'Required lead details are missing' }, { status: 400 });
-    }
+      const hasConsent = consent === true || consent === 'true' || consent === 'yes';
+      if (!hasConsent) return NextResponse.json({ error: 'Consent is required to request a readiness report' }, { status: 400 });
 
-    if (await airtableLeadExists(email, phone)) {
-      return NextResponse.json({ success: true, duplicate: true, message: 'Lead already received' });
+      if (await airtableLeadExists(email, phone)) {
+        return NextResponse.json({ success: true, duplicate: true, message: 'Readiness request already received' });
+      }
+
+      const source = `website${landingPage ? `:${landingPage}` : ''}${utmSource ? `:${utmSource}` : ''}${utmMedium ? `:${utmMedium}` : ''}`;
+      const notes = `Readiness report | Problem: ${primaryProblem || 'General preparation'} | Authority: ${authorityStatus || 'Not provided'} | Cargo: ${cargo || 'Not provided'} | Radius: ${radius || 'Not provided'} | Contact consent: Yes | ${attributionSummary({ landingPage, utmSource, utmMedium, utmCampaign, gclid, referrer })}`;
+      const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
+      const SUPABASE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+      if (!SUPABASE_URL || !SUPABASE_KEY) return NextResponse.json({ error: 'Lead storage is unavailable' }, { status: 503 });
+      const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+      const { error } = await supabase.from('leads').insert({ driver_name: name, phone: phone || 'Not provided', email, violation_code: `Readiness | ${primaryProblem || 'General preparation'} | ${businessType} | ${state}`, source, notes, status: 'new' });
+      if (error) return NextResponse.json({ error: 'Readiness request could not be saved' }, { status: 500 });
+      await saveToAirtable({ 'Lead Name': name, Phone: phone || '', Email: email, 'Business Type': businessType, State: state, Source: source, Status: 'New', Notes: notes });
+      return NextResponse.json({ success: true, message: 'Readiness report requested' });
+    }
+    if (!name || !phone || !email || !businessType || !state || !authorityStatus) {
+      return NextResponse.json({ error: 'Required lead details are missing' }, { status: 400 });
     }
 
     const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
     const SUPABASE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
     if (!SUPABASE_URL || !SUPABASE_KEY) {
-       console.error('Missing Supabase keys. Skipping DB insert for MVP.');
-       return NextResponse.json({ success: true, message: 'Lead captured (Mock - No DB keys)' });
+       console.error('Lead storage configuration is missing.');
+       return NextResponse.json({ error: 'Lead storage is unavailable' }, { status: 503 });
     }
 
     const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    // Insert the new lead into the 'leads' table
+    const renewal = renewalDate(requestedRenewalDate);
+    const notes = [
+      renewal && `Renewal date: ${renewal}`,
+      typeof originatingPage === 'string' && originatingPage.startsWith('/') && `Originating page: ${originatingPage.slice(0, 300)}`,
+      attributionSummary({ landingPage, utmSource, utmMedium, utmCampaign, gclid, referrer }),
+    ].filter(Boolean).join(' | ');
+
+    // Keep a durable record of each quote request even when the contact already exists.
     const { error } = await supabase
       .from('leads')
       .insert([
@@ -122,6 +133,7 @@ export async function POST(request: Request) {
           email,
           violation_code: `${businessType} | ${state} | ${authorityStatus}`,
           source: `website${landingPage ? `:${landingPage}` : ''}${utmSource ? `:${utmSource}` : ''}${utmMedium ? `:${utmMedium}` : ''}`,
+          notes,
           status: 'new'
         }
       ]);
@@ -132,7 +144,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Lead could not be saved' }, { status: 500 });
     }
 
-    await saveToAirtable({
+    await syncQuoteLead({
       'Lead Name': name,
       Phone: phone,
       Email: email,
@@ -142,7 +154,7 @@ export async function POST(request: Request) {
       'Landing Page': landingPage || '',
       Source: `website${landingPage ? `:${landingPage}` : ''}${utmSource ? `:${utmSource}` : ''}`,
       Status: 'New',
-      Notes: attributionSummary({ landingPage, utmSource, utmMedium, utmCampaign, gclid, referrer }),
+      Notes: notes,
     });
 
     return NextResponse.json({ success: true, message: 'Lead captured successfully' });

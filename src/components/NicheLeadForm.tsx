@@ -1,5 +1,7 @@
 "use client";
 import { FormEvent, useState } from "react";
+import posthog from "posthog-js";
+import { readLeadAttribution } from "@/lib/lead-attribution";
 import { CheckCircle2, Loader2, ShieldCheck, Truck } from "lucide-react";
 
 const operations = ['Car hauler / auto transport', 'Hot shot trucking', 'Box truck', 'Commercial trucking', 'Other'];
@@ -7,10 +9,52 @@ const authorityOptions = ['Starting a new authority', 'Already operating', 'Repl
 
 export default function NicheLeadForm({ stateName, nicheName }: { stateName: string; nicheName: string }) {
   const [loading, setLoading] = useState(false); const [success, setSuccess] = useState(false); const [error, setError] = useState('');
+  const [authorityStatus, setAuthorityStatus] = useState('');
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault(); setLoading(true); setError(''); const form = new FormData(event.currentTarget); const query = new URLSearchParams(window.location.search);
-    try { const response = await fetch('/api/leads', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...Object.fromEntries(form.entries()), state: stateName, niche: nicheName, landingPage: window.location.pathname, referrer: document.referrer || null, utmSource: query.get('utm_source'), utmMedium: query.get('utm_medium'), utmCampaign: query.get('utm_campaign'), gclid: query.get('gclid') }) }); if (!response.ok) throw new Error('Unable to save request'); setSuccess(true); } catch (submitError) { console.error(submitError); setError('We could not save your request. Please try again.'); } finally { setLoading(false); }
+    event.preventDefault();
+    setLoading(true);
+    setError('');
+    const form = new FormData(event.currentTarget);
+    const query = new URLSearchParams(window.location.search);
+    const pagePath = window.location.pathname;
+    const attribution = readLeadAttribution();
+    try {
+      const response = await fetch('/api/leads', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...Object.fromEntries(form.entries()),
+          state: stateName,
+          niche: nicheName,
+          landingPage: pagePath,
+          originatingPage: attribution.landingPage || pagePath,
+          referrer: document.referrer || null,
+          utmSource: query.get('utm_source') || attribution.utm_source,
+          utmMedium: query.get('utm_medium') || attribution.utm_medium,
+          utmCampaign: query.get('utm_campaign') || attribution.utm_campaign,
+          gclid: query.get('gclid') || attribution.gclid,
+        }),
+      });
+      if (!response.ok) throw new Error('Unable to save request');
+      const { duplicate } = await response.json();
+      setSuccess(true);
+      if (!duplicate) {
+        posthog.capture('quote_lead_saved', { form: 'state_quote', page_path: pagePath });
+      }
+    } catch (submitError) {
+      console.error(submitError);
+      setError('We could not save your request. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   }
   if (success) return <div className="bg-gradient-to-br from-emerald-900/40 to-slate-900 border border-emerald-500/30 rounded-3xl p-8 text-center shadow-2xl"><CheckCircle2 className="w-16 h-16 text-emerald-400 mx-auto mb-4" /><h3 className="text-2xl font-black text-white mb-2">Request received</h3><p className="text-emerald-100/70">A licensed insurance professional may contact you to review your operation and available options.</p></div>;
-  return <div className="bg-slate-900/80 backdrop-blur-xl border border-slate-700/50 rounded-3xl p-6 md:p-8 shadow-2xl"><div className="flex items-center gap-3 mb-6 border-b border-slate-800 pb-4"><div className="bg-blue-500/20 p-3 rounded-xl"><Truck className="w-6 h-6 text-blue-400" /></div><div><h3 className="text-xl font-bold text-white">Request a {stateName} quote review</h3><p className="text-sm text-slate-400">Tell us about your operation. About one minute.</p></div></div><form onSubmit={handleSubmit} className="space-y-4"><label className="block text-xs font-bold text-slate-400 uppercase">Operation type<select name="businessType" required className="mt-2 w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white"><option value="">Select one</option>{operations.map((item) => <option key={item}>{item}</option>)}</select></label><label className="block text-xs font-bold text-slate-400 uppercase">Authority status<select name="authorityStatus" required className="mt-2 w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white"><option value="">Select one</option>{authorityOptions.map((item) => <option key={item}>{item}</option>)}</select></label><div className="grid grid-cols-2 gap-4"><input name="name" required placeholder="Full name" className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white" /><input name="phone" required type="tel" placeholder="Phone number" className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white" /></div><input name="email" required type="email" placeholder="Email address" className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white" /><label className="flex items-start gap-3 text-xs text-slate-400 leading-relaxed"><input type="checkbox" required className="mt-1 accent-blue-600" /><span>I agree to be contacted by phone, email, or text about my request by Truck Coverage Experts or a licensed insurance professional assisting with my quote review. Coverage is subject to underwriting and state availability.</span></label>{error && <p className="text-sm text-red-400">{error}</p>}<button type="submit" disabled={loading} className="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2">{loading ? <Loader2 className="w-5 h-5 animate-spin" /> : 'Request my quote review'}</button><p className="text-xs text-slate-500 flex gap-2"><ShieldCheck className="w-4 h-4 shrink-0" />Your information is used to review your request and available insurance options.</p></form></div>;
+  return <div className="bg-slate-900/80 backdrop-blur-xl border border-slate-700/50 rounded-3xl p-6 md:p-8 shadow-2xl"><div className="flex items-center gap-3 mb-6 border-b border-slate-800 pb-4"><div className="bg-blue-500/20 p-3 rounded-xl"><Truck className="w-6 h-6 text-blue-400" /></div><div><h3 className="text-xl font-bold text-white">Request a {stateName} quote review</h3><p className="text-sm text-slate-400">Tell us about your operation. About one minute.</p></div></div><form onSubmit={handleSubmit} className="space-y-4"><label className="block text-xs font-bold text-slate-400 uppercase">Operation type<select name="businessType" required className="mt-2 w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white"><option value="">Select one</option>{operations.map((item) => <option key={item}>{item}</option>)}</select></label><label className="block text-xs font-bold text-slate-400 uppercase">Authority status<select name="authorityStatus" value={authorityStatus} onChange={(event) => setAuthorityStatus(event.target.value)} required className="mt-2 w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white"><option value="">Select one</option>{authorityOptions.map((item) => <option key={item}>{item}</option>)}</select></label>
+    {authorityStatus === 'Replacing current coverage' && (
+      <label className="block text-xs font-bold text-slate-400 uppercase">
+        Current policy renewal date (optional)
+        <input type="date" name="renewalDate" className="mt-2 w-full rounded-xl border border-slate-800 bg-slate-950 px-4 py-3 text-white" />
+      </label>
+    )}
+    <div className="grid grid-cols-2 gap-4"><input name="name" required placeholder="Full name" className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white" /><input name="phone" required type="tel" placeholder="Phone number" className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white" /></div><input name="email" required type="email" placeholder="Email address" className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white" /><label className="flex items-start gap-3 text-xs text-slate-400 leading-relaxed"><input type="checkbox" required className="mt-1 accent-blue-600" /><span>I agree to be contacted by phone, email, or text about my request by Truck Coverage Experts or a licensed insurance professional assisting with my quote review. Coverage is subject to underwriting and state availability.</span></label>{error && <p className="text-sm text-red-400">{error}</p>}<button type="submit" disabled={loading} className="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2">{loading ? <Loader2 className="w-5 h-5 animate-spin" /> : 'Request my quote review'}</button><p className="text-xs text-slate-500 flex gap-2"><ShieldCheck className="w-4 h-4 shrink-0" />Your information is used to review your request and available insurance options.</p></form></div>;
 }

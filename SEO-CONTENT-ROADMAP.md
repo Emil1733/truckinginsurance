@@ -1,5 +1,9 @@
 # Truck Coverage Experts SEO Content Roadmap
 
+The existing `/free-coi-generator` URL now serves a guide for requesting an updated certificate from the policy’s agent or insurer. Internal links describe the guide, and the URL remains canonical for this resource.
+
+The technical audit follow-up adds the coverage-by-state, equipment, and broker directories to the sitemap and limits the Uber Black directory to implemented state routes. Review filing pages for distinct intent before expanding sitemap coverage.
+
 Last updated: 2026-09-05
 
 This roadmap records the keyword opportunities identified during research and the pages/tools we should build or improve. Volumes are the ranges reported by the keyword research export, not exact monthly counts.

@@ -5,6 +5,7 @@ import { SiteHeader } from '@/components/SiteHeader';
 export const metadata = {
   title: "About Truck Coverage Experts | High Risk Specialists",
   description: "We are the only agency dedicated 100% to distressed trucking risks. Learn about our specialized underwriting team.",
+  alternates: { canonical: '/about' },
 };
 
 export default function AboutPage() {

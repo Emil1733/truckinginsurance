@@ -27,6 +27,16 @@ const nextConfig: NextConfig = {
         destination: '/filings',
         permanent: true,
       },
+      {
+        source: '/broker/:slug(tql|ch-robinson|landstar)',
+        destination: '/broker/:slug-approval',
+        permanent: true,
+      },
+      {
+        source: '/broker/amazon-relay',
+        destination: '/amazon-relay-insurance',
+        permanent: true,
+      },
     ];
   },
   

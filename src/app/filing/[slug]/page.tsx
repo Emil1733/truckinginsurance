@@ -52,7 +52,7 @@ export default async function FilingPage({ params }: { params: Promise<{ slug: s
   const isBmc91x = slug === 'bmc91x-federal-filing-fmsca';
   const isMcp65 = slug === 'mcp65-california-dmv-filing';
   const filingFee = Number(filing.filing_fee);
-  const hasFixedFilingFee = Number.isFinite(filingFee);
+  const hasFixedFilingFee = filing.filing_fee != null && String(filing.filing_fee).trim() !== '' && Number.isFinite(filingFee);
 
 
 
@@ -84,28 +84,10 @@ export default async function FilingPage({ params }: { params: Promise<{ slug: s
         ]
       },
       {
-        '@type': 'GovernmentService',
-        'name': `${filing.form_id} Online Filing`,
-        'serviceType': `Electronic Filing for ${filing.state_code}`,
-        'provider': {
-          '@type': 'Organization',
-          'name': 'Truck Coverage Experts',
-          'url': 'https://www.truckcoverageexperts.com'
-        },
-        'areaServed': {
-          '@type': 'AdministrativeArea',
-          'name': filing.state_code
-        },
-        'offers': {
-          '@type': 'Offer',
-          'price': hasFixedFilingFee ? (filingFee + 25).toString() : '0',
-          'priceCurrency': 'USD',
-          'description': 'Filing Fee + Processing'
-        },
-        'serviceOutput': {
-           '@type': 'Thing',
-           'name': 'Filing Certificate'
-        }
+        '@type': 'WebPage',
+        'name': `${filing.form_id} Filing Guide`,
+        'url': `https://www.truckcoverageexperts.com/filing/${slug}`,
+        'description': 'Filing information and preparation guidance for motor carriers.',
       },
       {
         '@type': 'FAQPage',

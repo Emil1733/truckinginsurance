@@ -213,7 +213,7 @@ export default async function UberBlackStatePage({ params }: Props) {
             </div>
             
             <div className="mt-12 pt-8 border-t border-slate-900 flex flex-wrap gap-6 text-sm">
-              <Link href="/free-coi-generator" className="text-slate-400 hover:text-white transition-colors">Generate Certificate of Insurance</Link>
+              <Link href="/free-coi-generator" className="text-slate-400 hover:text-white transition-colors">How to Request a Certificate of Insurance</Link>
               <Link href="/check-score" className="text-slate-400 hover:text-white transition-colors">Check DOT Safety Score</Link>
               <Link href="/filings" className="text-slate-400 hover:text-white transition-colors">Commercial Filings Directory</Link>
               <Link href="/broker-check" className="text-slate-400 hover:text-white transition-colors">Broker Credit Reports</Link>

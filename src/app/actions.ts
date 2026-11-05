@@ -1,14 +1,32 @@
 'use server'
 
 import { supabase } from "@/lib/supabase";
-import { redirect } from "next/navigation";
+import { syncQuoteLead } from "@/lib/quote-lead-airtable";
+import { renewalDate } from "@/lib/lead-attribution";
+export async function submitLead(_previous: { error: string } | { saved: true } | null, formData: FormData) {
+  const driver_name = String(formData.get('driver_name') ?? '').trim();
+  const phone = String(formData.get('phone') ?? '').trim();
+  const email = String(formData.get('email') ?? '').trim();
+  const violation_code = String(formData.get('violation_code') ?? '').trim();
+  const cdlInput = String(formData.get('cdl_years') ?? '').trim();
+  const cdl_years = Number(cdlInput);
+  if (!driver_name || !phone || !email || !violation_code || !cdlInput || !Number.isSafeInteger(cdl_years) || cdl_years < 0) {
+    return { error: 'Check your contact information, request type, and CDL experience before submitting.' };
+  }
 
-export async function submitLead(formData: FormData) {
-  const driver_name = formData.get('driver_name') as string;
-  const phone = formData.get('phone') as string;
-  const email = formData.get('email') as string;
-  const violation_code = formData.get('violation_code') as string;
-  const cdl_years = parseInt(formData.get('cdl_years') as string);
+  const landingPage = String(formData.get('landingPage') ?? '').slice(0, 300);
+  const sourcePage = landingPage.startsWith('/') && !landingPage.startsWith('//') ? landingPage : '/quote';
+  const renewal = renewalDate(formData.get('renewalDate'));
+  const campaign = ['utm_source', 'utm_medium', 'utm_campaign', 'gclid'].map(key => {
+    const value = String(formData.get(key) ?? '').trim().slice(0, 200);
+    return value ? `${key}: ${value}` : '';
+  }).filter(Boolean);
+  const notes = [
+    `Quote request. CDL experience: ${cdl_years} years. Request type: ${violation_code}`,
+    `Originating page: ${sourcePage}`,
+    renewal && `Renewal date: ${renewal}`,
+    ...campaign,
+  ].filter(Boolean).join(' | ');
 
   const { error } = await supabase.from('leads').insert({
     driver_name,
@@ -16,40 +34,25 @@ export async function submitLead(formData: FormData) {
     email,
     violation_code,
     cdl_years,
+    source: `website:${sourcePage}`,
+    notes,
     status: 'new'
   });
 
   if (error) {
     console.error('Submission Error:', error);
-    // In a real app we'd return state to show error, 
-    // but for prototype we'll redirect to a generic error or stay put (handled by client status)
-    throw new Error('Failed to submit');
+    return { error: 'We could not save your request. Please try again.' };
   }
 
-  const airtableToken = process.env.AIRTABLE_PAT;
-  const airtableBase = process.env.AIRTABLE_BASE_ID;
-  const airtableTable = process.env.AIRTABLE_TABLE_ID;
-  if (airtableToken && airtableBase && airtableTable) {
-    try {
-      const airtableResponse = await fetch(`https://api.airtable.com/v0/${airtableBase}/${airtableTable}`, {
-        method: 'POST',
-        headers: { Authorization: `Bearer ${airtableToken}`, 'Content-Type': 'application/json' },
-        body: JSON.stringify({ records: [{ fields: {
-          'Lead Name': driver_name,
-          Phone: phone,
-          Email: email,
-          Source: 'website:/quote',
-          Status: 'New',
-          Notes: `Quote request. CDL experience: ${Number.isNaN(cdl_years) ? 'Not provided' : `${cdl_years} years`}. Request type: ${violation_code}`,
-        } }] }),
-      });
-      if (!airtableResponse.ok) console.error('Airtable quote sync error:', airtableResponse.status, await airtableResponse.text());
-    } catch (airtableError) {
-      console.error('Airtable quote sync failed:', airtableError);
-    }
-  } else {
-    console.warn('Airtable quote sync skipped: missing Airtable environment variables');
-  }
+  await syncQuoteLead({
+    'Lead Name': driver_name,
+    Phone: phone,
+    Email: email,
+    Source: `website:${sourcePage}`,
+    'Landing Page': sourcePage,
+    Status: 'New',
+    Notes: notes,
+  });
 
-  redirect('/quote/success');
+  return { saved: true } as const;
 }

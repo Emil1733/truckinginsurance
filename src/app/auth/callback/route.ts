@@ -5,7 +5,11 @@ import { NextResponse } from 'next/server'
 export async function GET(request: Request) {
   const { searchParams, origin } = new URL(request.url)
   const code = searchParams.get('code')
-  const next = searchParams.get('next') ?? '/dashboard'
+  const next = searchParams.get('next')
+  const dashboard = new URL('/dashboard', origin)
+  const destination = next?.startsWith('/') && URL.canParse(next, dashboard) ? new URL(next, dashboard) : dashboard
+  const allowed = destination.origin === origin &&
+    (destination.pathname === '/dashboard' || destination.pathname.startsWith('/dashboard/'))
 
   if (code) {
     const cookieStore = await cookies()
@@ -33,7 +37,7 @@ export async function GET(request: Request) {
     )
     const { error } = await supabase.auth.exchangeCodeForSession(code)
     if (!error) {
-      return NextResponse.redirect(`${origin}${next}`)
+      return NextResponse.redirect(allowed ? destination : dashboard)
     }
   }
 

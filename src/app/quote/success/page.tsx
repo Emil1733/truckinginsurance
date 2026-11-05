@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { CheckCircle2 } from "lucide-react";
 
+export const metadata = { robots: { index: false } };
+
 export default function SuccessPage() {
   return (
     <div className="min-h-screen bg-industrial-900 flex items-center justify-center p-6 text-center">
