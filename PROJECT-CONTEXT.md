@@ -147,6 +147,8 @@ Each page must have one primary intent and a clear next step. Supporting pages s
 
 ## 9. Change log
 
+- Quote CRM sync falls back to email upsert when Airtable denies record lookup but permits writes. The fallback uses submitted quote fields, including current contact details.
+
 - Kept production lead inserts compatible with the deployed Supabase leads schema, which has no notes column. Detailed quote notes go to Airtable while Supabase retains core request fields and source.
 
 - Main and state quote forms now capture an optional renewal date for replacement coverage and carry the session landing page and campaign parameters into lead notes. Each quote is saved as a new Supabase request. Airtable updates the latest request notes and follow-up status for a matching email and fills in a missing phone number.

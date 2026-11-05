@@ -17,13 +17,24 @@ export async function syncQuoteLead(fields: Record<string, string>) {
   for (let attempt = 0; attempt < 2; attempt++) {
     try {
       const lookup = await fetch(`${url}?${query}`, { headers, signal: AbortSignal.timeout(3000) });
-      if (!lookup.ok) {
+      if (!lookup.ok && lookup.status !== 403) {
         console.error('Quote CRM lookup failed:', lookup.status);
         if (lookup.status < 500) return;
         continue;
       }
-      const { records } = await lookup.json() as { records: { id: string; fields?: { Phone?: string } }[] };
+      // A write-only token can still upsert by email when lookup is forbidden.
+      const records = lookup.ok
+        ? ((await lookup.json()) as { records: { id: string; fields?: { Phone?: string } }[] }).records
+        : [];
       const existing = records[0];
+      const landingPage = fields['Landing Page'];
+      const upsertFields = {
+        ...fields,
+        Email: normalizedEmail,
+        ...(landingPage?.startsWith('/') && !landingPage.startsWith('//')
+          ? { 'Landing Page': new URL(landingPage, 'https://www.truckcoverageexperts.com').href }
+          : {}),
+      };
       const updatedContact = { Status: fields.Status, Notes: fields.Notes };
       const response = await fetch(url, {
         method: 'PATCH',
@@ -39,7 +50,7 @@ export async function syncQuoteLead(fields: Record<string, string>) {
           }],
         } : {
           performUpsert: { fieldsToMergeOn: ['Email'] },
-          records: [{ fields: { ...fields, Email: normalizedEmail } }],
+          records: [{ fields: upsertFields }],
         }),
       });
       if (response.ok) return;
