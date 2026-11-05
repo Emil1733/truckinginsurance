@@ -112,17 +112,12 @@ export default async function TrailerPage({ params }: { params: Promise<{ slug: 
         ]
       },
       {
-        '@type': 'FinancialProduct',
+        '@type': 'WebPage',
+        'url': `https://www.truckcoverageexperts.com/insurance/${slug}`,
         'name': pageName,
         'description': isCarHauler
           ? 'Commercial auto transport insurance information for car haulers, auto carriers, and vehicle transport businesses.'
           : `Commercial insurance review for ${trailer.display_name} operations. Coverage and limits depend on underwriting and applicable requirements.`,
-        'provider': {
-          '@type': 'Organization',
-          'name': 'Truck Coverage Experts',
-          'url': 'https://www.truckcoverageexperts.com'
-        },
-        'feesAndCommissionsSpecification': `Coverage conditions to review: ${exclusions.join(', ')}`
       },
       ...(isCarHauler ? [{
         '@type': 'FAQPage',

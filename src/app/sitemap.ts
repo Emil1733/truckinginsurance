@@ -14,6 +14,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticRoutes = [
     '',
     '/about',
+    '/locations',
+    '/insurance',
+    '/broker',
     '/check-score',
     '/dot-insurance-lookup',
     '/free-coi-generator',
@@ -34,7 +37,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     '/driver-qualification-file-checklist',
   ].map((route) => ({
     url: `${baseUrl}${route}`,
-    lastModified: new Date(),
     changeFrequency: 'monthly' as const,
     priority: route === '' ? 1 : 0.8,
   }));
@@ -42,7 +44,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // 2. Programmatic: Violations
   const violationRoutes = VIOLATIONS_DATA.map((v) => ({
     url: `${baseUrl}/violation/${v.slug}`,
-    lastModified: new Date(),
     changeFrequency: 'weekly' as const,
     priority: 0.9,
   }));
@@ -50,7 +51,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // 3. Programmatic: Filings
   const filingRoutes = FILINGS_DATA.map((f) => ({
     url: `${baseUrl}/filing/${f.slug}`,
-    lastModified: new Date(),
     changeFrequency: 'monthly' as const,
     priority: 0.7,
   }));
@@ -58,7 +58,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // 4. Programmatic: Specialized Insurance (Trailers)
   const insuranceRoutes = TRAILERS_DATA.map((t) => ({
     url: `${baseUrl}/insurance/${t.slug}`,
-    lastModified: new Date(),
     changeFrequency: 'monthly' as const,
     priority: 0.8,
   }));
@@ -66,7 +65,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // 4b. Broker Approval Pages
   const brokerApprovalRoutes = BROKERS_DATA.map((b) => ({
     url: `${baseUrl}/broker/${b.slug}`,
-    lastModified: new Date(),
     changeFrequency: 'weekly' as const,
     priority: 0.9,
   }));
@@ -77,42 +75,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${baseUrl}/dmv65mcp`, priority: 1.0, changeFrequency: 'daily' as const },
     { url: `${baseUrl}/uiia-certification`, priority: 0.9, changeFrequency: 'daily' as const },
     { url: `${baseUrl}/geico-truck-insurance-comparison`, priority: 0.9, changeFrequency: 'weekly' as const },
-  ].map(s => ({
-    ...s,
-    lastModified: new Date(),
-  }));
-
-  // 5. Programmatic: Brokers (Fetched from DB with Pagination)
-  const brokerRoutes: MetadataRoute.Sitemap = [];
-  try {
-      let hasMore = true;
-      let page = 0;
-      const pageSize = 1000;
-      
-      while(hasMore) {
-          const { data: brokers } = await supabase
-            .from('brokers')
-            .select('slug')
-            .range(page * pageSize, (page + 1) * pageSize - 1);
-            
-          if (brokers && brokers.length > 0) {
-              const chunk = brokers.map((b) => ({
-                url: `${baseUrl}/broker/${b.slug}`,
-                lastModified: new Date(),
-                changeFrequency: 'daily' as const,
-                priority: 0.9,
-              }));
-              brokerRoutes.push(...chunk);
-              
-              if (brokers.length < pageSize) hasMore = false;
-              page++;
-          } else {
-              hasMore = false;
-          }
-      }
-  } catch (err) {
-      console.error('Sitemap DB broker fetch failed:', err);
-  }
+  ];
 
   // 6. Programmatic: Safety Ratings (Fetched from DB with Pagination)
   const safetyRoutes: MetadataRoute.Sitemap = [];
@@ -130,7 +93,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
           if (factors && factors.length > 0) {
               const chunk = factors.map((f) => ({
                 url: `${baseUrl}/safety-rating/${f.slug}`,
-                lastModified: new Date(),
                 changeFrequency: 'weekly' as const,
                 priority: 0.8,
               }));
@@ -170,7 +132,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         if (revocations && revocations.length > 0) {
             const chunk = revocations.map((r) => ({
                 url: `${baseUrl}/status/mc-${r.mc_number.toLowerCase()}`,
-                lastModified: r.updated_at ? new Date(r.updated_at) : new Date(),
+                lastModified: r.updated_at ? new Date(r.updated_at) : undefined,
                 changeFrequency: 'always' as const,
                 priority: 1.0, // Highest priority since these expire fast
             }));
@@ -190,7 +152,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const boxtruckRoutes = US_STATES.map((state) => ({
     url: `${baseUrl}/box-truck-insurance/${state.slug}`,
-    lastModified: new Date(),
     changeFrequency: 'weekly' as const,
     priority: 0.9,
   }));
@@ -198,7 +159,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const hotshotRoutes = US_STATES.map((state) => ({
     url: `${baseUrl}/hot-shot-insurance/${state.slug}`,
-    lastModified: new Date(),
     changeFrequency: 'weekly' as const,
     priority: 0.9,
   }));
@@ -206,7 +166,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const amazonrelayRoutes = US_STATES.map((state) => ({
     url: `${baseUrl}/amazon-relay-insurance/${state.slug}`,
-    lastModified: new Date(),
     changeFrequency: 'weekly' as const,
     priority: 0.9,
   }));
@@ -214,14 +173,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const commercialtruckRoutes = US_STATES.map((state) => ({
     url: `${baseUrl}/commercial-truck-insurance/${state.slug}`,
-    lastModified: new Date(),
     changeFrequency: 'weekly' as const,
     priority: 0.9,
   }));
 
   const uberBlackRoutes = UBER_BLACK_STATES.map((state) => ({
     url: `${baseUrl}/uber-black-insurance/${state.slug}`,
-    lastModified: new Date(),
     changeFrequency: 'weekly' as const,
     priority: 0.9,
   }));
@@ -233,7 +190,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...insuranceRoutes,
     ...brokerApprovalRoutes,
     ...serviceRoutes,
-    ...brokerRoutes,
     ...safetyRoutes,
     ...statusRoutes,
     ...boxtruckRoutes,

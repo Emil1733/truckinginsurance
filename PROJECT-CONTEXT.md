@@ -147,6 +147,18 @@ Each page must have one primary intent and a clear next step. Supporting pages s
 
 ## 9. Change log
 
+- Main and state quote forms now capture an optional renewal date for replacement coverage and carry the session landing page and campaign parameters into lead notes. Each quote is saved as a new Supabase request. Airtable updates the latest request notes and follow-up status for a matching email and fills in a missing phone number.
+- Quote sync rechecks Airtable once after a transient server or network failure. Rate-limit responses and prolonged outages leave the Supabase copy available for recovery. There is no background replay queue. Readiness contact deduplication remains separate from quote intake.
+
+- Replaced the certificate editor with an issuer-request guide at the existing URL. The old PDF upload endpoint returns 410 without accepting or modifying documents. Existing stored documents and credential revocation require separate production review.
+- Updated Next.js and its ESLint configuration to 16.4.5, refreshed the transitive protobuf.js dependency, and restricted the post-login redirect to same-origin dashboard paths.
+- Added the PostHog `quote_lead_saved` event for successful main and state-page quote saves. Duplicate state leads and direct visits to the quote confirmation page do not trigger the event.
+- Replaced financial-product and government-service claims in equipment and filing structured data with descriptive page markup, and removed the filing price offer from structured data.
+
+- Corrected quote step persistence and server validation. Lead API responses now require storage for new leads, and readiness consent is checked whether or not a phone number is supplied. Airtable sync remains secondary to Supabase and sync failures are logged for follow-up.
+- Removed the hardcoded COI email credential. Configure `RESEND_API_KEY` in the deployment environment and revoke the previously exposed key if active. Master COI uploads require a verified private `coi-uploads` bucket and store an internal object path. Review any existing public objects separately.
+- Restricted Uber Black directory links to implemented states, removed database-only broker slugs from the sitemap, and added redirects for legacy broker URLs with direct replacements. Added the coverage, equipment, and broker directories to the sitemap and removed generated modification dates.
+
 - Connected readiness lead capture to the existing `/api/leads` workflow with server-side consent enforcement, Airtable duplicate protection, and attribution preserved in the existing `Source` and `Notes` fields (landing page, UTM values, GCLID, and referrer). No new Airtable columns are required for this handoff.
 
 - Added intent-aware readiness links: `/trucking-insurance-readiness` now accepts `problem` query values and preselects the visitor's reason for arriving, creating a cleaner handoff from future authority, filing, broker, quote, policy, and requirements pages.

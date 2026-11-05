@@ -91,7 +91,7 @@ export function ClaimAuthorityWidget() {
       </div>
       <h2 className="text-2xl font-display font-bold text-white mb-2">Claim Your Authority</h2>
       <p className="text-industrial-400 max-w-lg mx-auto mb-8">
-        Connect your USDOT Number to unlock automatic compliance tracking, instant COI generation, and fleet management.
+        Connect your USDOT Number to unlock compliance tracking and fleet management.
       </p>
 
       <div className="max-w-md mx-auto relative">

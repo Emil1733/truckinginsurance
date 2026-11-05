@@ -171,14 +171,14 @@ export default async function BrokerCheckPage({ params }: Props) {
                 Booking a load with this broker?
               </h2>
               <p className="text-blue-100 mb-8 text-sm relative z-10 leading-relaxed">
-                Generate your custom ACORD 25 for this broker right now and secure the load instantly.
+                See what to send your agent or insurer when this broker asks for a certificate.
               </p>
               <Link 
                 href="/free-coi-generator" 
                 className="w-full py-4 bg-white text-blue-700 font-bold rounded-2xl hover:bg-slate-50 transition-all flex items-center justify-center gap-2 shadow-xl hover:-translate-y-1 relative z-10"
               >
                 <FileText className="w-4 h-4" />
-                Free COI Generator
+                How to Request a COI
               </Link>
             </div>
 

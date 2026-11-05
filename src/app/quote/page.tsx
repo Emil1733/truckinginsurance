@@ -1,13 +1,43 @@
 'use client';
 
-import { useState } from 'react';
+import { useActionState, useEffect, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
+import { useRouter } from 'next/navigation';
+import posthog from 'posthog-js';
+import { attributionKeys, readLeadAttribution } from '@/lib/lead-attribution';
 import { submitLead } from '../actions';
 import { ArrowRight, AlertTriangle, ShieldCheck, User, Truck } from 'lucide-react';
 
 export default function QuotePage() {
+  const [submission, submitQuote, isSubmitting] = useActionState(async (previous: Parameters<typeof submitLead>[0], form: FormData) => {
+    const stored = readLeadAttribution();
+    const query = new URLSearchParams(window.location.search);
+    form.set('landingPage', stored.landingPage || '/quote');
+    for (const key of attributionKeys) {
+      const value = query.get(key) || stored[key];
+      if (value) form.set(key, value);
+    }
+    return submitLead(previous, form);
+  }, null);
+  const router = useRouter();
+  const tracked = useRef(false);
   const [step, setStep] = useState(1);
   const [violation, setViolation] = useState('');
+  const [cdlYears, setCdlYears] = useState('');
+  const saved = submission !== null && 'saved' in submission;
+  const submissionError = submission && 'error' in submission ? submission.error : null;
+
+  useEffect(() => {
+    if (!saved || tracked.current) return;
+    tracked.current = true;
+    try {
+      posthog.capture('quote_lead_saved', { form: 'quote', page_path: '/quote' });
+    } catch {
+      console.warn('Quote analytics event could not be queued.');
+    } finally {
+      router.replace('/quote/success');
+    }
+  }, [saved, router]);
   
   return (
     <div className="min-h-screen bg-industrial-900 flex flex-col md:flex-row">
@@ -32,23 +62,24 @@ export default function QuotePage() {
 
       {/* Main Form Area */}
       <div className="w-full md:w-2/3 p-6 md:p-12 flex items-center justify-center">
-        <form action={submitLead} className="max-w-lg w-full">
+        <form action={submitQuote} className="max-w-lg w-full">
           
           {/* STEP 1: VIOLATION */}
           {step === 1 && (
             <div className="animate-in fade-in slide-in-from-right-4 duration-300">
               <h2 className="text-3xl font-display text-white mb-6">What best describes your insurance request?</h2>
               <div className="space-y-4 mb-8">
-                <RadioCard name="violation_code" value="New authority" label="New authority / startup" onChange={setViolation} />
-                <RadioCard name="violation_code" value="New coverage" label="New commercial coverage" onChange={setViolation} />
-                <RadioCard name="violation_code" value="Replacing coverage" label="Replacing current coverage" onChange={setViolation} />
-                <RadioCard name="violation_code" value="Coverage issue" label="Coverage issue or difficult placement" onChange={setViolation} />
-                <RadioCard name="violation_code" value="Other" label="Other trucking insurance request" onChange={setViolation} />
+                <RadioCard name="violation_code" value="New authority" label="New authority / startup" selected={violation} onChange={setViolation} />
+                <RadioCard name="violation_code" value="New coverage" label="New commercial coverage" selected={violation} onChange={setViolation} />
+                <RadioCard name="violation_code" value="Replacing coverage" label="Replacing current coverage" selected={violation} onChange={setViolation} />
+                <RadioCard name="violation_code" value="Coverage issue" label="Coverage issue or difficult placement" selected={violation} onChange={setViolation} />
+                <RadioCard name="violation_code" value="Other" label="Other trucking insurance request" selected={violation} onChange={setViolation} />
               </div>
               <button 
                 type="button" 
-                onClick={() => setStep(violation === 'None' ? 3 : 2)}
-                className="w-full bg-safety-orange hover:bg-orange-600 text-black font-bold py-4 rounded flex items-center justify-center gap-2"
+                disabled={!violation}
+                onClick={() => setStep(2)}
+                className="w-full bg-safety-orange hover:bg-orange-600 text-black font-bold py-4 rounded flex items-center justify-center gap-2 disabled:opacity-50"
               >
                 NEXT STEP <ArrowRight className="w-4 h-4" />
               </button>
@@ -64,7 +95,11 @@ export default function QuotePage() {
                 <label className="block text-industrial-500 text-xs font-bold uppercase mb-2">Years with CDL</label>
                 <input 
                   type="number" 
-                  name="cdl_years" 
+                  name="cdl_years"
+                  min={0}
+                  step={1}
+                  value={cdlYears}
+                  onChange={(event) => setCdlYears(event.target.value)}
                   placeholder="e.g. 5" 
                   required
                   className="w-full bg-industrial-800 border-b-2 border-industrial-600 focus:border-safety-orange text-white text-2xl py-2 px-4 outline-none transition-colors"
@@ -90,8 +125,9 @@ export default function QuotePage() {
                 </button>
                 <button 
                   type="button" 
+                  disabled={!cdlYears || !Number.isSafeInteger(Number(cdlYears)) || Number(cdlYears) < 0}
                   onClick={() => setStep(3)}
-                  className="w-2/3 bg-white hover:bg-gray-200 text-black font-bold py-4 rounded flex items-center justify-center gap-2"
+                  className="w-2/3 bg-white hover:bg-gray-200 text-black font-bold py-4 rounded flex items-center justify-center gap-2 disabled:opacity-50"
                 >
                   NEXT STEP <ArrowRight className="w-4 h-4" />
                 </button>
@@ -108,24 +144,33 @@ export default function QuotePage() {
                 <InputField name="driver_name" label="Full Name" type="text" placeholder="John Doe" />
                 <InputField name="phone" label="Phone Number" type="tel" placeholder="(555) 123-4567" />
                 <InputField name="email" label="Email Address" type="email" placeholder="john@trucking.com" />
-                {violation === 'None' && <input type="hidden" name="cdl_years" value="0" />}
+                {violation === 'Replacing coverage' && (
+                  <label className="block text-sm text-silver">
+                    Current policy renewal date (optional)
+                    <input type="date" name="renewalDate" className="mt-2 block w-full rounded bg-industrial-800 px-4 py-3 text-white" />
+                  </label>
+                )}
+                <input type="hidden" name="violation_code" value={violation} />
+                <input type="hidden" name="cdl_years" value={cdlYears} />
               </div>
 
               <div className="flex gap-4">
                 <button 
                   type="button" 
-                  onClick={() => setStep(violation === 'None' ? 1 : 2)}
+                  onClick={() => setStep(2)}
                   className="w-1/3 border border-industrial-600 text-industrial-500 font-bold py-4 rounded hover:text-white hover:border-white"
                 >
                   BACK
                 </button>
                 <button 
                   type="submit" 
-                  className="w-2/3 bg-safety-orange hover:bg-orange-600 text-black font-bold py-4 rounded flex items-center justify-center gap-2"
+                  disabled={isSubmitting || saved}
+                  className="w-2/3 bg-safety-orange hover:bg-orange-600 text-black font-bold py-4 rounded flex items-center justify-center gap-2 disabled:opacity-50"
                 >
-                REQUEST MY REVIEW
+                  {isSubmitting ? 'SENDING REQUEST' : 'REQUEST MY REVIEW'}
                 </button>
               </div>
+              {submissionError && <p role="alert" className="mt-4 text-sm text-red-300">{submissionError}</p>}
               <p className="text-xs text-industrial-600 mt-4 text-center">
                 By submitting, you agree to be contacted about your commercial insurance request.
               </p>
@@ -156,7 +201,7 @@ function StepIndicator({ current, number, title, icon }: { current: number, numb
   );
 }
 
-function RadioCard({ name, value, label, onChange }: { name: string, value: string, label: string, onChange?: (val: string) => void }) {
+function RadioCard({ name, value, label, selected, onChange }: { name: string, value: string, label: string, selected: string, onChange: (val: string) => void }) {
   return (
     <label className="flex items-center p-4 border border-industrial-600 rounded cursor-pointer hover:border-safety-orange hover:bg-industrial-800 transition-all group">
       <input 
@@ -164,7 +209,8 @@ function RadioCard({ name, value, label, onChange }: { name: string, value: stri
         name={name} 
         value={value} 
         className="accent-safety-orange w-5 h-5" 
-        onChange={(e) => onChange && onChange(e.target.value)}
+        checked={selected === value}
+        onChange={(e) => onChange(e.target.value)}
         required 
       />
       <span className="ml-3 text-silver font-bold group-hover:text-white">{label}</span>
