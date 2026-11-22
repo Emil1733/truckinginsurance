@@ -55,7 +55,7 @@ The system should record the user’s primary problem, not only their equipment 
 
 ## 4. Current page families
 
-- Commercial/equipment: box truck, hot shot, car hauler/auto transport, commercial truck, and related insurance slugs.
+- Commercial/equipment: box truck, hot shot, car hauler/auto transport, commercial truck, and related insurance slugs. `/commercial-truck-insurance` is the national money page for the generic commercial-truck terms; its `/commercial-truck-insurance/{state}` children inherit it as the parent route.
 - Requirements and authority: trucking insurance requirements, DOT/FMCSA requirements, new authority, filings, BMC-91X, MCP-65, BOC-3, and related compliance pages.
 - State pages: state-specific equipment and commercial insurance routes. These require meaningful local/state differences before expansion.
 - Broker and utility: broker pages, broker-check/status/lookup utilities, COI generator, safety/violation utilities, and readiness tools.
@@ -277,3 +277,10 @@ Each page must have one primary intent and a clear next step. Supporting pages s
 - Recorded that GSC attributes only 6 of 231 clicks to a named query, so reporting and page planning move to the page dimension.
 - Updated section 5 with the 2026-11-22 GSC read and closed the non-www host note: the 308 redirect is live and GSC host turnover began 2026-10-31/11-01.
 - Not changed in this entry: no routes, templates, metadata, schema or lead flow were modified. The roadmap's Tier 0-4 work is unstarted.
+
+### 2026-11-22 (implementation)
+
+- Created `/commercial-truck-insurance` as the national page for the generic commercial-truck insurance terms: the six coverage lines, federal versus intrastate minimums, seven rating factors, the pre-quote document list, directories into eleven equipment programs and eight states, the common decline reasons, the filing family, eight FAQs with FAQPage schema, and a quote CTA.
+- Added the route to `sitemap.ts` and to §4 above. It resolves the parent 404 that the 50 `/commercial-truck-insurance/{state}` URLs were hanging from.
+- Homepage title changed from `Commercial Truck Insurance & Filings` to `Truck Coverage Experts | High-Risk Trucking Insurance & Filings` so the homepage and the new page do not compete for the same head term. Homepage description, canonical and content are unchanged.
+- Verified: `npx tsc --noEmit` clean and `npm run build` succeeds with `/commercial-truck-insurance` prerendered as static content. Not verified: indexing, impressions or ranking.

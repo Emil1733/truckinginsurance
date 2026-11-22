@@ -3,7 +3,7 @@ import { supabase } from "@/lib/supabase";
 import { ArrowRight, ShieldAlert, Zap, FileWarning, Truck, Map, AlertTriangle } from "lucide-react";
 
 export const metadata = {
-  title: "Commercial Truck Insurance & Filings",
+  title: "Truck Coverage Experts | High-Risk Trucking Insurance & Filings",
   description: "Connect with licensed insurance professionals for commercial truck coverage, specialty risks, and federal filings.",
   alternates: {
     canonical: '/',

@@ -109,6 +109,11 @@ number and an inline form.
 
 ### Tier 0 — Architecture (no new prose)
 
+**Status 2026-11-22: the `/commercial-truck-insurance` hub shipped as a full money page** (see §9). It
+targets `trucking insurance` / `commercial truck insurance` / `commercial trucking insurance` /
+`truck insurance`, links the equipment and state families, and closes the 404 that the 50 state children
+were hanging from. The homepage title moved off the head term so the two do not compete.
+
 - Create the missing national hubs: `/commercial-truck-insurance` (8,100/mo) and `/hot-shot-insurance`
   (480/mo) currently 404 while 50 state children are sitemap-listed. `/uber-black-insurance` likewise.
 - Link every state page to its hub and every hub to the other equipment hubs.
@@ -207,3 +212,20 @@ form rather than a single link to `/quote` (5 fields, no phone).
 
 Volumes and positions in this document are measurements from 2026-11-22. Re-measure before any batch
 larger than three pages.
+
+## 9. Status
+
+### 2026-11-22 — `/commercial-truck-insurance` shipped
+
+- New page at `/commercial-truck-insurance`, statically prerendered, roughly 1,400 words: coverage lines,
+  federal versus intrastate minimums, seven premium drivers, the pre-quote document list, equipment and
+  state directories, decline reasons, filing explanations, eight FAQs with FAQPage schema, quote CTA.
+- Added to the sitemap and to `PROJECT-CONTEXT.md` §4 as the national money page for the generic terms.
+- Homepage title changed from "Commercial Truck Insurance & Filings" to "Truck Coverage Experts |
+  High-Risk Trucking Insurance & Filings" so the two pages do not target the same head term.
+- Not verified, because it cannot be yet: indexing, impressions and ranking. Review at 14 days for
+  indexing and at 8 weeks for position.
+- Still open in Tier 0: the `/hot-shot-insurance` parent (plan is to consolidate the 50 hot-shot state
+  pages into the existing `/hot-shot` page rather than build a fourth hub), the `/uber-black-insurance`
+  parent, sitemap coverage for the 87 live `filing/*` URLs against the 10 listed, and the 42
+  low-demand commercial state pages.

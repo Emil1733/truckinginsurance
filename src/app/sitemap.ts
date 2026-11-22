@@ -33,6 +33,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     '/insurance/car-hauler-insurance-cost',
     '/insurance/car-hauler-insurance-requirements',
     '/insurance/dump-trailer-insurance',
+    '/commercial-truck-insurance',
     '/ifta-trucking-requirements',
     '/driver-qualification-file-checklist',
   ].map((route) => ({
