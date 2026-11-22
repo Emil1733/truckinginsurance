@@ -174,7 +174,7 @@ a non-trucking form.
 | 3 | `/commercial-truck-insurance` (hub + depth) | commercial truck insurance | 8,100 | agency landers and one city EMD hold it |
 | 4 | `/quote` (upgraded, not a new URL) | trucking insurance quote | 1,600 | $100.93 CPC; the SERP is held by quote pages, so the site's own quote page targets it |
 | 5 | `/box-truck-insurance` national page | box truck insurance | 1,300 | **done 2026-11-22** — 1,843 words, 6 FAQs; 50 state children noindexed as template swaps |
-| 6 | `/semi-truck-insurance` | semi truck insurance | 2,400 | **last** — progressive/geico/sentry own this SERP |
+| 6 | `/semi-truck-insurance` | semi truck insurance | 2,400 | **done 2026-11-22** — 1,807 words; carriers hold 1-3, content ranks 4-6, so target is 5-10 |
 
 **Acceptance per page:** distinct intent versus existing pages, 1,200+ words of original operator-focused
 content, cost and requirements blocks, quote CTA, internal links in and out, and a rank reading at 8 and

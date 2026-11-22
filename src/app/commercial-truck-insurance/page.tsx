@@ -70,6 +70,8 @@ const faqSchema = {
 };
 
 const equipment = [
+  ['Semi truck / Class 8 tractor', '/semi-truck-insurance'],
+  ['Box truck', '/box-truck-insurance'],
   ['Auto hauler / car carrier', '/insurance/auto-hauler-car-carrier-insurance'],
   ['Dump trailer', '/insurance/dump-trailer-insurance'],
   ['Bottom dump', '/insurance/bottom-dump-trailer-insurance'],

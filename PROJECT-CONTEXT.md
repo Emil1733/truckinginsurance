@@ -344,3 +344,11 @@ Each page must have one primary intent and a clear next step. Supporting pages s
 - Noindexed the 50 `/box-truck-insurance/{state}` pages and removed them from the sitemap. They are template swaps: across 294 days the family recorded one state with impressions (Wyoming, 295 impressions, 0 clicks) and nothing else. They stay live for existing links.
 - Sitemap now 275 URLs (was 325); the national page remains listed.
 - Verified: `tsc --noEmit` clean, `npm run build` clean, 6 FAQ schema questions, zero mojibake, state pages render `noindex, follow`.
+
+### 2026-11-22 (semi truck page — Tier 2 complete)
+
+- Added `/semi-truck-insurance` (1,807 words), the last Tier 2 page and the only one in a SERP held by carriers (Progressive, Geico, Sentry occupy 1-3). Two content pages rank at 4 and 6 and city EMDs at 13-14, so the realistic target is 5-10 rather than 1.
+- Content: six coverages a tractor carries (including trailer interchange and occupational accident), the federal floor with the four other parties that set a number (broker contract, lender, lessee carrier, state), six underwriting inputs, six hard-to-place profiles, and five claim-time failures — all sourced to 49 CFR 387.9, 376.12 and 383.
+- Linked from the equipment directory on `/commercial-truck-insurance` alongside box truck, and added to the sitemap (276 URLs).
+- Tier 2 is now complete: non-trucking liability, bobtail, commercial hub, quote page, box truck, semi.
+- Verified: `tsc --noEmit` clean, `npm run build` clean, 6 FAQ schema questions, hub renders the new link.
