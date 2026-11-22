@@ -143,6 +143,16 @@ indexable and sitemapped only when it is written. California, New York, New Jers
 Illinois are currently noindexed and are the next five to write. A literal `${stateData.name}` bug that
 rendered a stray dollar sign on all 50 pages was fixed in the same change.
 
+**Status 2026-11-22 (later the same day): Tier 1 complete for the demand-bearing states.** All eight
+written: Florida, Indiana, Texas, California, New York, New Jersey, Pennsylvania and Illinois,
+1,325–1,407 rendered words each, 4 FAQs and cited sources on every one. The remaining 42 states stay
+noindexed on the fallback layout and should be written only when a state shows demand in GSC or when a
+producer appointment makes it worth the work. Distinctive findings now documented on the pages: Florida
+has no intrastate property-authority certificate, New Jersey requires $1,500,000 on New Jersey-plated
+heavy trucks regardless of the trip, Pennsylvania's intrastate authority comes from the PUC and its USDOT
+display threshold is 17,001 lbs, Illinois requires an ICC certificate that federal authority does not
+replace, and California ties the permit to workers compensation compliance.
+
 **Acceptance:** three states (one high-volume, one mid, one low) pass a written checklist for
 state-specific content, sentence-level duplication, metadata uniqueness, schema validity and internal
 links; only then is the remaining batch generated.

@@ -300,3 +300,14 @@ Each page must have one primary intent and a clear next step. Supporting pages s
 - Rewrote `/commercial-truck-insurance/[state]` to render that content when it exists and fall back to a short generic layout when it does not. Indexing is now content-driven: `STATE_CONTENT` keys are the indexed and sitemapped set, so **CA, NY, NJ, PA and IL moved to noindex** until they are written. Nothing was deleted; each returns as it is written. The family recorded zero impressions in 294 days, so no visibility is lost in the meantime.
 - State-specific substance, sourced: Florida has no intrastate property-authority certificate and its weight bands sit under the federal rule; Indiana's Certificate of Public Convenience covers only household goods and passengers, so freight carriers file Form IOA-1 plus Form E; Texas requires a TxDMV number for private carriers too and issues it only after the insurer files Form E.
 - Verified: `tsc --noEmit` clean, `npm run build` succeeds, sitemap now lists 317 URLs with 3 commercial state pages, FAQPage schema carries 4 questions per state, source links resolve to leg.state.fl.us, in.gov and txdmv.gov, and the three states render indexable while unwritten states render noindex.
+
+### 2026-11-22 (Tier 1 complete)
+
+- Wrote the five remaining demand-bearing states: California, New York, New Jersey, Pennsylvania and Illinois. All eight now render 1,325-1,407 words with 4 FAQs, a limits table, who-the-rule-reaches, three state-specific operating realities and cited sources.
+- New Jersey is documented as the highest limit in the set: $1,500,000 for vehicles of 26,001 lbs or more registered or principally garaged in the state, applying to New Jersey-plated interstate trucks too, with the statute allowing primary plus umbrella to reach it.
+- New York is documented as the inverse: a $100,000/$300,000 intrastate filing minimum below the federal floor, with Form E and Form H filed by a New York-authorised insurer and ACORD certificates explicitly rejected.
+- Pennsylvania is documented as PUC authority rather than PennDOT, with the 17,001 lb intrastate USDOT threshold and the cancellation-without-reinstatement consequence of a lapsed filing.
+- Illinois is documented as an ICC Public Carrier Certificate that federal authority does not replace, with the cargo waiver affidavit and its written-shipper-notice obligation.
+- California is documented as a three-step sequence (USDOT, then CHP CA number, then DMV Motor Carrier Permit) with the MC 65 M filing and mandatory workers compensation proof.
+- Sitemap now lists all 8 states (322 URLs). The remaining 42 stay noindexed on the fallback layout.
+- Verified: `tsc --noEmit` clean, `npm run build` succeeds, all eight state files render 1,325-1,407 words with 4 FAQ entries, and unwritten states still render noindex.
