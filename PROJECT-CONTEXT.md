@@ -360,3 +360,11 @@ Each page must have one primary intent and a clear next step. Supporting pages s
 - Fixed the crawl path, which was the controllable part: the footer carried none of the new pages and only 8 of 32 routes rendered a footer at all. The footer insurance column now links the commercial hub, semi, box truck, hot shot, bobtail and non-trucking liability, and the footer is delivered on the homepage and the four new pages.
 - Added `scripts/gsc-inspect.cjs` and `scripts/gsc-sitemaps.cjs` for repeatable checks. Both accept `GSC_KEY_FILE` to run against a service-account JSON; the `GSC_PRIVATE_KEY` value in `.env.local` currently fails to decode, which is why the key-file path exists.
 - Verified: `tsc --noEmit` clean, `npm run build` clean, all five pages render five money-page footer links.
+
+### 2026-11-22 (fictional phone number removed)
+
+- Removed the only `tel:` link in the codebase. `/status/{mc}` rendered `href="tel:18005550199"` — 1-800-555-0199 is inside the reserved fictional range, and the link text read "Submit an online request for assistance", so a visitor on a phone would have dialled a number that does not exist.
+- Replaced with a `/contact` link under "Prefer to write?". Removed the now-unused `PhoneCall` import.
+- Confirmed no `tel:` remains anywhere in the built output, and no other fictional contact details are rendered (the remaining `example.com` strings are form input placeholders, which is standard).
+- Site is now intentionally call-free until a real number exists. Every conversion path runs through `/quote` or `/contact`.
+- Verified: `tsc --noEmit` clean, `npm run build` clean, zero `tel:` in the prerendered HTML.

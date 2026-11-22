@@ -1,4 +1,4 @@
-import { AlertOctagon, Info, MapPin, Truck, Box, PhoneCall, ShieldAlert, ArrowRight } from "lucide-react";
+import { AlertOctagon, Info, MapPin, Truck, Box, ShieldAlert, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
@@ -198,11 +198,11 @@ export default async function RevocationPage({ params }: { params: Promise<{ mc_
             </Link>
 
             <div className="mt-6 pt-6 border-t border-blue-500/50">
-              <p className="text-sm text-blue-200 mb-2">Or call for immediate filing:</p>
-              <a href="tel:18005550199" className="flex items-center gap-2 text-xl font-bold">
-                <PhoneCall className="w-5 h-5" />
-                Submit an online request for assistance
-              </a>
+              <p className="text-sm text-blue-200 mb-2">Prefer to write?</p>
+              <Link href="/contact" className="flex items-center gap-2 text-lg font-bold hover:underline">
+                Send a message instead
+                <ArrowRight className="w-5 h-5" />
+              </Link>
             </div>
           </div>
         </div>
