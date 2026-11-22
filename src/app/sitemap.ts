@@ -36,6 +36,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     '/insurance/dump-trailer-insurance',
     '/commercial-truck-insurance',
     '/uber-black-insurance',
+    '/non-trucking-liability-insurance',
+    '/bobtail-insurance',
     '/ifta-trucking-requirements',
     '/driver-qualification-file-checklist',
   ].map((route) => ({

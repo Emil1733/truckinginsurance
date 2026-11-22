@@ -159,6 +159,14 @@ links; only then is the remaining batch generated.
 
 ### Tier 2 — Product pages, in winnability order
 
+**Status 2026-11-22: the first two shipped.** `/non-trucking-liability-insurance` (1,514 words) and
+`/bobtail-insurance` (1,354 words), both with FAQPage schema, a carrier-policy-versus-owner-policy
+scenario table, and the 49 CFR 376.12(j) lease rule cited. They cross-link to each other and are linked
+from the coverage section of `/commercial-truck-insurance`. The differentiator on both pages is the
+honest distinction the market glosses over: non-trucking liability tests *whose business the trip is
+for*, bobtail tests *whether a trailer is attached*, and most policies sold as "bobtail" are written on
+a non-trucking form.
+
 | Order | URL | Term | Volume/mo | Why this position |
 |---|---|---|---:|---|
 | 1 | `/insurance/non-trucking-liability-insurance` | non trucking liability insurance | 1,000 | no carrier incumbents; page 1 is small agencies |

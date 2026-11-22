@@ -311,3 +311,11 @@ Each page must have one primary intent and a clear next step. Supporting pages s
 - California is documented as a three-step sequence (USDOT, then CHP CA number, then DMV Motor Carrier Permit) with the MC 65 M filing and mandatory workers compensation proof.
 - Sitemap now lists all 8 states (322 URLs). The remaining 42 stay noindexed on the fallback layout.
 - Verified: `tsc --noEmit` clean, `npm run build` succeeds, all eight state files render 1,325-1,407 words with 4 FAQ entries, and unwritten states still render noindex.
+
+### 2026-11-22 (Tier 2, first two product pages)
+
+- Added `/non-trucking-liability-insurance` (1,514 words) and `/bobtail-insurance` (1,354 words), the first two Tier 2 pages and the two product SERPs in this niche where no carrier holds the top results.
+- The editorial position on both is the distinction the market blurs: non-trucking liability is triggered by whose business the trip serves, bobtail by whether a trailer is attached, and many policies sold as bobtail are written on a non-trucking form. Both pages carry a scenario table showing which policy should respond per trip, and both explain the deadhead gap where neither form may answer.
+- Both cite 49 CFR 376.12(j) for the lease obligation and 49 CFR Part 387 for the federal context, and both state plainly what the coverage does not do (trailer, cargo, own tractor, own injuries, primary liability).
+- Added both routes to `sitemap.ts` and linked them from the coverage section of `/commercial-truck-insurance`, so the hub now routes to the two off-duty coverages instead of only describing them.
+- Verified: `tsc --noEmit` clean, `npm run build` succeeds, 5 FAQs with FAQPage schema on each page, sitemap at 324 URLs with both routes listed.

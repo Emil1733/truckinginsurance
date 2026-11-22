@@ -217,6 +217,17 @@ export default function CommercialTruckInsurancePage() {
               </div>
             ))}
           </div>
+          <p className="text-sm text-industrial-500 mt-5">
+            The two off-duty coverages cause the most confusion:{' '}
+            <Link href="/non-trucking-liability-insurance" className="underline hover:text-safety-orange">
+              non-trucking liability
+            </Link>{' '}
+            is triggered by whose business the trip is for, while{' '}
+            <Link href="/bobtail-insurance" className="underline hover:text-safety-orange">
+              bobtail
+            </Link>{' '}
+            is triggered by whether a trailer is attached.
+          </p>
         </section>
 
         {/* MINIMUMS */}
