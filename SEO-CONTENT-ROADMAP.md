@@ -1,261 +1,207 @@
-# Truck Coverage Experts SEO Content Roadmap
+# Truck Coverage Experts — SEO Content Roadmap
 
-The existing `/free-coi-generator` URL now serves a guide for requesting an updated certificate from the policy’s agent or insurer. Internal links describe the guide, and the URL remains canonical for this resource.
+Last updated: 2026-11-22. Supersedes the 2026-09-05 roadmap.
 
-The technical audit follow-up adds the coverage-by-state, equipment, and broker directories to the sitemap and limits the Uber Black directory to implemented state routes. Review filing pages for distinct intent before expanding sitemap coverage.
+## 0. Why this was rewritten
 
-Last updated: 2026-09-05
+The previous version planned from coarse volume bins ("0–10", "10–100", "100–1K") and put
+_requirements_ pages first, treating the commercial head terms as "broader and more competitive" that
+other pages would merely support. Three months of first-party data say that allocation does not produce
+lead flow:
 
-This roadmap records the keyword opportunities identified during research and the pages/tools we should build or improve. Volumes are the ranges reported by the keyword research export, not exact monthly counts.
+| Test of the old plan | Result (measured 2026-11-22) |
+|---|---|
+| Requirements pages as the growth engine | `/trucking-insurance-requirements`: 437 impressions, **0 clicks** in 294 days |
+| Requirements modifiers across equipment | **150 searches/month** total across 12 terms |
+| Whole site | 231 clicks in 294 days (0.79/day) |
+| The 8 equipment/product pages | **7 clicks** in 294 days |
+| The two head terms the site is built around | 16,200/mo — no page exists to compete for either |
 
-## Priority 1: High-value requirements and filing pages
+The old plan was not wrong about competition; it was wrong about where demand is. Requirements pages
+sit in a market too small to carry a lead business, while the two largest terms in the category have no
+page at all.
 
-These pages should be built or upgraded first because they combine relevant trucking intent, relatively low competition, and commercial CPC signals.
+## 1. Evidence base
 
-| Priority | Recommended URL | Primary keyword | Volume | Competition | CPC signal | Intent |
-|---|---|---|---:|---|---:|---|
-| P1 | `/trucking-insurance-requirements` | commercial trucking insurance requirements | 100–1K | Low | $4.79 | Understand coverage requirements and prepare to buy |
-| P1 | `/dot-insurance-requirements` | dot insurance requirements | 100–1K | Medium | $5.12 | Learn what insurance is needed for DOT operations |
-| P1 | `/fmcsa-insurance-requirements` | fmcsa insurance requirements | 100–1K | Low | $2.37 | Research federal requirements |
-| P1 | `/fmcsa-insurance-filing` | fmcsa insurance filing | 10–100 | Low | $34.74 | Obtain or correct a filing |
-| P1 | `/filing/bmc91x-federal-filing-fmsca` | bmc 91x | 100–1K | Low | $33.30 | High-intent filing search |
-| P1 | `/filing/bmc91x-federal-filing-fmsca` | bmc 91x filing form | 10–100 | Low | — | Find the form or filing process |
-| P1 | `/mc-authority-insurance-requirements` | mc authority insurance requirements | 10–100 | High | $15.71 | Activate or maintain authority |
-| P1 | `/new-authority-insurance` | commercial truck insurance for new companies | 10–100 | High | $18.31 | New carrier shopping for coverage |
+**Search Console.** Property `sc-domain:truckcoverageexperts.com`, window 2026-01-31 → 2026-11-20
+(294 days), pulled through the API so the full page set is included (4,489 page rows) rather than the
+1,000-row CSV export.
 
-## Priority 2: Supporting filing and authority pages
+**Volumes and CPC.** Google Ads, US, pulled 2026-11-22. These are point estimates, not bins.
 
-| Priority | Recommended URL | Primary keyword | Volume | Competition | CPC signal | Intent |
-|---|---|---|---:|---|---:|---|
-| P2 | `/filing/boc-3-process-agent` | boc 3 insurance | 10–100 | High | $3.64 | Confused about BOC-3/process-agent filing |
-| P2 | `/new-authority-insurance` | new authority insurance requirements | 0–10 | — | — | New authority checklist |
-| P2 | `/trucking-authority-activation` | how to activate trucking authority | 0–10 | — | — | Activation workflow |
-| P2 | `/trucking-insurance-filing-requirements` | trucking insurance filing requirements | 0–10 | — | — | Filing checklist |
-| P2 | `/proof-of-insurance-for-authority` | proof of insurance for trucking authority | 0–10 | — | — | Documentation intent |
-| P2 | `/insurance/motor-carrier-insurance` | motor carrier insurance requirements | 10–100 | Low | $2.42 | General carrier requirements |
-| P2 | `/insurance/trucking-liability-insurance` | trucking liability insurance requirements | 10–100 | High | — | Liability coverage research |
-| P2 | `/insurance/cargo-insurance-requirements` | cargo insurance requirements | 10–100 | Low | $5.22 | Cargo coverage research |
+### 1.1 What the site actually ranks for
 
-## Priority 3: Equipment-specific pages
+| Asset | Best position | Impressions (294d) | Volume of that term |
+|---|---:|---:|---:|
+| `/filing/mcp65-california-dmv-filing` + `/dmv65mcp` | 9.4–16.4 | 3,454 | mcp65 90/mo, dmv65mcp 90/mo |
+| `/filing/bmc91x-federal-filing-fmsca` | 23.0 | 1,171 | bmc-91x 480/mo |
+| `/uber-black-insurance/{state}` (17 routes) | 5.0–8.0 on 15 of 17 | 1,117 | uber black insurance 170/mo |
+| `/filing/form-h-uniform-cargo-filing`, `/filing/bmc34-…`, `/filing/pl914-…` | 5.6–12.1 | 69 | no measurable volume |
+| `/broker-check/{mc}` (3,283 pages) | 5.4–8.8 | 12,346 | ~18,200/mo of MC/DOT lookup |
 
-Existing equipment pages should be expanded and internally linked to the requirements hub and quote flow.
+Everything the site ranks for is a 90–480/mo term, with the single exception of the broker-check family,
+which is a directory play: 3,283 pages, 64% of all clicks, 0.03 clicks per page per 92 days.
 
-| Priority | Recommended URL | Primary keyword | Volume | Competition | CPC signal |
-|---|---|---|---:|---|---:|
-| P3 | `/insurance/box-truck-insurance-requirements` | box truck insurance requirements | 10–100 | Low | $6.19 |
-| P3 | `/insurance/hot-shot-insurance-requirements` | hot shot insurance requirements | 10–100 | Medium | $5.01 |
-| P3 | `/insurance/dump-truck-insurance-requirements` | dump truck insurance requirements | 10–100 | Low | $12.77 |
-| P3 | `/insurance/car-hauler-insurance-requirements` | car hauler insurance requirements | 10–100* | — | — |
-| P3 | `/insurance/auto-transport-insurance-requirements` | auto transport insurance requirements | 10–100 | — | — |
-| P3 | `/insurance/owner-operator-insurance-requirements` | owner operator insurance requirements | 10–100 | Low | $5.43 |
-| P3 | `/insurance/semi-truck-insurance-requirements` | semi truck insurance requirements | 10–100 | Medium | $3.53 |
-| P3 | `/insurance/tractor-trailer-insurance-requirements` | tractor trailer insurance requirements | 10–100 | High | — |
-| P3 | `/insurance/hazmat-insurance-requirements` | hazmat carrier insurance requirements | 10–100 | Low | — |
+### 1.2 What it does not rank for
 
-\* Car-hauler volume should be rechecked because existing research exports may have grouped related variants differently.
+| Demand block | Volume/mo | Current state |
+|---|---:|---|
+| `trucking insurance` | 8,100 | homepage only, 468 words; absent from all 1,040 query rows |
+| `commercial truck insurance` | 8,100 | **no page** — `/commercial-truck-insurance` returns 404 |
+| `semi truck insurance` | 2,400 | **no page** |
+| `trucking insurance quote` | 1,600 | `/quote` funnel page only |
+| `bobtail insurance` | 1,300 | **no page** |
+| `box truck insurance` | 1,300 | state route only; no national page |
+| `non trucking liability insurance` | 1,000 | **no page** |
+| `sr22 insurance {state}` × 38 | 19,200 | pages exist, positions 28–77 |
+| `ucr registration` | 12,100 | **no page** |
+| `california ca number lookup` | 590 | **no page** |
 
-## Broad commercial acquisition page
+Two structural facts behind that table: **100 state URLs whose parent route 404s**
+(`/commercial-truck-insurance/*` and `/hot-shot-insurance/*`) have recorded **zero impressions in 294
+days**, and the state template is 345–381 words against 1,989 words and 141 internal links on the page
+that ranks #1 for `trucking insurance`.
 
-| URL | Keyword | Volume | Competition | CPC signal | Role |
-|---|---|---:|---|---:|---|
-| `/quote` | truck insurance quote | 1K–10K | Medium | $25.82–$90+ | Main conversion page for high-intent visitors |
+### 1.3 The SERPs the site must win (6 draws, US desktop, depth 20)
 
-This term is valuable but broader and more competitive. It should be supported by the requirements, filing, and equipment pages rather than treated as the only SEO target.
+| Query | #1 | Shape of the top 10 |
+|---|---|---|
+| trucking insurance | joemorten.com `/products-services/states/arkansas` | **state pages** (joemorten, progressive MI/NJ/PA, insuremyrig OH/NC, truxsurance TX) |
+| commercial truck insurance | reliancepartners.com `/Landers` | agency landers + city EMD + state pages |
+| semi truck insurance | progressivecommercial.com | **carriers own it** (progressive, geico, sentry, northland, national indemnity) |
+| bobtail insurance | bobtail.com | brand, then small agencies — **no carrier wall** |
+| non trucking liability insurance | fleetguardusa.com | small agencies and one blog — **no carrier wall** |
 
-## Recommended free tool
+`trucking insurance` is won by a **state page**, and five of its top ten are state pages. The site already
+has that architecture; it is missing the depth. `semi truck insurance` is the one term held by carriers
+and therefore the last one to attempt.
 
-### Trucking Insurance Readiness Report
+### 1.4 A measurement limit to design around
 
-Suggested entry point: `/trucking-insurance-requirements`
+GSC attributes only **6 of 231 clicks (2.6%)** to a named query, and 41.5% of impressions. The API returns
+just 1,040 query rows, so this is Google withholding low-volume query strings, not an export cap. Plan and
+report on **pages**, not on query text.
 
-The tool should collect only what is needed to personalize the checklist:
+## 2. The strategy this roadmap commits to
 
-- DOT or MC number, optionally
-- State
-- Operation/equipment type
-- Cargo type
-- Operating radius
-- Authority status
+**Own the trucking-insurance buying terms with a small number of deep pages, and use the compliance layer
+as acquisition rather than as the destination.**
 
-The result should show:
+Three reasons, each measured:
 
-- Potential coverage checklist
-- Filing starting points
-- Documents to prepare
-- Missing information
-- Common underwriting considerations
-- Optional quote-review CTA
+1. **Feasibility is not the constraint.** #1 for `trucking insurance` is an agency at DR 22.1; #1 for
+   `box truck insurance` is DR 13.6; two sites under DR 4 sit in the top 8. What separates this site is
+   page depth, internal links and a phone number — not authority.
+2. **Scale is.** 22,660/mo of insurance intent exists, and 10–20% of it is 2,300–4,200 visits/month —
+   the range the lead model needs. The existing page portfolio covers 1,840/mo of that demand.
+3. **The compliance layer already works** (MCP-65 at position 10, 3,283 lookup pages) and speaks to the
+   same person three weeks before they buy coverage. It should feed the buying pages, not replace them.
 
-Suggested tool-related keywords:
+**What must be true for this to work:** the state template reaches 1,200–1,800 words with genuine
+state-specific content, every state page links to a live national hub, and the money pages carry a phone
+number and an inline form.
 
-- trucking insurance calculator
-- commercial truck insurance calculator
-- trucking insurance cost calculator
-- truck insurance requirements checker
-- DOT insurance requirements checker
-- FMCSA insurance requirements lookup
-- trucking insurance checklist
-- new authority checklist
-- trucking company startup checklist
+**What would falsify it:** see §5.
 
-## Recommended internal-link funnel
+## 3. Work tiers
 
-```text
-Requirements or filing SEO page
-  → Free readiness report
-  → Personalized checklist
-  → Optional email delivery
-  → Optional licensed-professional quote review
-  → Supabase + Airtable lead record
-```
+### Tier 0 — Architecture (no new prose)
 
-## Content rules
+- Create the missing national hubs: `/commercial-truck-insurance` (8,100/mo) and `/hot-shot-insurance`
+  (480/mo) currently 404 while 50 state children are sitemap-listed. `/uber-black-insurance` likewise.
+- Link every state page to its hub and every hub to the other equipment hubs.
+- Sitemap: add `broker-check/*` (currently 0 entries; the family producing 64% of clicks) and the full
+  `filing/*` set (9 entries for ~60 live pages).
+- Repair or remove the 100 sitemap URLs whose parent returns 404.
+
+**Acceptance:** every hub returns 200; every state page is reachable in one click from its hub; the
+sitemap contains no URL whose parent 404s; `npm run build` passes; submitted sitemap shows no new errors
+in GSC after 14 days.
+
+### Tier 1 — State template depth
+
+Rebuild the shared state template to 1,200–1,800 words with 8–13 H2s, a dated cost table, state-specific
+requirements and filings, 8 FAQs with FAQPage schema, and 60–120 internal links. Match the structure of
+the page that currently ranks #1 (1,989 words, 141 links) rather than the 345–381-word output that Google
+is not surfacing.
+
+Per the quality gates in `AGENTS.md`, each state page must carry information that only applies in that
+state (filing authority, minimum limits, local quirks). The current template swaps the state name.
+
+**Acceptance:** three states (one high-volume, one mid, one low) pass a written checklist for
+state-specific content, sentence-level duplication, metadata uniqueness, schema validity and internal
+links; only then is the remaining batch generated.
+
+### Tier 2 — Product pages, in winnability order
+
+| Order | URL | Term | Volume/mo | Why this position |
+|---|---|---|---:|---|
+| 1 | `/insurance/non-trucking-liability-insurance` | non trucking liability insurance | 1,000 | no carrier incumbents; page 1 is small agencies |
+| 2 | `/insurance/bobtail-insurance` | bobtail insurance | 1,300 | no carrier incumbents |
+| 3 | `/commercial-truck-insurance` (hub + depth) | commercial truck insurance | 8,100 | agency landers and one city EMD hold it |
+| 4 | `/trucking-insurance-quote` | trucking insurance quote | 1,600 | $100.93 CPC; high-intent, needs a real offer |
+| 5 | `/box-truck-insurance` national page | box truck insurance | 1,300 | state route exists, no national target |
+| 6 | `/semi-truck-insurance` | semi truck insurance | 2,400 | **last** — progressive/geico/sentry own this SERP |
+
+**Acceptance per page:** distinct intent versus existing pages, 1,200+ words of original operator-focused
+content, cost and requirements blocks, quote CTA, internal links in and out, and a rank reading at 8 and
+12 weeks.
+
+### Tier 3 — Compliance expansion (separate business case)
+
+`ucr registration` (12,100/mo) and state carrier identifiers (`california ca number lookup` 590/mo,
+`txdmv number lookup` 70/mo, `texas dot number lookup` 390/mo) are the largest unserved pockets the site
+touches. They monetise as filing services, not as the producer lead price, and need their own decision
+before pages are written.
+
+### Tier 4 — Conversion
+
+Every money template needs a phone number (there are **zero** `tel:` links on the live site) and an inline
+form rather than a single link to `/quote` (5 fields, no phone).
+
+## 4. Not building
+
+- More `uber-black-insurance` or `amazon-relay-insurance` state variants — measured at 170/mo and 0/mo.
+- Equipment types with no measurable demand: bottom dump, end dump, bull hauler, intermodal chassis,
+  lowboy/RGN, hazmat tanker.
+- More `broker-check` pages. The family already runs 3,283 pages at 0.03 clicks each.
+- More requirements variants. The modifier is worth 150/mo across the whole equipment set.
+- Any page whose only differentiation is a swapped state name.
+
+## 5. Kill signals (pre-registered)
+
+| Signal | Read |
+|---|---|
+| `/commercial-truck-insurance/*` still records zero impressions 8–12 weeks after hub + template rebuild | Depth is not the constraint. Stop expanding the insurance layer and put the effort into the compliance product. |
+| Bobtail and non-trucking liability do not reach the top 20 within 12 weeks | The "no carrier wall" reading is wrong; re-price the whole branch. |
+| `/quote` submissions stay at zero after Tier 4 with ≥100 organic clicks/month | The offer is the problem, not the traffic. |
+
+## 6. Content rules
 
 - Keep BMC-91X and BOC-3 as separate topics; they are not the same filing.
-- Do not create pages solely by swapping state names.
-- State pages need meaningful state-specific context, not just a changed heading.
-- Explain that requirements and coverage are subject to current rules, underwriting, and state availability.
-- Use the quote form as an optional next step, not the only value on the page.
-- Recheck volume and GSC performance before creating large page batches.
+- Do not create pages by swapping state names. Now measured: 100 such pages have zero impressions.
+- One page per intent. Resolve cannibalisation between equipment, requirements, filing and state families
+  before writing.
+- Check exact volume before building, not bins. Anything under ~200/mo does not justify a page.
+- Requirements and coverage are subject to current rules, underwriting and state availability; say so.
+- The quote form is an optional next step, not the only value on the page.
 
-## Measurement plan
+## 7. Measurement plan
 
-For every new or improved page, track:
+- **GSC, page level:** impressions, clicks, position, monthly per URL. Do not report query-level numbers as
+  if they were complete (2.6% click coverage).
+- **PostHog:** readiness views, checklist completions, quote submissions.
+- **Supabase / Airtable:** lead records, duplicate checks, qualification.
+- **The only business number that matters:** qualified leads per month, and bound policies when the
+  producer reports them.
 
-- Impressions and clicks in GSC
-- Average position
-- CTR
-- Top queries
-- Tool starts
-- Tool completions
-- Quote-review requests
-- Airtable lead records
-- Bound-policy outcomes when available
+## 8. Implementation sequence
 
-## First implementation sequence
+1. Tier 0 architecture, then verify in GSC after two weeks.
+2. Tier 1 template on three sample states; validate before batch generation.
+3. Tier 2 pages in the order listed, one at a time, each measured at 8 weeks.
+4. Tier 4 conversion on the money templates as each Tier 2 page ships.
+5. Tier 3 only if the compliance business case is taken separately.
 
-1. Audit existing indexed pages against GSC data before adding duplicates.
-2. Upgrade `/trucking-insurance-requirements` as the main hub.
-3. Upgrade the BMC-91X filing page.
-4. Build the readiness-report tool.
-5. Add supporting pages for DOT, FMCSA, MC authority, and new companies.
-6. Link the tool and quote flow from all relevant equipment and filing pages.
-
-## Expanded keyword research findings
-
-The larger export confirms that equipment-specific commercial terms have substantially more measured demand than the generic requirements/checker terms. These should guide page upgrades before creating many new state pages.
-
-### Highest-volume commercial opportunities
-
-| Keyword | Volume | Competition | CPC signal | Recommended page |
-|---|---:|---|---:|---|
-| box truck insurance | 1K–10K | High | $12.37–$62.43 | Existing box truck hub |
-| box truck insurance coverage | 1K–10K | High | $12.37–$62.43 | Existing box truck hub or coverage section |
-| box truck insurance cost | 100–1K | Medium | $5.15–$25.14 | Existing cost page / expand |
-| hotshot insurance | 100–1K | High | $8.62–$41.46 | Existing hot shot hub |
-| hotshot trucking insurance | 100–1K | Medium | $8.25–$39.41 | Existing hot shot hub |
-| commercial box truck insurance | 100–1K | High | $15.88–$75.08 | Existing box truck hub |
-| hot shot trucking insurance | 100–1K | Low | $6.42–$28.43 | Existing hot shot hub |
-| cheap box truck insurance | 100–1K | Medium | $12.00–$51.66 | Cost/quotes section; avoid unsupported cheap claims |
-| box truck insurance quotes | 100–1K | Low | $18.68–$59.39 | Quote page with box-truck preselection |
-| car hauler insurance | 100–1K | Low | $7.32–$38.46 | Existing car hauler page |
-| auto transport insurance | 100–1K | Low | $7.32–$38.46 | New auto-transport page or car-hauler page section |
-| auto transport insurance cost | 10–100 | Low | — | Auto-transport cost section |
-
-### High-value supporting clusters
-
-#### Box truck
-
-- `box truck insurance coverage` — 1K–10K, High
-- `box truck insurance cost` — 100–1K, Medium
-- `commercial box truck insurance` — 100–1K, High
-- `box truck insurance quotes` — 100–1K, Low
-- `box truck insurance rates` — 100–1K, Medium
-- `26 foot box truck insurance cost` — 100–1K, High
-- `box truck insurance requirements` — 10–100, Low
-- `box truck insurance companies` — 10–100, High
-- `box truck business insurance` — 10–100, Low
-- `box truck cargo insurance` — 10–100, High
-- `non cdl box truck insurance` — 10–100, High
-
-#### Hot shot
-
-- `hotshot insurance` — 100–1K, High
-- `hotshot trucking insurance` — 100–1K, Medium
-- `hot shot trucking insurance` — 100–1K, Low
-- `hotshot insurance cost` — 100–1K, Medium
-- `hotshot insurance quotes` — 100–1K, Low
-- `hot shot insurance requirements` — 10–100, Medium
-- `hotshot trucking insurance requirements` — 10–100, Medium
-- `hotshot trucking insurance quote` — 10–100, High
-- `non cdl hotshot insurance` — 10–100, Low
-- `hotshot cargo insurance` — 10–100, Medium
-
-#### Car hauler and auto transport
-
-- `car hauler insurance` — 100–1K, Low
-- `auto hauler insurance` — 100–1K, Medium
-- `auto transport insurance` — 100–1K, Low
-- `car transport insurance` — 100–1K, Low
-- `car hauler trailer insurance` — 100–1K, Medium
-- `car hauler insurance requirements` — 10–100, Medium
-- `car hauler insurance cost` — 10–100, Medium
-- `auto transport insurance requirements` — 10–100, Low
-- `insurance for car hauling business` — 10–100, Medium
-- `commercial car hauler insurance` — 10–100, High
-
-#### General commercial truck
-
-- `truck insurance quote` — 1K–10K, Medium, approximately $25.82–$90+ CPC
-- `commercial truck insurance cost` — 100–1K, Medium
-- `commercial truck insurance requirements` — 100–1K, Low
-- `dot insurance requirements` — 100–1K, Medium
-- `fmcsa insurance requirements` — 100–1K, Low
-- `commercial truck insurance rates` — 10–100, Low
-- `commercial truck insurance for new companies` — 10–100, High, $18.31–$49.11 CPC
-- `get truck insurance quote` — 10–100, High, $41.24–$150 CPC
-- `commercial truck liability insurance` — 10–100, Medium, $16.43–$66.56 CPC
-- `truck insurance calculator` — 10–100, Medium
-- `owner operator insurance quotes` — 0–10, Low
-
-### Keywords to exclude or handle cautiously
-
-- Brand terms such as Progressive, GEICO, State Farm, and USAA should not become core pages unless the page provides a genuine comparison and follows trademark/accuracy rules.
-- `truck driver medical insurance`, personal pickup insurance, HGV/lorry terms, and food-truck terms do not match the core commercial trucking audience.
-- `cheap` and `cheapest` terms should be addressed with transparent comparison guidance, not promises of the lowest price.
-- Terms showing `-90%`, `-100%`, or `+∞` trends should be validated again before receiving dedicated pages.
-
-### Updated priority decision
-
-Before building the readiness tool, upgrade the existing high-intent hubs around:
-
-1. Box truck insurance and box truck insurance cost
-2. Hot shot trucking insurance and hot shot insurance cost
-3. Car hauler and auto transport insurance
-4. Truck insurance quote
-5. Commercial trucking insurance requirements and BMC-91X filing
-
-The readiness tool should be positioned as a conversion layer across these pages, rather than as a standalone page targeting only low-volume terms such as `trucking insurance calculator`.
-
-### GSC opportunity update — 2026-11-04
-
-The latest 28-day GSC export showed `dump trailer insurance` with 66 impressions at an average position near 66, while `belly dump trailer insurance` had page-one visibility. This supports a broad guide that explains dump-trailer operations and routes users to the existing end-dump and bottom-dump pages.
-
-Completed:
-
-- `/insurance/dump-trailer-insurance` — broad dump trailer insurance, coverage questions, cost inputs, requirements, and quote preparation.
-- Internal links from the equipment hub to the new guide.
-- Internal links from the new guide to end-dump, bottom-dump, all equipment guides, and the readiness tool.
-
-Quality guardrail:
-
-- Do not create separate pages for every dump-trailer wording variation. Keep the broad page as the cluster entry point and use the existing equipment pages only where the operating intent is genuinely different.
-
-- `/insurance/hazmat-tanker-insurance` — refreshed for `tanker truck insurance`, `hazmat truck insurance`, and related coverage/requirements intent. Keep this as the cluster page unless GSC later shows a clearly distinct high-volume pollution or tanker-endorsement intent.
-- `/hot-shot` — refreshed for `hot shot trucking insurance`, `hot shot trucking insurance requirements`, `commercial hot shot insurance`, and non-CDL/operator questions. Keep the main guide as the cluster entry point and use state pages only when they contain genuine state-specific information.
-- Requirements-linking pass — updated `/trucking-insurance-requirements`, `/new-authority-insurance`, and `/dot-insurance-requirements` with contextual readiness links and links into the most relevant equipment/filing guides. Query parameters preserve authority, filing, and requirements intent.
-- `/box-truck-insurance` — refreshed as the canonical hub for `box truck insurance cost`, `box truck insurance requirements`, `box truck cargo insurance`, `non-CDL box truck insurance`, and `26 foot box truck insurance cost`. Keep state pages separate and genuinely state-specific.
-- `/ifta-trucking-requirements` — added as a new compliance opportunity after the site had no IFTA impressions or dedicated page. Use official IFTA/jurisdiction sources and keep the page separate from insurance and BMC filing intent.
-- `/driver-qualification-file-checklist` — added from Google Keyword Planner evidence for `driver qualification file checklist`, `FMCSA driver qualification file`, `free driver qualification file forms`, and related DQ-file terms. Keep the page useful and source-led; do not promise that a generic checklist alone guarantees compliance.
-- DQ conversion layer — added a no-gate interactive checklist so the page earns utility before asking for a readiness or quote action. Measure starts and completions before deciding whether to add an optional document download or email capture.
-- DQ internal-link pass — added contextual links from carrier readiness, new authority, and DOT requirements pages to strengthen discovery and connect document intent to the interactive checklist.
+Volumes and positions in this document are measurements from 2026-11-22. Re-measure before any batch
+larger than three pages.

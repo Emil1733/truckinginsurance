@@ -1,6 +1,6 @@
 # Truck Coverage Experts — Project Context
 
-Last updated: 2026-10-02
+Last updated: 2026-11-22
 
 This document is the durable operating context for the project. It should be updated whenever implementation, SEO architecture, lead capture, or deployment behavior changes. See `AGENTS.md` for the mandatory documentation rule.
 
@@ -74,7 +74,18 @@ Latest reviewed GSC windows:
 - Newer requirements/readiness pages need separate monitoring after indexing settles.
 - Broker-check pages create substantial impression noise and must be separated from commercial acquisition reporting.
 
+Reviewed 2026-11-22 against the GSC API rather than a CSV export, full property history:
+
+- 294 days ending 2026-11-20: 231 clicks, 37,993 impressions, average position 22–31, 0.79 clicks/day.
+- The full page set is 4,489 URLs; the 1,000-row export under-counts the broker-check family by 3.7× (3,283 pages, 95 clicks, 48.6% of impressions over 92 days, 0.03 clicks per page).
+- The 8 equipment/product pages produced 7 clicks in 294 days.
+- `/commercial-truck-insurance/*` and `/hot-shot-insurance/*` (100 sitemap URLs) recorded zero impressions, and both parent routes return 404.
+- Neither `trucking insurance` nor `commercial truck insurance` appears in any of the 1,040 query rows.
+- Query-level attribution is incomplete by design: GSC names queries for 6 of 231 clicks (2.6%). Report on pages.
+
 Technical note: the non-www host was observed redirecting with a temporary redirect in the live environment despite the intended permanent redirect configuration. Verify and fix host consolidation at the production/domain layer before broad expansion.
+
+Resolved 2026-11-22: `https://truckcoverageexperts.com/*` returns 308 to `https://www.truckcoverageexperts.com/*`, and GSC daily impressions show the host turnover beginning 2026-10-31/11-01. No further host work is required.
 
 ## 6. SEO architecture principles
 
@@ -255,3 +266,14 @@ Each page must have one primary intent and a clear next step. Supporting pages s
 - Added `/driver-qualification-file-checklist` as a compliance and lead-generation resource for FMCSA DQ-file requirements, annual reviews, owner-operators, non-CDL drivers, electronic files, and audit preparation.
 - Added a browser-saved interactive DQ checklist with progress, reset, completion, and document-focused readiness CTA. It does not require contact information and emits `dq_checklist_started`, `dq_checklist_completed`, and `dq_checklist_reset` PostHog events.
 - Added contextual DQ-file links from `/carrier-readiness`, `/new-authority-insurance`, and `/dot-insurance-requirements` at the point where users are preparing driver or compliance documents.
+
+### 2026-11-22
+
+- Rewrote `SEO-CONTENT-ROADMAP.md` against first-party measurement: GSC API over the full property history (294 days, 4,489 pages) and Google Ads point volumes pulled the same day, replacing the 2026-09-05 version's coarse bins and requirements-first allocation.
+- Recorded the strategy the roadmap now commits to: own the trucking-insurance buying terms with a small number of deep pages, and use the compliance/filing layer as acquisition rather than as the destination. Reasoning: #1 for `trucking insurance` is a DR 22.1 agency state page and two sub-DR-4 sites sit in the top 8, so authority is not the barrier; page depth, internal links and the absence of a phone number are.
+- Documented the measured failure of the previous allocation: `/trucking-insurance-requirements` recorded 437 impressions and 0 clicks in 294 days, requirements modifiers total 150 searches/month across 12 equipment terms, and the 8 equipment/product pages produced 7 clicks in 294 days.
+- Added the missing-demand table the roadmap now works from: `commercial truck insurance` 8,100/mo with no parent page (404), `semi truck insurance` 2,400, `trucking insurance quote` 1,600 (CPC 100.93), `bobtail insurance` 1,300, `non trucking liability insurance` 1,000, `ucr registration` 12,100, plus state carrier identifiers.
+- Added five work tiers with acceptance criteria (architecture, state template depth, product pages in winnability order, compliance expansion, conversion), a not-building list, and three pre-registered kill signals.
+- Recorded that GSC attributes only 6 of 231 clicks to a named query, so reporting and page planning move to the page dimension.
+- Updated section 5 with the 2026-11-22 GSC read and closed the non-www host note: the 308 redirect is live and GSC host turnover began 2026-10-31/11-01.
+- Not changed in this entry: no routes, templates, metadata, schema or lead flow were modified. The roadmap's Tier 0-4 work is unstarted.
