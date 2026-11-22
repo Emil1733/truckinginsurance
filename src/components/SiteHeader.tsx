@@ -15,18 +15,15 @@ export function SiteHeader({
   return (
     <header className="sticky top-0 z-50 border-b border-slate-800/90 bg-slate-950/95 backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6">
-        <Link href="/" aria-label="Truck Coverage Experts home" className="inline-flex min-w-0 items-center gap-2.5">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/brand/tce-mark-96.png"
-            alt=""
-            width={36}
-            height={36}
-            className="h-9 w-9 shrink-0"
-          />
+        <Link href="/" aria-label="Truck Coverage Experts home" className="inline-flex min-w-0 items-center gap-3">
+          <span aria-hidden="true" className="h-9 w-[3px] shrink-0 bg-safety-orange" />
           <span className="leading-none">
-            <span className="block text-[0.62rem] font-black tracking-[0.18em] text-slate-400 sm:text-[0.68rem]">TRUCK COVERAGE</span>
-            <span className="mt-1 block text-sm font-black tracking-[0.08em] text-white sm:text-base">EXPERTS</span>
+            <span className="block font-mono text-[0.6rem] font-medium uppercase tracking-[0.3em] text-slate-400 sm:text-[0.64rem]">
+              Truck Coverage
+            </span>
+            <span className="mt-1.5 block font-display text-lg font-bold uppercase leading-none tracking-[0.04em] text-white sm:text-xl">
+              Experts
+            </span>
           </span>
         </Link>
         <div className="flex shrink-0 items-center gap-3">

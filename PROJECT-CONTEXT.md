@@ -319,3 +319,11 @@ Each page must have one primary intent and a clear next step. Supporting pages s
 - Both cite 49 CFR 376.12(j) for the lease obligation and 49 CFR Part 387 for the federal context, and both state plainly what the coverage does not do (trailer, cargo, own tractor, own injuries, primary liability).
 - Added both routes to `sitemap.ts` and linked them from the coverage section of `/commercial-truck-insurance`, so the hub now routes to the two off-duty coverages instead of only describing them.
 - Verified: `tsc --noEmit` clean, `npm run build` succeeds, 5 FAQs with FAQPage schema on each page, sitemap at 324 URLs with both routes listed.
+
+### 2026-11-22 (identity: typographic wordmark)
+
+- Replaced the generated badge mark with a typographic lockup. The site already loads Oswald (condensed display) and JetBrains Mono, so the wordmark uses those with no new font payload: a 3px safety-orange rule, "TRUCK COVERAGE" in tracked mono above, "EXPERTS" in heavy Oswald below.
+- Reason for the change: generated raster marks read as app icons and carried small geometry flaws (uneven bar spacing, an interlocked T and C that broke into fragments). Type is exact at every size, needs no raster assets, and matches the industrial-noir system the rest of the site already uses.
+- Favicon is now a typographic monogram: white "TC" on safety orange, rendered to `app/icon.png` (512), `app/apple-icon.png` (180). Icon payload dropped from 260 KB to 4.8 KB.
+- Removed the generated marks from `public/` so nothing unused is served. The five concepts kept for reference live in `brand/source/` at the repo root, outside the deployed bundle.
+- Verified: `tsc --noEmit` clean, `npm run build` clean, homepage and interior pages render the wordmark with no image requests, and the header CTA remains safety orange.
