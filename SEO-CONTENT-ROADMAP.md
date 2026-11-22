@@ -172,7 +172,7 @@ a non-trucking form.
 | 1 | `/insurance/non-trucking-liability-insurance` | non trucking liability insurance | 1,000 | no carrier incumbents; page 1 is small agencies |
 | 2 | `/insurance/bobtail-insurance` | bobtail insurance | 1,300 | no carrier incumbents |
 | 3 | `/commercial-truck-insurance` (hub + depth) | commercial truck insurance | 8,100 | agency landers and one city EMD hold it |
-| 4 | `/trucking-insurance-quote` | trucking insurance quote | 1,600 | $100.93 CPC; high-intent, needs a real offer |
+| 4 | `/quote` (upgraded, not a new URL) | trucking insurance quote | 1,600 | $100.93 CPC; the SERP is held by quote pages, so the site's own quote page targets it |
 | 5 | `/box-truck-insurance` national page | box truck insurance | 1,300 | state route exists, no national target |
 | 6 | `/semi-truck-insurance` | semi truck insurance | 2,400 | **last** — progressive/geico/sentry own this SERP |
 

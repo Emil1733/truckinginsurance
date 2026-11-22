@@ -1,12 +1,14 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Commercial Truck Insurance Quote Review',
-  description: 'Request a commercial truck insurance quote review. Share your operation details so a licensed insurance professional can review coverage, filings, and available options.',
+  title: 'Trucking Insurance Quote: Costs and Requirements',
+  description:
+    'Request a trucking insurance quote review. What the quote needs, what moves the premium, how long it takes, and why a bindable trucking price is never instant.',
   alternates: { canonical: 'https://www.truckcoverageexperts.com/quote' },
   openGraph: {
-    title: 'Commercial Truck Insurance Quote Review',
-    description: 'Prepare your trucking operation details for a commercial insurance and filing review.',
+    title: 'Trucking Insurance Quote Review | Truck Coverage Experts',
+    description:
+      'Start a commercial trucking insurance quote review and learn what the file needs before carriers will quote it.',
   },
 };
 

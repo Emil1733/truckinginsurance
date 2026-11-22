@@ -327,3 +327,11 @@ Each page must have one primary intent and a clear next step. Supporting pages s
 - Favicon is now a typographic monogram: white "TC" on safety orange, rendered to `app/icon.png` (512), `app/apple-icon.png` (180). Icon payload dropped from 260 KB to 4.8 KB.
 - Removed the generated marks from `public/` so nothing unused is served. The five concepts kept for reference live in `brand/source/` at the repo root, outside the deployed bundle.
 - Verified: `tsc --noEmit` clean, `npm run build` clean, homepage and interior pages render the wordmark with no image requests, and the header CTA remains safety orange.
+
+### 2026-11-22 (quote page targets its term)
+
+- `/quote` was indexable and canonical but had no content at all, so it could not rank for anything. It now carries an H1, an intro band above the form, and roughly 850 words below it: what a quote is and is not, why the form asks about violations first, six premium drivers, realistic timings including filing clocks, the document checklist, and four FAQs with FAQPage schema.
+- Metadata retargeted from `Commercial Truck Insurance Quote Review` to `Trucking Insurance Quote: Costs and Requirements`, matching the 1,600/mo term at $100.93 CPC. Open Graph copy updated to match.
+- Chose to upgrade `/quote` rather than create `/trucking-insurance-quote`: the SERP is held by quote pages (`arizonatruckinginsurance.com/get-quote`, `dallastruckinginsurance.com/get-quote`), and a second URL would have competed with the site's own conversion page.
+- Added `/quote` to the sitemap (325 URLs). The multi-step form, its server action, attribution handling and PostHog events are unchanged.
+- Verified: `tsc --noEmit` clean, `npm run build` clean, one `<form>` still renders, one H1, 4 FAQ schema questions, canonical intact.

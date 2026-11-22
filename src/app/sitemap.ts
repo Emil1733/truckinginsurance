@@ -29,6 +29,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     '/trucking-insurance-readiness',
     '/carrier-readiness',
     '/contact',
+    '/quote',
     '/filings',
     '/violations',
     '/insurance/car-hauler-insurance-cost',
