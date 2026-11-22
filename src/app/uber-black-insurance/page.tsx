@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { CarFront, ShieldCheck, FileText, MapPin, AlertTriangle, ArrowRight } from 'lucide-react';
 import { SiteHeader } from '@/components/SiteHeader';
+import { Footer } from '@/components/Footer';
 import { UBER_BLACK_STATES } from '@/lib/data/uber-black-states';
 
 export const metadata = {
@@ -178,6 +179,7 @@ export default function UberBlackInsurancePage() {
           </Link>
         </section>
       </main>
+      <Footer />
     </div>
   );
 }

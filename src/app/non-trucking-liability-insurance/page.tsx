@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { ShieldCheck, AlertTriangle, FileText, ArrowRight, CheckCircle2, Truck } from 'lucide-react';
 import { SiteHeader } from '@/components/SiteHeader';
+import { Footer } from '@/components/Footer';
 
 export const metadata = {
   title: 'Non-Trucking Liability Insurance: What It Covers and When It Fails',
@@ -312,6 +313,7 @@ export default function NonTruckingLiabilityPage() {
           </p>
         </section>
       </main>
+      <Footer />
     </div>
   );
 }

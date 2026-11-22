@@ -352,3 +352,11 @@ Each page must have one primary intent and a clear next step. Supporting pages s
 - Linked from the equipment directory on `/commercial-truck-insurance` alongside box truck, and added to the sitemap (276 URLs).
 - Tier 2 is now complete: non-trucking liability, bobtail, commercial hub, quote page, box truck, semi.
 - Verified: `tsc --noEmit` clean, `npm run build` clean, 6 FAQ schema questions, hub renders the new link.
+
+### 2026-11-22 (baseline + crawl path)
+
+- Captured the before-state for all 15 pages published this session in `analytics/gsc-baseline-2026-11-22.json`, using `scripts/gsc-baseline.cjs` (GSC API, per-page 90-day totals plus URL Inspection verdicts).
+- Finding: **every new URL is unknown to Google.** Twelve return `URL is unknown to Google` and three `Discovered - currently not indexed`. The submitted sitemap reports `submitted 312 / indexed 0` and was last fetched 2026-11-18, from the non-www host that 308-redirects. Indexation, not ranking, is the current constraint.
+- Fixed the crawl path, which was the controllable part: the footer carried none of the new pages and only 8 of 32 routes rendered a footer at all. The footer insurance column now links the commercial hub, semi, box truck, hot shot, bobtail and non-trucking liability, and the footer is delivered on the homepage and the four new pages.
+- Added `scripts/gsc-inspect.cjs` and `scripts/gsc-sitemaps.cjs` for repeatable checks. Both accept `GSC_KEY_FILE` to run against a service-account JSON; the `GSC_PRIVATE_KEY` value in `.env.local` currently fails to decode, which is why the key-file path exists.
+- Verified: `tsc --noEmit` clean, `npm run build` clean, all five pages render five money-page footer links.

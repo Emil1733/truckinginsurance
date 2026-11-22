@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { Truck, ShieldCheck, AlertTriangle, ArrowRight, FileText } from 'lucide-react';
 import { SiteHeader } from '@/components/SiteHeader';
+import { Footer } from '@/components/Footer';
 
 export const metadata = {
   title: 'Bobtail Insurance: What It Covers, and Why the Label Is Misleading',
@@ -306,6 +307,7 @@ export default function BobtailInsurancePage() {
           </p>
         </section>
       </main>
+      <Footer />
     </div>
   );
 }

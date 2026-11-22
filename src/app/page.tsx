@@ -2,6 +2,7 @@ import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 import { ArrowRight, ShieldAlert, Zap, FileWarning, Truck, Map, AlertTriangle } from "lucide-react";
 import { SiteHeader } from "@/components/SiteHeader";
+import { Footer } from "@/components/Footer";
 
 export const metadata = {
   title: "Truck Coverage Experts | High-Risk Trucking Insurance & Filings",
@@ -259,6 +260,7 @@ export default async function Home() {
         </div>
       </section>
 
+      <Footer />
     </div>
   );
 }

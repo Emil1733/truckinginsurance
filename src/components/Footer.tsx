@@ -35,11 +35,13 @@ export function Footer() {
         <div className="col-span-1">
           <h3 className="text-white font-bold uppercase tracking-widest mb-4 text-xs">Insurance</h3>
           <ul className="space-y-2">
-            <li><Link href="/locations" className="hover:text-safety-orange transition-colors">Coverage by State</Link></li>
-            <li><Link href="/insurance" className="hover:text-safety-orange transition-colors">By Trailer Type</Link></li>
-            <li><Link href="/insurance/hazmat-tanker-insurance" className="hover:text-safety-orange transition-colors">Hazmat Tankers</Link></li>
-            <li><Link href="/insurance/auto-hauler-car-carrier-insurance" className="hover:text-safety-orange transition-colors">Auto Haulers</Link></li>
-            <li><Link href="/hot-shot" className="hover:text-safety-orange transition-colors">Hot Shot Insurance</Link></li>
+            <li><Link href="/commercial-truck-insurance" className="hover:text-safety-orange transition-colors">Commercial truck insurance</Link></li>
+            <li><Link href="/semi-truck-insurance" className="hover:text-safety-orange transition-colors">Semi truck</Link></li>
+            <li><Link href="/box-truck-insurance" className="hover:text-safety-orange transition-colors">Box truck</Link></li>
+            <li><Link href="/hot-shot" className="hover:text-safety-orange transition-colors">Hot shot</Link></li>
+            <li><Link href="/bobtail-insurance" className="hover:text-safety-orange transition-colors">Bobtail</Link></li>
+            <li><Link href="/non-trucking-liability-insurance" className="hover:text-safety-orange transition-colors">Non-trucking liability</Link></li>
+            <li><Link href="/insurance" className="hover:text-safety-orange transition-colors">By trailer type</Link></li>
           </ul>
         </div>
 

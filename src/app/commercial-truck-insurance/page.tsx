@@ -9,6 +9,7 @@ import {
   CheckCircle2,
 } from 'lucide-react';
 import { SiteHeader } from '@/components/SiteHeader';
+import { Footer } from '@/components/Footer';
 
 export const metadata = {
   title: 'Commercial Truck Insurance: Cost, Coverage & Requirements',
@@ -454,6 +455,7 @@ export default function CommercialTruckInsurancePage() {
           </p>
         </section>
       </main>
+      <Footer />
     </div>
   );
 }
