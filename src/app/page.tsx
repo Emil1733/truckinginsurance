@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 import { ArrowRight, ShieldAlert, Zap, FileWarning, Truck, Map, AlertTriangle } from "lucide-react";
+import { SiteHeader } from "@/components/SiteHeader";
 
 export const metadata = {
   title: "Truck Coverage Experts | High-Risk Trucking Insurance & Filings",
@@ -20,7 +21,9 @@ export default async function Home() {
 
   return (
     <div className="min-h-screen bg-industrial-900 text-silver font-mono selection:bg-safety-orange selection:text-black">
-      
+
+      <SiteHeader ctaLabel="Request a quote review" statusLabel="High-risk specialists" />
+
       {/* HERO: THE PROBLEM SOLVER */}
       <section className="relative px-6 py-20 border-b border-industrial-800 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-industrial-800 to-industrial-900">
         <div className="max-w-6xl mx-auto text-center mb-16">
