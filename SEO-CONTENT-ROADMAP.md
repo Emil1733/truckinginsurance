@@ -37,10 +37,12 @@ page at all.
 | `/filing/bmc91x-federal-filing-fmsca` | 23.0 | 1,171 | bmc-91x 480/mo |
 | `/uber-black-insurance/{state}` (17 routes) | 5.0–8.0 on 15 of 17 | 1,117 | uber black insurance 170/mo |
 | `/filing/form-h-uniform-cargo-filing`, `/filing/bmc34-…`, `/filing/pl914-…` | 5.6–12.1 | 69 | no measurable volume |
-| `/broker-check/{mc}` (3,283 pages) | 5.4–8.8 | 12,346 | ~18,200/mo of MC/DOT lookup |
+| `/broker-check/{mc}` (3,594 pages) | 5.4–8.8 | 12,346 | ~18,200/mo of MC/DOT lookup |
 
 Everything the site ranks for is a 90–480/mo term, with the single exception of the broker-check family,
-which is a directory play: 3,283 pages, 64% of all clicks, 0.03 clicks per page per 92 days.
+which is a directory play: 3,594 pages, 114 clicks and 12,346 impressions over 294 days — 49% of the
+site's clicks — working out at 95 clicks across 3,283 pages in the 92-day window, or 0.03 clicks per page
+per quarter.
 
 ### 1.2 What it does not rank for
 
