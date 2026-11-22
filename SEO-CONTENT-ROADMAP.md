@@ -135,6 +135,14 @@ is not surfacing.
 Per the quality gates in `AGENTS.md`, each state page must carry information that only applies in that
 state (filing authority, minimum limits, local quirks). The current template swaps the state name.
 
+**Status 2026-11-22: the template is built and validated on three states.** Florida, Indiana and Texas
+(1,357–1,391 words each) come from `src/lib/data/state-insurance-content.ts`, which holds the regulator,
+the filing and who files it, the limits table, who the rule reaches, three state-specific operating
+realities, FAQs and cited sources per state. Indexing is derived from that file, so a state becomes
+indexable and sitemapped only when it is written. California, New York, New Jersey, Pennsylvania and
+Illinois are currently noindexed and are the next five to write. A literal `${stateData.name}` bug that
+rendered a stray dollar sign on all 50 pages was fixed in the same change.
+
 **Acceptance:** three states (one high-volume, one mid, one low) pass a written checklist for
 state-specific content, sentence-level duplication, metadata uniqueness, schema validity and internal
 links; only then is the remaining batch generated.

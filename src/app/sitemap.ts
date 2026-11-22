@@ -5,6 +5,7 @@ import { TRAILERS_DATA } from '@/lib/data/trailers';
 import { BROKERS_DATA } from '@/lib/data/brokers';
 import { UBER_BLACK_STATES } from '@/lib/data/uber-black-states';
 import { US_STATES } from '@/lib/data/us-states';
+import { STATE_CONTENT } from '@/lib/data/state-insurance-content';
 import { supabase } from '@/lib/supabase';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -190,18 +191,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }));
 
 
-  // Only states with measured search demand are indexed and listed; the rest are noindexed
-  // on the page itself (see the [state] route) until they carry state-specific content.
-  const INDEXED_COMMERCIAL_STATES = [
-    'florida',
-    'california',
-    'texas',
-    'indiana',
-    'new-york',
-    'new-jersey',
-    'pennsylvania',
-    'illinois',
-  ];
+  // Only states with written, source-checked content are indexed and listed. The list comes from
+  // STATE_CONTENT, so writing a state page is the single action that turns it on.
+  const INDEXED_COMMERCIAL_STATES = Object.keys(STATE_CONTENT);
 
   const commercialtruckRoutes = US_STATES
     .filter((state) => INDEXED_COMMERCIAL_STATES.includes(state.slug))
