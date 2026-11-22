@@ -17,7 +17,11 @@ export async function generateMetadata({ params }: { params: Promise<{ state: st
   return {
     title: `Best ${stateData.name} Box Truck Insurance Quotes (2026)`,
     description: `Review ${stateData.name} box truck and straight truck insurance options. Request help from a licensed insurance professional.`,
-    alternates: { canonical: `https://www.truckcoverageexperts.com/box-truck-insurance/${stateData.slug}` }
+    alternates: { canonical: `https://www.truckcoverageexperts.com/box-truck-insurance/${stateData.slug}` },
+    // Box truck state pages are template swaps with a measured zero impressions across the family
+    // (one state recorded 295 impressions and no clicks in 294 days). They stay live for existing
+    // links but out of the index until they carry genuine state-specific content.
+    robots: { index: false, follow: true },
   };
 }
 

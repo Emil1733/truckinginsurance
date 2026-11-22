@@ -178,12 +178,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // 9. Programmatic: Uber Black Insurance by State
 
-  const boxtruckRoutes = US_STATES.map((state) => ({
-    url: `${baseUrl}/box-truck-insurance/${state.slug}`,
-    changeFrequency: 'weekly' as const,
-    priority: 0.9,
-  }));
-
+  // Box truck state pages are noindexed template swaps with a measured zero impressions across the
+  // family; /box-truck-insurance is the indexed target.
 
   // Hot shot is consolidated into the single /hot-shot page: the state variants carry no
   // measurable demand and are noindexed, so they are intentionally not listed here.
@@ -221,7 +217,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...serviceRoutes,
     ...safetyRoutes,
     ...statusRoutes,
-    ...boxtruckRoutes,
     ...amazonrelayRoutes,
     ...commercialtruckRoutes,
     ...uberBlackRoutes,

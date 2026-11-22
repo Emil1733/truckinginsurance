@@ -335,3 +335,12 @@ Each page must have one primary intent and a clear next step. Supporting pages s
 - Chose to upgrade `/quote` rather than create `/trucking-insurance-quote`: the SERP is held by quote pages (`arizonatruckinginsurance.com/get-quote`, `dallastruckinginsurance.com/get-quote`), and a second URL would have competed with the site's own conversion page.
 - Added `/quote` to the sitemap (325 URLs). The multi-step form, its server action, attribution handling and PostHog events are unchanged.
 - Verified: `tsc --noEmit` clean, `npm run build` clean, one `<form>` still renders, one H1, 4 FAQ schema questions, canonical intact.
+
+### 2026-11-22 (box truck page rebuilt)
+
+- Rebuilt `/box-truck-insurance`, the national target for `box truck insurance` (1,300/mo, $77.74 CPC). The previous version was 928 words of hedged copy and rendered a mojibake em dash in the hero (`contractsâ€”not`).
+- New page is 1,843 rendered words: the three coverages a box truck actually needs, the three weight classes and what each changes (USDOT at 10,001 lbs, CDL at 26,001), six premium drivers, the four uses that get mispriced (final mile, household goods, contractor private carriage, linehaul in a straight truck), five claim-time mistakes, the document checklist, and six FAQs with FAQPage schema.
+- Unpriced claims replaced with sourced facts: `49 CFR 387.9` for the $750,000 floor, FMCSA for the USDOT threshold, `49 CFR 383` for the CDL line.
+- Noindexed the 50 `/box-truck-insurance/{state}` pages and removed them from the sitemap. They are template swaps: across 294 days the family recorded one state with impressions (Wyoming, 295 impressions, 0 clicks) and nothing else. They stay live for existing links.
+- Sitemap now 275 URLs (was 325); the national page remains listed.
+- Verified: `tsc --noEmit` clean, `npm run build` clean, 6 FAQ schema questions, zero mojibake, state pages render `noindex, follow`.
