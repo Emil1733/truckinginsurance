@@ -10,6 +10,19 @@ export async function generateStaticParams() {
   return US_STATES.map((state) => ({ state: state.slug }));
 }
 
+// States kept indexed for the commercial-truck family. Must stay in sync with
+// INDEXED_COMMERCIAL_STATES in src/app/sitemap.ts.
+const INDEXED_COMMERCIAL_STATES = [
+  'florida',
+  'california',
+  'texas',
+  'indiana',
+  'new-york',
+  'new-jersey',
+  'pennsylvania',
+  'illinois',
+];
+
 export async function generateMetadata({ params }: { params: Promise<{ state: string }> }): Promise<Metadata> {
   const { state } = await params;
   const stateData = US_STATES.find(s => s.slug === state);
@@ -17,7 +30,12 @@ export async function generateMetadata({ params }: { params: Promise<{ state: st
   return {
     title: `Best ${stateData.name} Commercial Truck Insurance Quotes (2026)`,
     description: `Review ${stateData.name} commercial truck insurance options for Class 7 and 8 vehicles. Request help from a licensed insurance professional.`,
-    alternates: { canonical: `https://www.truckcoverageexperts.com/commercial-truck-insurance/${stateData.slug}` }
+    alternates: { canonical: `https://www.truckcoverageexperts.com/commercial-truck-insurance/${stateData.slug}` },
+    // Only states with measured search demand stay indexed. The rest are noindexed until this
+    // template carries genuinely state-specific content; flipping a state back on is one edit.
+    robots: INDEXED_COMMERCIAL_STATES.includes(stateData.slug)
+      ? undefined
+      : { index: false, follow: true },
   };
 }
 

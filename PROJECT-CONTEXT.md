@@ -284,3 +284,11 @@ Each page must have one primary intent and a clear next step. Supporting pages s
 - Added the route to `sitemap.ts` and to §4 above. It resolves the parent 404 that the 50 `/commercial-truck-insurance/{state}` URLs were hanging from.
 - Homepage title changed from `Commercial Truck Insurance & Filings` to `Truck Coverage Experts | High-Risk Trucking Insurance & Filings` so the homepage and the new page do not compete for the same head term. Homepage description, canonical and content are unchanged.
 - Verified: `npx tsc --noEmit` clean and `npm run build` succeeds with `/commercial-truck-insurance` prerendered as static content. Not verified: indexing, impressions or ranking.
+
+### 2026-11-22 (Tier 0 completion)
+
+- Sitemap now merges `FILINGS_DATA` with the `state_filings` table in Supabase: 109 filing URLs listed instead of 10. The 87 live filing pages were indexed but never sitemapped.
+- The 50 `/hot-shot-insurance/{state}` pages are `noindex, follow` and removed from the sitemap. They stay live because `next.config.ts` rewrites that path to the agentic quote API for JSON clients, so a permanent redirect would have broken that integration. `/hot-shot` is the single indexed target for the family.
+- 42 `/commercial-truck-insurance/{state}` pages are `noindex, follow`; the eight states with measured demand (FL, CA, TX, IN, NY, NJ, PA, IL) stay indexed and sitemapped. No URLs deleted or redirected. The list is duplicated in the route and in `sitemap.ts` with sync comments on both.
+- Added `/uber-black-insurance` as the missing parent for the 17 state guides: state-by-state regulator and liability minimum table, policy versus platform distinction, five FAQs with FAQPage schema, links to every state guide. It was a 404.
+- Verified: `tsc --noEmit` clean; `npm run build` succeeds; sitemap renders 322 URLs (109 filing, 8 commercial state, 0 hot-shot state); built HTML shows `noindex, follow` on a non-listed state and a hot-shot state, and no robots meta on Florida and the new hub.

@@ -17,7 +17,11 @@ export async function generateMetadata({ params }: { params: Promise<{ state: st
   return {
     title: `Best ${stateData.name} Hot Shot Trucking Insurance Quotes (2026)`,
     description: `Review ${stateData.name} hot shot trucking insurance options for pickups and flatbed trailers. Request help from a licensed insurance professional.`,
-    alternates: { canonical: `https://www.truckcoverageexperts.com/hot-shot-insurance/${stateData.slug}` }
+    alternates: { canonical: `https://www.truckcoverageexperts.com/hot-shot-insurance/${stateData.slug}` },
+    // Hot shot is consolidated into the single /hot-shot page: state variants carry no measurable
+    // demand (hot shot insurance 320/mo, hotshot trucking insurance 480/mo nationally, state
+    // modifiers return nothing), so they are kept for existing links but excluded from the index.
+    robots: { index: false, follow: true },
   };
 }
 

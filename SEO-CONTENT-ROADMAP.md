@@ -229,3 +229,25 @@ larger than three pages.
   pages into the existing `/hot-shot` page rather than build a fourth hub), the `/uber-black-insurance`
   parent, sitemap coverage for the 87 live `filing/*` URLs against the 10 listed, and the 42
   low-demand commercial state pages.
+
+### 2026-11-22 — Tier 0 finished
+
+- **Filings sitemap closed.** The sitemap listed only the 10 hand-authored `FILINGS_DATA` entries while
+  the live filing set is served from `state_filings` in Supabase. It now merges both: **109 filing URLs**
+  in the sitemap, up from 10.
+- **Hot-shot consolidated without deleting URLs.** The 50 `/hot-shot-insurance/{state}` pages are now
+  `noindex, follow` (they carry no measurable demand: 320/mo + 480/mo nationally, state variants return
+  nothing) and are removed from the sitemap. They stay live because `next.config.ts` rewrites that path
+  to the agentic quote API for JSON clients, so a redirect there would have broken an integration; the
+  single `/hot-shot` page is the indexed target.
+- **42 commercial state pages noindexed.** Only Florida, California, Texas, Indiana, New York, New Jersey,
+  Pennsylvania and Illinois stay indexed and sitemapped. That list lives in two places
+  (`src/app/commercial-truck-insurance/[state]/page.tsx` and `src/app/sitemap.ts`) with a sync comment in
+  both; flipping a state back on is one edit each. No URL was deleted or redirected.
+- **`/uber-black-insurance` parent built.** 404 → 200. It carries the 17-state table of regulator,
+  liability minimum and cities from `UBER_BLACK_STATES`, the policy-versus-platform distinction, the
+  five FAQs with FAQPage schema, and links to every state guide. The state pages, which rank 5–8, keep
+  working unchanged.
+- Verified locally: `tsc --noEmit` clean, `npm run build` succeeds, sitemap renders **322 URLs** (109
+  filing, 8 commercial state, 0 hot-shot state), and the built HTML shows `noindex, follow` on a
+  non-listed state and on a hot-shot state while Florida and the new hub stay indexable.

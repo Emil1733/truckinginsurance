@@ -34,6 +34,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     '/insurance/car-hauler-insurance-requirements',
     '/insurance/dump-trailer-insurance',
     '/commercial-truck-insurance',
+    '/uber-black-insurance',
     '/ifta-trucking-requirements',
     '/driver-qualification-file-checklist',
   ].map((route) => ({
@@ -50,11 +51,33 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }));
 
   // 3. Programmatic: Filings
-  const filingRoutes = FILINGS_DATA.map((f) => ({
+  // FILINGS_DATA holds the hand-authored filings; the live filing set is served from
+  // `state_filings` in Supabase, so both are merged to keep the sitemap complete.
+  const filingSlugs = new Set(FILINGS_DATA.map((f) => f.slug));
+  const filingRoutes: MetadataRoute.Sitemap = FILINGS_DATA.map((f) => ({
     url: `${baseUrl}/filing/${f.slug}`,
     changeFrequency: 'monthly' as const,
     priority: 0.7,
   }));
+
+  try {
+    const { data: dbFilings } = await supabase
+      .from('state_filings')
+      .select('slug')
+      .limit(5000);
+
+    for (const filing of dbFilings || []) {
+      if (!filing?.slug || filingSlugs.has(filing.slug)) continue;
+      filingSlugs.add(filing.slug);
+      filingRoutes.push({
+        url: `${baseUrl}/filing/${filing.slug}`,
+        changeFrequency: 'monthly' as const,
+        priority: 0.7,
+      });
+    }
+  } catch (err) {
+    console.error('Sitemap DB filing fetch failed:', err);
+  }
 
   // 4. Programmatic: Specialized Insurance (Trailers)
   const insuranceRoutes = TRAILERS_DATA.map((t) => ({
@@ -158,13 +181,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }));
 
 
-  const hotshotRoutes = US_STATES.map((state) => ({
-    url: `${baseUrl}/hot-shot-insurance/${state.slug}`,
-    changeFrequency: 'weekly' as const,
-    priority: 0.9,
-  }));
-
-
+  // Hot shot is consolidated into the single /hot-shot page: the state variants carry no
+  // measurable demand and are noindexed, so they are intentionally not listed here.
   const amazonrelayRoutes = US_STATES.map((state) => ({
     url: `${baseUrl}/amazon-relay-insurance/${state.slug}`,
     changeFrequency: 'weekly' as const,
@@ -172,11 +190,26 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }));
 
 
-  const commercialtruckRoutes = US_STATES.map((state) => ({
-    url: `${baseUrl}/commercial-truck-insurance/${state.slug}`,
-    changeFrequency: 'weekly' as const,
-    priority: 0.9,
-  }));
+  // Only states with measured search demand are indexed and listed; the rest are noindexed
+  // on the page itself (see the [state] route) until they carry state-specific content.
+  const INDEXED_COMMERCIAL_STATES = [
+    'florida',
+    'california',
+    'texas',
+    'indiana',
+    'new-york',
+    'new-jersey',
+    'pennsylvania',
+    'illinois',
+  ];
+
+  const commercialtruckRoutes = US_STATES
+    .filter((state) => INDEXED_COMMERCIAL_STATES.includes(state.slug))
+    .map((state) => ({
+      url: `${baseUrl}/commercial-truck-insurance/${state.slug}`,
+      changeFrequency: 'weekly' as const,
+      priority: 0.9,
+    }));
 
   const uberBlackRoutes = UBER_BLACK_STATES.map((state) => ({
     url: `${baseUrl}/uber-black-insurance/${state.slug}`,
@@ -194,7 +227,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...safetyRoutes,
     ...statusRoutes,
     ...boxtruckRoutes,
-    ...hotshotRoutes,
     ...amazonrelayRoutes,
     ...commercialtruckRoutes,
     ...uberBlackRoutes,
