@@ -368,3 +368,11 @@ Each page must have one primary intent and a clear next step. Supporting pages s
 - Confirmed no `tel:` remains anywhere in the built output, and no other fictional contact details are rendered (the remaining `example.com` strings are form input placeholders, which is standard).
 - Site is now intentionally call-free until a real number exists. Every conversion path runs through `/quote` or `/contact`.
 - Verified: `tsc --noEmit` clean, `npm run build` clean, zero `tel:` in the prerendered HTML.
+
+### 2026-11-23 (sitemap host fixed in Search Console)
+
+- Submitted `https://www.truckcoverageexperts.com/sitemap.xml` to the domain property through the Search Console API (`scripts/gsc-submit-sitemap.cjs`). Google fetched it within seconds: **276 URLs, 0 errors, 0 warnings**, last downloaded 2026-11-23T04:00:39Z.
+- Deleted the stale `https://truckcoverageexperts.com/sitemap.xml` entry, which pointed at the non-www host that 308-redirects, had not been fetched since 2026-11-18, and still reported 312 submitted / 1 warning / 0 indexed. One canonical sitemap remains.
+- Submission needs the read-write `webmasters` scope, which the read-only key used for reporting does not have; the script accepts `GSC_KEY_FILE` for that reason. The property gives the service account `siteFullUser`, which is sufficient.
+- Also noted: `GSC_CLIENT_EMAIL` and `GSC_PRIVATE_KEY` in `.env.local` are not referenced anywhere in `src/` and the private key does not decode. They are dead configuration, so the broken key breaks nothing — but they should be removed rather than trusted.
+- Not yet verified: indexation. `indexed: 0` is expected on a sitemap fetched minutes ago; the check is a URL Inspection re-run in 7-14 days.
